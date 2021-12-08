@@ -91,7 +91,7 @@ communicate.send(sendText);
 kotlin:
 ```kotlin
 communicate.startReceive {
-    //处理接收到的数据(result)
+    //处理接收到的数据(it)
     return@startReceive false//返回是否继续接收消息
 }
 ```
