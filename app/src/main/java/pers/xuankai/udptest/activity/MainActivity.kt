@@ -41,6 +41,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun onDestroy() {
         super.onDestroy()
+        communicate.stopReceive()
         communicate.close()
     }
 }

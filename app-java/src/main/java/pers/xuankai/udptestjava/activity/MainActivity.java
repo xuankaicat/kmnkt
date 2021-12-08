@@ -52,6 +52,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        communicate.stopReceive();
         communicate.close();
     }
 }

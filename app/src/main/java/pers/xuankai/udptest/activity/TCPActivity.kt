@@ -41,6 +41,7 @@ class TCPActivity : BaseActivity<ActivityTcpBinding>() {
 
     override fun onDestroy() {
         super.onDestroy()
+        communicate.stopReceive()
         communicate.close()
     }
 }

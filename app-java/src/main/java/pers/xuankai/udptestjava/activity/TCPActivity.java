@@ -52,6 +52,7 @@ public class TCPActivity extends BaseActivity<ActivityTcpBinding> {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        communicate.stopReceive();
         communicate.close();
     }
 }
