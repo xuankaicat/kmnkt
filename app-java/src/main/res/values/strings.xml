@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">UDPTest-Java</string>
+    <string name="input_here">input here!</string>
+    <string name="output_here">output here!</string>
+    <string name="try_tcp">试试TCP</string>
+    <string name="udp">UDP</string>
+    <string name="tcp">TCP</string>
+    <string name="try_udp">试试UDP</string>
+    <string name="button">发送</string>
+</resources>
