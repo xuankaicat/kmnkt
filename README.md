@@ -1,6 +1,6 @@
 # android-communicate
 
-[![](https://jitpack.io/v/com.gitee.xuankaicat/android-communicate.svg)](https://jitpack.io/#com.gitee.xuankaicat/android-communicate)
+[![](https://jitpack.io/v/com.gitee.xuankaicat/communicate.svg)](https://jitpack.io/#com.gitee.xuankaicat/communicate)
 
 android-communicate是Android实现socket通信统一接口的实现。
 
@@ -21,7 +21,7 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.gitee.xuankaicat:android-communicate:1.0.0'
+    implementation 'com.gitee.xuankaicat:communicate:1.0.0'
 }
 ```
 
