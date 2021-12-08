@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package pers.xuankai.communicate
+package com.gitee.xuankaicat.communicate
 
 import java.nio.charset.Charset
 

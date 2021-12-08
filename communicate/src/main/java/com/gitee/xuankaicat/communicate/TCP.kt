@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package pers.xuankai.communicate
+package com.gitee.xuankaicat.communicate
 
 import android.os.Handler
 import android.os.Looper

@@ -9,7 +9,7 @@ import com.dylanc.longan.SystemBarsKt;
 
 import java.nio.charset.Charset;
 
-import pers.xuankai.communicate.Communicate;
+import com.gitee.xuankaicat.communicate.Communicate;
 import pers.xuankai.udptestjava.BaseActivity;
 import pers.xuankai.udptestjava.databinding.ActivityMainBinding;
 
