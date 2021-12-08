@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'maven-publish'
 }
 
 android {
@@ -35,4 +36,30 @@ dependencies {
 
     //协程
     //implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
+}
+
+
+// Because the components are created only during the afterEvaluate phase, you must
+// configure your publications using the afterEvaluate() lifecycle method.
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId = 'com.gitee.xuankaicat'
+                artifactId = 'communicate'
+                version = '1.0'
+            }
+            // Creates a Maven publication called “debug”.
+            debug(MavenPublication) {
+                // Applies the component for the debug build variant.
+                from components.debug
+
+                groupId = 'com.gitee.xuankaicat'
+                artifactId = 'communicate-debug'
+                version = '1.0'
+            }
+        }
+    }
 }
