@@ -38,10 +38,12 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.release
+                groupId = group
                 artifactId = 'communicate'
             }
             debug(MavenPublication) {
                 from components.debug
+                groupId = group
                 artifactId = 'communicate-debug'
             }
         }
