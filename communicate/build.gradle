@@ -4,6 +4,9 @@ plugins {
     id 'maven-publish'
 }
 
+group = 'com.gitee.xuankaicat'
+version = '1.1.0'
+
 android {
     compileSdk 31
 
@@ -27,7 +30,6 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.core:core-ktx:1.6.0'
 }
 
@@ -36,19 +38,11 @@ afterEvaluate {
         publications {
             release(MavenPublication) {
                 from components.release
-
-                groupId = 'com.gitee.xuankaicat'
                 artifactId = 'communicate'
-                version = '1.0'
             }
-            // Creates a Maven publication called “debug”.
             debug(MavenPublication) {
-                // Applies the component for the debug build variant.
                 from components.debug
-
-                groupId = 'com.gitee.xuankaicat'
                 artifactId = 'communicate-debug'
-                version = '1.0'
             }
         }
     }
