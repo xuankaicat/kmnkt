@@ -35,7 +35,7 @@ android {
 dependencies {
     implementation 'androidx.core:core-ktx:1.6.0'
     //implementation project(':communicate')
-    implementation 'com.gitee.xuankaicat:communicate:1.1.0'
+    implementation 'com.gitee.xuankaicat:communicate:1.+'
 
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
@@ -48,9 +48,7 @@ afterEvaluate {
                 from components.release
                 artifactId = 'communicate-mqtt'
             }
-            // Creates a Maven publication called “debug”.
             debug(MavenPublication) {
-                // Applies the component for the debug build variant.
                 from components.debug
                 artifactId = 'communicate-mqtt-debug'
             }
