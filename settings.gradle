@@ -6,7 +6,7 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "communicate"
+rootProject.name = "android-communicate"
 include ':app'
 include ':app-java'
 include ':communicate'
