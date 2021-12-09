@@ -47,6 +47,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
             Intent intent = new Intent(MainActivity.this, TCPActivity.class);
             startActivity(intent);
         });
+
+        binding.btnMQTT.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, MQTTActivity.class);
+            startActivity(intent);
+        });
     }
 
     @Override

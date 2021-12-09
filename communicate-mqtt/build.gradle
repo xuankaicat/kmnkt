@@ -10,7 +10,10 @@ android {
     defaultConfig {
         minSdk 24
         targetSdk 31
+
+        consumerProguardFiles "consumer-rules.pro"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -27,6 +30,9 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.core:core-ktx:1.6.0'
+    implementation project(path: ':communicate')
+
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 }

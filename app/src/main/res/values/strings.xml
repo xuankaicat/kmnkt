@@ -7,4 +7,9 @@
     <string name="tcp">TCP</string>
     <string name="try_udp">试试UDP</string>
     <string name="button">发送</string>
+    <string name="mqtt">MQTT</string>
+    <string name="try_mqtt">试试MQTT</string>
+    <string name="send_open">发送打开</string>
+    <string name="send_close">发送关闭</string>
+    <string name="static_send_test">固定信息测试</string>
 </resources>

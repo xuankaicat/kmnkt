@@ -10,3 +10,4 @@ rootProject.name = "android-communicate"
 include ':app'
 include ':app-java'
 include ':communicate'
+include ':communicate-mqtt'
