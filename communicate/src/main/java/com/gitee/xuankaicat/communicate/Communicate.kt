@@ -10,10 +10,29 @@ interface Communicate {
     companion object {
         @JvmStatic
         val TCPClient: Communicate
+            @JvmName("TCPClient")
             get() = TCP()
+
+        /**
+         * 构造TCPClient
+         * @param build 构造lambda
+         * @return TCPClient
+         */
+        @JvmStatic
+        fun getTCPClient(build: (Communicate) -> Unit): Communicate = TCPClient.apply(build)
+
         @JvmStatic
         val UDP: Communicate
+            @JvmName("UDP")
             get() = UDP()
+
+        /**
+         * 构造UDP
+         * @param build 构造lambda
+         * @return UDP
+         */
+        @JvmStatic
+        fun getUDP(build: (Communicate) -> Unit): Communicate = UDP.apply(build)
     }
 
     /**

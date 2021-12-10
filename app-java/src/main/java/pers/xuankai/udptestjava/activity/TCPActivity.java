@@ -14,18 +14,18 @@ import pers.xuankai.udptestjava.BaseActivity;
 import pers.xuankai.udptestjava.databinding.ActivityTcpBinding;
 
 public class TCPActivity extends BaseActivity<ActivityTcpBinding> {
-    private Communicate communicate;
+    private final Communicate communicate = Communicate.getTCPClient(c -> {
+        c.setAddress("192.168.200.1");
+        c.setServerPort(9000);
+        c.setInCharset(Charset.forName("gb2312"));
+        c.setOutCharset(Charset.forName("gb2312"));
+        c.open();
+        return null;
+    });
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        communicate = Communicate.getTCPClient();
-        communicate.setAddress("192.168.200.1");
-        communicate.setServerPort(9000);
-        communicate.setInCharset(Charset.forName("gb2312"));
-        communicate.setOutCharset(Charset.forName("gb2312"));
-        communicate.open();
 
         SystemBarsKt.immerseStatusBar(this, true, true);
 
