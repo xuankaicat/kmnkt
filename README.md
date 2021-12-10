@@ -22,8 +22,8 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.gitee.xuankaicat.communicate:communicate:1.1.0'//基础功能，包括UDP与TCPClient
-    implementation 'com.gitee.xuankaicat.communicate:communicate-debug:1.1.0'//调试支持
+    implementation 'com.gitee.xuankaicat.communicate:communicate:1.1.1'//基础功能，包括UDP与TCPClient
+    implementation 'com.gitee.xuankaicat.communicate:communicate-debug:1.1.1'//调试支持
 }
 ```
 
@@ -31,8 +31,8 @@ dependencies {
 
 ```groovy
 dependencies {
-    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt:1.1.0'//支持MQTT协议
-    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt-debug:1.1.0'//调试支持
+    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt:1.1.1'//支持MQTT协议
+    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt-debug:1.1.1'//调试支持
 }
 ```
 
@@ -54,12 +54,26 @@ private val communicate = Communicate.UDP.apply {
 
 java：
 ```java
-private Communicate communicate = Communicate.getUDP();
-communicate.setAddress("192.168.200.1");//设置ip地址
-communicate.setServerPort(9000);//设置端口号
-communicate.setInCharset(Charset.forName("gb2312"));//设置输入编码
-communicate.setOutCharset(Charset.forName("gb2312"));//设置输出编码
-communicate.open();//开启连接
+//普通构造
+private Communicate communicate = Communicate.UDP();
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    communicate.setAddress("192.168.200.1");//设置ip地址
+    communicate.setServerPort(9000);//设置端口号
+    communicate.setInCharset(Charset.forName("gb2312"));//设置输入编码
+    communicate.setOutCharset(Charset.forName("gb2312"));//设置输出编码
+    communicate.open();//开启连接
+}
+
+//lambda构造
+private final Communicate communicate = Communicate.getUDP(c -> {
+    c.setAddress("192.168.200.1");//设置ip地址
+    c.setServerPort(9000);//设置端口号
+    c.setInCharset(Charset.forName("gb2312"));//设置输入编码
+    c.setOutCharset(Charset.forName("gb2312"));//设置输出编码
+    c.open();//开启连接
+    return null;
+});
 ```
 
 ### 创建TCPClient对象
@@ -77,19 +91,33 @@ private val communicate = Communicate.TCPClient.apply {
 
 java:
 ```java
-private Communicate communicate = Communicate.getTCPClient();
-communicate.setAddress("192.168.200.1");//设置ip地址
-communicate.setServerPort(9000);//设置端口号
-communicate.setInCharset(Charset.forName("gb2312"));//设置输入编码
-communicate.setOutCharset(Charset.forName("gb2312"));//设置输出编码
-communicate.open();//开启连接
+//普通构造
+private Communicate communicate = Communicate.TCPClient();
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    communicate.setAddress("192.168.200.1");//设置ip地址
+    communicate.setServerPort(9000);//设置端口号
+    communicate.setInCharset(Charset.forName("gb2312"));//设置输入编码
+    communicate.setOutCharset(Charset.forName("gb2312"));//设置输出编码
+    communicate.open();//开启连接
+}
+
+//lambda构造
+private final Communicate communicate = Communicate.getTCPClient(c -> {
+    c.setAddress("192.168.200.1");//设置ip地址
+    c.setServerPort(9000);//设置端口号
+    c.setInCharset(Charset.forName("gb2312"));//设置输入编码
+    c.setOutCharset(Charset.forName("gb2312"));//设置输出编码
+    c.open();//开启连接
+    return null;
+});
 ```
 
 ### 创建MQTT对象
 
 kotlin:
 ```kotlin
-private val communicate = MQTTCommunicate.MQTT.apply {
+private val communicate = Communicate.MQTT.apply {
     address = "192.168.200.1"//设置ip地址
     serverPort = 9000//设置端口号
     inCharset = Charset.forName("gb2312")//设置输入编码
@@ -105,17 +133,36 @@ private val communicate = MQTTCommunicate.MQTT.apply {
 
 java:
 ```java
-private MQTTCommunicate communicate = MQTTCommunicate.getMQTT();
-communicate.setAddress("192.168.200.1");//设置ip地址
-communicate.setServerPort(9000);//设置端口号
-communicate.setInCharset(Charset.forName("gb2312"));//设置输入编码
-communicate.setOutCharset(Charset.forName("gb2312"));//设置输出编码
-/*MQTT必须的额外配置*/
-communicate.setUsername("siot");//设置用户名
-communicate.setPassword("siot");//设置密码
-communicate.setPublishTopic("DeviceTest/000000");//设置订阅消息Topic
-communicate.setResponseTopic("DeviceTest/123456");//设置发送消息Topic
-communicate.open();//开启连接
+//普通构造
+private MQTTCommunicate communicate = MQTTCommunicate.MQTT();
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+    communicate.setAddress("192.168.200.1");//设置ip地址
+    communicate.setServerPort(9000);//设置端口号
+    communicate.setInCharset(Charset.forName("gb2312"));//设置输入编码
+    communicate.setOutCharset(Charset.forName("gb2312"));//设置输出编码
+    /*MQTT必须的额外配置*/
+    communicate.setUsername("siot");//设置用户名
+    communicate.setPassword("siot");//设置密码
+    communicate.setInMessageTopic("DeviceTest/000000");//设置输入消息Topic
+    communicate.setOutMessageTopic("DeviceTest/123456");//设置输出消息Topic
+    communicate.open();//开启连接
+}
+
+//lambda构造
+private final Communicate communicate = Communicate.getTCPClient(c -> {
+    c.setAddress("192.168.200.1");//设置ip地址
+    c.setServerPort(9000);//设置端口号
+    c.setInCharset(Charset.forName("gb2312"));//设置输入编码
+    c.setOutCharset(Charset.forName("gb2312"));//设置输出编码
+    /*MQTT必须的额外配置*/
+    c.setUsername("siot");//设置用户名
+    c.setPassword("siot");//设置密码
+    c.setInMessageTopic("DeviceTest/000000");//设置输入消息Topic
+    c.setOutMessageTopic("DeviceTest/123456");//设置输出消息Topic
+    c.open();//开启连接
+    return null;
+});
 ```
 
 > MQTT的其他参数配置可以参考`MQTTCommunicate`接口
