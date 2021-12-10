@@ -14,22 +14,22 @@ import pers.xuankai.udptestjava.BaseActivity;
 import pers.xuankai.udptestjava.databinding.ActivityMqttactivityBinding;
 
 public class MQTTActivity extends BaseActivity<ActivityMqttactivityBinding> {
-    private MQTTCommunicate communicate;
+    private final MQTTCommunicate communicate = MQTTCommunicate.getMQTT(c -> {
+        c.setAddress("192.168.3.22");
+        c.setServerPort(1883);
+        c.setInCharset(Charset.forName("gb2312"));
+        c.setOutCharset(Charset.forName("gb2312"));
+        c.setUsername("siot");
+        c.setPassword("siot");
+        c.setInMessageTopic("DeviceTest/000000");
+        c.setOutMessageTopic("DeviceTest/123456");
+        c.open();
+        return null;
+    });
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        communicate = MQTTCommunicate.getMQTT();
-        communicate.setAddress("192.168.3.22");
-        communicate.setServerPort(1883);
-        communicate.setInCharset(Charset.forName("gb2312"));
-        communicate.setOutCharset(Charset.forName("gb2312"));
-        communicate.setUsername("siot");
-        communicate.setPassword("siot");
-        communicate.setPublishTopic("DeviceTest/000000");
-        communicate.setResponseTopic("DeviceTest/123456");
-        communicate.open();
 
         SystemBarsKt.immerseStatusBar(this, true, true);
 

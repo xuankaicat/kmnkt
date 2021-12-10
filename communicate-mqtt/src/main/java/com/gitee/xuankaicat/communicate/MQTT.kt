@@ -25,8 +25,16 @@ class MQTT : MQTTCommunicate {
     override var password: String = ""
     override var clientId: String = ""
 
-    override var publishTopic: String = ""
-    override var responseTopic: String = ""
+    override var publishTopic: String
+        get() = inMessageTopic
+        set(value) { inMessageTopic = value }
+
+    override var responseTopic: String
+        get() = outMessageTopic
+        set(value) { outMessageTopic = value }
+
+    override var inMessageTopic: String = ""
+    override var outMessageTopic: String = ""
 
     override var serverPort = 9000
     override var address: String = ""
@@ -44,8 +52,8 @@ class MQTT : MQTTCommunicate {
         thread {
             try {
                 //参数分别为：主题、消息的字节数组、服务质量、是否在服务器保留断开连接后的最后一条消息
-                client?.publish(responseTopic, message.toByteArray(outCharset), _qos, retained)
-                Log.v("MQTT", "发送消息 {uri: '${serverURI}', topic: '${responseTopic}', message: '${message}'}")
+                client?.publish(outMessageTopic, message.toByteArray(outCharset), _qos, retained)
+                Log.v("MQTT", "发送消息 {uri: '${serverURI}', topic: '${outMessageTopic}', message: '${message}'}")
             } catch (e: MqttException) {
                 e.printStackTrace()
             }
@@ -57,7 +65,7 @@ class MQTT : MQTTCommunicate {
         if(isReceiving) return false
         isReceiving = true
         this.onReceive = onReceive
-        client?.subscribe(publishTopic, _qos)//订阅主题，参数：主题、服务质量
+        client?.subscribe(inMessageTopic, _qos)//订阅主题，参数：主题、服务质量
         return true
     }
 
@@ -65,7 +73,7 @@ class MQTT : MQTTCommunicate {
         if(!isReceiving) return
         this.onReceive = {false}
         isReceiving = false
-        client?.unsubscribe(publishTopic)
+        client?.unsubscribe(inMessageTopic)
     }
 
     override fun open(): Boolean {
@@ -92,7 +100,7 @@ class MQTT : MQTTCommunicate {
                 options!!.apply {
                     val message = "{\"terminal_uid\":\"$clientId\"}"
                     try {
-                        setWill(publishTopic, message.toByteArray(), _qos, retained)
+                        setWill(inMessageTopic, message.toByteArray(), _qos, retained)
                     } catch (e: Exception) {
                         e.printStackTrace()
                         doConnect = false

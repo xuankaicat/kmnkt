@@ -3,21 +3,22 @@ package pers.xuankai.udptest.activity
 import android.os.Bundle
 import com.dylanc.longan.immerseStatusBar
 import com.dylanc.longan.startActivity
-import com.gitee.xuankaicat.communicate.MQTTCommunicate
+import com.gitee.xuankaicat.communicate.Communicate
+import com.gitee.xuankaicat.communicate.MQTT
 import pers.xuankai.udptest.BaseActivity
 import pers.xuankai.udptest.databinding.ActivityMqttactivityBinding
 import java.nio.charset.Charset
 
 class MQTTActivity : BaseActivity<ActivityMqttactivityBinding>() {
-    private val communicate = MQTTCommunicate.MQTT.apply {
+    private val communicate = Communicate.MQTT.apply {
         address = "192.168.3.22"
         serverPort = 1883
         inCharset = Charset.forName("gb2312")
         outCharset = Charset.forName("gb2312")
         username = "siot"
         password = "siot"
-        publishTopic = "DeviceTest/000000"
-        responseTopic = "DeviceTest/123456"
+        inMessageTopic = "DeviceTest/000000"
+        outMessageTopic = "DeviceTest/123456"
         open()
     }
 

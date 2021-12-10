@@ -30,7 +30,16 @@ interface MQTTCommunicate : Communicate {
     companion object {
         @JvmStatic
         val MQTT: MQTTCommunicate
+            @JvmName("MQTT")
             get() = MQTT()
+
+        /**
+         * 构造MQTT
+         * @param build 构造lambda
+         * @return MQTT
+         */
+        @JvmStatic
+        fun getMQTT(build: (MQTTCommunicate) -> Unit): MQTTCommunicate = MQTT.apply(build)
     }
 
     /**
@@ -56,15 +65,30 @@ interface MQTTCommunicate : Communicate {
     /**
      * 发布主题
      */
+    @Deprecated("语义不清晰，使用inMessageTopic替代。")
     var publishTopic: String
 
     /**
      * 响应主题
      */
+    @Deprecated("语义不清晰，使用outMessageTopic替代。")
     var responseTopic: String
+
+    /**
+     * 输入信息响应主题，即接收对应主题的消息。
+     */
+    var inMessageTopic: String
+
+    /**
+     * 输出信息响应主题，即发送对应主题的消息。
+     */
+    var outMessageTopic: String
 
     /**
      * MQTT参数设置，非定制不需要修改
      */
     var options: MqttConnectOptions?
 }
+
+val Communicate.Companion.MQTT
+    get() = MQTTCommunicate.MQTT
