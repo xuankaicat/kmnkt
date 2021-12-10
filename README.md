@@ -1,8 +1,8 @@
-# android-communicate
+# communicate-android
 
 [![](https://jitpack.io/v/com.gitee.xuankaicat/communicate.svg)](https://jitpack.io/#com.gitee.xuankaicat/communicate)
 
-android-communicate是Android实现socket通信统一接口的实现。
+communicate是Android实现socket通信统一接口的实现。
 可以使用同一套接口快速实现UDP/TCPClient/MQTT连接。
 
 ## Gradle
@@ -23,16 +23,16 @@ allprojects {
 ```groovy
 dependencies {
     implementation 'com.gitee.xuankaicat.communicate:communicate:1.1.0'//基础功能，包括UDP与TCPClient
-    implementation 'com.gitee.xuankaicat.communicate:communicate-debug:1.1.0'//支持调试
+    implementation 'com.gitee.xuankaicat.communicate:communicate-debug:1.1.0'//调试支持
 }
 ```
 
-如果需要MQTT支持则只需要添加以下依赖：
+如果需要MQTT支持则需要添加额外依赖：
 
 ```groovy
 dependencies {
-    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt:1.1.0'//包括基础功能，支持MQTT
-    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt-debug:1.1.0'//支持调试
+    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt:1.1.0'//支持MQTT协议
+    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt-debug:1.1.0'//调试支持
 }
 ```
 
