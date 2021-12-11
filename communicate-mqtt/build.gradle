@@ -35,29 +35,19 @@ android {
 dependencies {
     implementation 'androidx.core:core-ktx:1.6.0'
     //api project(':communicate')
-    implementation 'com.gitee.xuankaicat.communicate:communicate:1.+'
+    api 'com.gitee.xuankaicat.communicate:communicate:1.+'
 
-    api 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
-    api 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 }
 
 afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
-                from components.all
+                from components.release
                 groupId = group
                 artifactId = 'communicate-mqtt'
-
-                pom.withXml {
-                    asNode().dependencies.'*'.findAll() {
-                        it.groupId.text() == 'com.gitee.xuankaicat.communicate'
-                        && it.artifactId.text() == 'communicate'
-                    }.each() {
-                        it.version*.value = version
-                    }
-                }
-
             }
         }
     }

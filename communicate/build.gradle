@@ -37,7 +37,7 @@ afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
-                from components.all
+                from components.release
                 groupId = group
                 artifactId = 'communicate'
             }
