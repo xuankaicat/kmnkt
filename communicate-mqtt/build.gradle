@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.gitee.xuankaicat'
-version = '1.1.1'
+version = '1.1.2'
 
 android {
     compileSdk 31
@@ -34,11 +34,11 @@ android {
 
 dependencies {
     implementation 'androidx.core:core-ktx:1.6.0'
-    //implementation project(':communicate')
-    implementation 'com.gitee.xuankaicat:communicate:1.+'
+    //api project(':communicate')
+    api 'com.gitee.xuankaicat:communicate:1.+'
 
-    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
-    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
+    api 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
+    api 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 }
 
 afterEvaluate {
@@ -48,11 +48,6 @@ afterEvaluate {
                 from components.release
                 groupId = group
                 artifactId = 'communicate-mqtt'
-            }
-            debug(MavenPublication) {
-                from components.debug
-                groupId = group
-                artifactId = 'communicate-mqtt-debug'
             }
         }
     }
