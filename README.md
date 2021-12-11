@@ -22,17 +22,15 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.gitee.xuankaicat.communicate:communicate:1.1.1'//基础功能，包括UDP与TCPClient
-    implementation 'com.gitee.xuankaicat.communicate:communicate-debug:1.1.1'//调试支持
+    implementation 'com.gitee.xuankaicat.communicate:communicate:1.1.3'//UDP、TCPClient
 }
 ```
 
-如果需要MQTT支持则需要添加额外依赖：
+如果需要MQTT支持只需要添加以下依赖：
 
 ```groovy
 dependencies {
-    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt:1.1.1'//支持MQTT协议
-    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt-debug:1.1.1'//调试支持
+    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt:1.1.3'//UDP、TCPClient、MQTT
 }
 ```
 
