@@ -4,9 +4,6 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'com.gitee.xuankaicat.communicate'
-version = '1.1.2'
-
 android {
     compileSdk 31
 
@@ -33,12 +30,12 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.6.0'
 }
 
+apply from: '../publish-helper.gradle'
+
 afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
-                from components.release
-                groupId = group
                 artifactId = 'communicate'
             }
         }

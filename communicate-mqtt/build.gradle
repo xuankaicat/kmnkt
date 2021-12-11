@@ -4,9 +4,6 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'com.gitee.xuankaicat.communicate'
-version = '1.1.2'
-
 android {
     compileSdk 31
 
@@ -34,29 +31,20 @@ android {
 
 dependencies {
     implementation 'androidx.core:core-ktx:1.6.0'
-    //api project(':communicate')
-    implementation 'com.gitee.xuankaicat.communicate:communicate:1.+'
+    api project(':communicate')
+    //implementation 'com.gitee.xuankaicat.communicate:communicate:1.+'
 
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
 }
 
+apply from: '../publish-helper.gradle'
+
 afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
-                from components.release
-                groupId = group
                 artifactId = 'communicate-mqtt'
-
-                pom.withXml {
-                    asNode().dependencies.'*'.findAll() {
-                        it.groupId.text() == 'com.gitee.xuankaicat.communicate'
-                                && it.artifactId.text() == 'communicate'
-                    }.each() {
-                        it.version*.value = version
-                    }
-                }
             }
         }
     }

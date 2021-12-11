@@ -1,0 +1,99 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+task androidJavadoc(type: Javadoc) {
+    if (plugins.hasPlugin('android-library')) {
+        source = android.sourceSets.main.java.srcDirs
+        classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+        android.libraryVariants.all { variant ->
+            if (variant.name == 'release') {
+                owner.classpath += variant.javaCompileProvider.get().classpath
+            }
+        }
+    }
+    else {
+        source = sourceSets.main.allJava
+        classpath += configurations.runtimeClasspath
+        classpath += configurations.compileClasspath
+    }
+    exclude '**/R.html', '**/R.*.html', '**/index.html', '**/*.kt'
+    options.encoding 'utf-8'
+    options {
+        addStringOption 'docencoding', 'utf-8'
+        addStringOption 'charset', 'utf-8'
+        links 'https://docs.oracle.com/javase/7/docs/api/'
+        links 'https://d.android.com/reference'
+        links 'https://developer.android.com/reference/androidx/'
+    }
+}
+
+task androidJavadocJar(type: Jar, dependsOn: androidJavadoc) {
+    archiveClassifier.set('javadoc')
+    from androidJavadoc.destinationDir
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+}
+
+task javaSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    if (plugins.hasPlugin('android-library')) {
+        from android.sourceSets.main.java.srcDirs
+    }
+    else {
+        from sourceSets.main.allSource
+    }
+    preserveFileTimestamps = false
+    reproducibleFileOrder = true
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called 'library'.
+            release(MavenPublication) {
+                if (plugins.hasPlugin('android-library')) {
+                    from components.release
+                }
+                else if (plugins.hasPlugin('java')) {
+                    from components.java
+                    jar.preserveFileTimestamps = false
+                    jar.reproducibleFileOrder = true
+                }
+
+                artifact androidJavadocJar
+                artifact javaSourcesJar
+
+                groupId rootProject.ext.pomGroupID
+                version rootProject.ext.sdkVersion
+//                pom {
+//                    name = artifactId
+//                    description = 'Transifex Native library for Android'
+//                    url = 'https://github.com/transifex/transifex-java'
+//                    licenses {
+//                        license {
+//                            name = 'The Apache License, Version 2.0'
+//                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                        }
+//                    }
+//                    scm {
+//                        connection = 'scm:git:https://github.com/transifex/transifex-java.git'
+//                        url = 'https://github.com/transifex/transifex-java'
+//                    }
+//                    developers {
+//                        developer {
+//                            id = 'petrakeas'
+//                            name = 'Petros Douvantzis'
+//                            email = 'petrakeas@gmail.com'
+//                        }
+//                    }
+//                }
+            }
+        }
+        // No repositories are configured here, since"gradle-nexus.publish-plugin" will create its
+        // own using the configuration in the project's gradle file
+    }
+}
+
+//signing {
+//    sign publishing.publications
+//}
