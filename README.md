@@ -46,7 +46,6 @@ private val communicate = Communicate.UDP.apply {
     serverPort = 9000//设置端口号
     inCharset = Charset.forName("gb2312")//设置输入编码
     outCharset = Charset.forName("gb2312")//设置输出编码
-    open()//开启连接
 }
 ```
 
@@ -60,7 +59,6 @@ protected void onCreate(@Nullable Bundle savedInstanceState) {
     communicate.setServerPort(9000);//设置端口号
     communicate.setInCharset(Charset.forName("gb2312"));//设置输入编码
     communicate.setOutCharset(Charset.forName("gb2312"));//设置输出编码
-    communicate.open();//开启连接
 }
 
 //lambda构造
@@ -69,7 +67,6 @@ private final Communicate communicate = Communicate.getUDP(c -> {
     c.setServerPort(9000);//设置端口号
     c.setInCharset(Charset.forName("gb2312"));//设置输入编码
     c.setOutCharset(Charset.forName("gb2312"));//设置输出编码
-    c.open();//开启连接
     return null;
 });
 ```
@@ -83,7 +80,6 @@ private val communicate = Communicate.TCPClient.apply {
     serverPort = 9000//设置端口号
     inCharset = Charset.forName("gb2312")//设置输入编码
     outCharset = Charset.forName("gb2312")//设置输出编码
-    open()//开启连接
 }
 ```
 
@@ -97,7 +93,6 @@ protected void onCreate(@Nullable Bundle savedInstanceState) {
     communicate.setServerPort(9000);//设置端口号
     communicate.setInCharset(Charset.forName("gb2312"));//设置输入编码
     communicate.setOutCharset(Charset.forName("gb2312"));//设置输出编码
-    communicate.open();//开启连接
 }
 
 //lambda构造
@@ -106,7 +101,6 @@ private final Communicate communicate = Communicate.getTCPClient(c -> {
     c.setServerPort(9000);//设置端口号
     c.setInCharset(Charset.forName("gb2312"));//设置输入编码
     c.setOutCharset(Charset.forName("gb2312"));//设置输出编码
-    c.open();//开启连接
     return null;
 });
 ```
@@ -125,7 +119,6 @@ private val communicate = Communicate.MQTT.apply {
     password = "siot"//设置密码
     publishTopic = "DeviceTest/000000"//设置订阅消息Topic
     responseTopic = "DeviceTest/123456"//设置发送消息Topic
-    open()//开启连接
 }
 ```
 
@@ -144,7 +137,6 @@ protected void onCreate(@Nullable Bundle savedInstanceState) {
     communicate.setPassword("siot");//设置密码
     communicate.setInMessageTopic("DeviceTest/000000");//设置输入消息Topic
     communicate.setOutMessageTopic("DeviceTest/123456");//设置输出消息Topic
-    communicate.open();//开启连接
 }
 
 //lambda构造
@@ -158,12 +150,58 @@ private final Communicate communicate = Communicate.getTCPClient(c -> {
     c.setPassword("siot");//设置密码
     c.setInMessageTopic("DeviceTest/000000");//设置输入消息Topic
     c.setOutMessageTopic("DeviceTest/123456");//设置输出消息Topic
-    c.open();//开启连接
     return null;
 });
 ```
 
 > MQTT的其他参数配置可以参考`MQTTCommunicate`接口
+
+### 开启连接
+
+默认的开启连接，如果连接失败5秒后会尝试重新连接：
+
+kotlin:
+```kotlin
+communicate.open()
+```
+
+java:
+```java
+communicate.open();
+```
+
+需要自定义开启成功或失败的回调函数则使用以下方法：
+
+> 如果要自行实现`failure`回调函数并重新连接请在函数中增加等待函数，如`Thread.sleep(5000)`。
+
+kotlin:
+```kotlin
+communicate.open {
+    success {
+        //开启连接成功时执行
+    }
+    failure {
+        //开启连接失败时执行
+        return@failure false//是否继续尝试连接
+    }
+}
+```
+
+java:
+```java
+communicate.open(new OnOpenCallback() {
+    @Override
+    public void success(@NonNull Communicate communicate) {
+        //开启连接成功时执行
+    }
+
+    @Override
+    public boolean failure(@NonNull Communicate communicate) {
+        //开启连接失败时执行
+        return false;//是否继续尝试连接
+    }
+});
+```
 
 ### 发送数据
 
