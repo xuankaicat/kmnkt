@@ -64,7 +64,7 @@ class TCP : Communicate {
         receiveThread?.interrupt()
     }
 
-    override fun open(onOpenCallback: OnOpenCallback) {
+    override fun open(onOpenCallback: IOnOpenCallback) {
         var success = false
         thread {
             do {

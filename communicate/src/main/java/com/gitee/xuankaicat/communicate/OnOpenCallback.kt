@@ -1,19 +1,35 @@
-@file:Suppress("unused")
-
 package com.gitee.xuankaicat.communicate
 
-interface OnOpenCallback {
-    /**
-     * 打开成功回调
-     * @param communicate 连接对象
-     */
-    fun success(communicate: Communicate)
+import android.util.Log
 
-    /**
-     * 打开失败回调
-     * @param communicate 连接对象
-     * @return 重新尝试连接
-     */
-    fun failure(communicate: Communicate): Boolean
+/**
+ * OnOpenCallback的默认实现
+ */
+open class OnOpenCallback : IOnOpenCallback {
+    private var success: ((Communicate) -> Unit) = { communicate ->
+        Log.v("openCallback", "${communicate.address}:建立连接成功")
+    }
 
+    private var failure: ((Communicate) -> Boolean) = { communicate ->
+        Log.v("openCallback", "${communicate.address}:建立连接失败")
+        Thread.sleep(5000)
+        Log.v("openCallback", "正在尝试重新连接...")
+        true
+    }
+
+    fun success(method: (communicate: Communicate) -> Unit) {
+        success = method
+    }
+
+    fun failure(method: (communicate: Communicate) -> Boolean) {
+        failure = method
+    }
+
+    override fun success(communicate: Communicate) {
+        success.invoke(communicate)
+    }
+
+    override fun failure(communicate: Communicate): Boolean {
+        return failure.invoke(communicate)
+    }
 }

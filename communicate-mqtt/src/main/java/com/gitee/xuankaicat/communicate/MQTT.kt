@@ -76,7 +76,7 @@ class MQTT : MQTTCommunicate {
         client?.unsubscribe(inMessageTopic)
     }
 
-    override fun open(onOpenCallback: OnOpenCallback) {
+    override fun open(onOpenCallback: IOnOpenCallback) {
         var success = false
         thread {
             val tmpDir = System.getProperty("java.io.tmpdir")

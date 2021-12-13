@@ -68,7 +68,7 @@ class UDP : Communicate {
         receiveThread?.interrupt()
     }
 
-    override fun open(onOpenCallback: OnOpenCallback) {
+    override fun open(onOpenCallback: IOnOpenCallback) {
         socket = DatagramSocket()
         onOpenCallback.success(this)
     }

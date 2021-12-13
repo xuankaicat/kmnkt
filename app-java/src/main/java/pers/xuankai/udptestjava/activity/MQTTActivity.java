@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.dylanc.longan.SystemBarsKt;
 import com.gitee.xuankaicat.communicate.Communicate;
-import com.gitee.xuankaicat.communicate.OnOpenCallbackImpl;
+import com.gitee.xuankaicat.communicate.OnOpenCallback;
 import com.gitee.xuankaicat.communicate.MQTTCommunicate;
 
 import java.nio.charset.Charset;
@@ -26,7 +26,7 @@ public class MQTTActivity extends BaseActivity<ActivityMqttactivityBinding> {
         c.setPassword("siot");
         c.setInMessageTopic("DeviceTest/000000");
         c.setOutMessageTopic("DeviceTest/123456");
-        c.open(new OnOpenCallbackImpl() {
+        c.open(new OnOpenCallback() {
             @Override
             public void success(@NonNull Communicate communicate) {
                 super.success(communicate);

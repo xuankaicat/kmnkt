@@ -77,13 +77,13 @@ interface Communicate {
     /**
      * 开启通信，用于TCP与MQTT建立连接
      */
-    fun open() = open(OnOpenCallbackImpl())
+    fun open() = open(OnOpenCallback())
 
     /**
      * 开启通信，用于TCP与MQTT建立连接
      * @param onOpenCallback 开启成功或失败的回调，默认失败会等待5秒重新尝试连接。
      */
-    fun open(onOpenCallback: OnOpenCallback)
+    fun open(onOpenCallback: IOnOpenCallback)
 
     /**
      * 关闭通信
@@ -96,5 +96,5 @@ interface Communicate {
  * @receiver Communicate 连接对象
  * @param callback 开启成功或失败的回调，默认失败会等待5秒重新尝试连接。
  */
-inline fun Communicate.open(callback: OnOpenCallbackImpl.() -> Unit)
-    = open(OnOpenCallbackImpl().also(callback))
+inline fun Communicate.open(callback: OnOpenCallback.() -> Unit)
+    = open(OnOpenCallback().also(callback))
