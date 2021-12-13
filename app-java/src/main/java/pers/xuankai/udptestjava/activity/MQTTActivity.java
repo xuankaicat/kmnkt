@@ -3,9 +3,12 @@ package pers.xuankai.udptestjava.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.dylanc.longan.SystemBarsKt;
+import com.gitee.xuankaicat.communicate.Communicate;
+import com.gitee.xuankaicat.communicate.OnOpenCallbackImpl;
 import com.gitee.xuankaicat.communicate.MQTTCommunicate;
 
 import java.nio.charset.Charset;
@@ -23,7 +26,16 @@ public class MQTTActivity extends BaseActivity<ActivityMqttactivityBinding> {
         c.setPassword("siot");
         c.setInMessageTopic("DeviceTest/000000");
         c.setOutMessageTopic("DeviceTest/123456");
-        c.open();
+        c.open(new OnOpenCallbackImpl() {
+            @Override
+            public void success(@NonNull Communicate communicate) {
+                super.success(communicate);
+                communicate.startReceive(result -> {
+                    getBinding().textView.setText(result);
+                    return true;
+                });
+            }
+        });
         return null;
     });
 

@@ -64,16 +64,23 @@ class TCP : Communicate {
         receiveThread?.interrupt()
     }
 
-    override fun open(): Boolean {
-        try {
-            thread {
-                socket = Socket(address, serverPort)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return false
+    override fun open(onOpenCallback: OnOpenCallback) {
+        var success = false
+        thread {
+            do {
+                try {
+                    socket = Socket(address, serverPort)
+                    if(socket?.keepAlive == true) {
+                        onOpenCallback.success(this)
+                        success = true
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                } finally {
+                    if(!success) success = onOpenCallback.failure(this)
+                }
+            } while (!success)
         }
-        return true
     }
 
     override fun close() {

@@ -76,46 +76,53 @@ class MQTT : MQTTCommunicate {
         client?.unsubscribe(inMessageTopic)
     }
 
-    override fun open(): Boolean {
-        try {
-            thread {
-                val tmpDir = System.getProperty("java.io.tmpdir")
-                val dataStore = MqttDefaultFilePersistence(tmpDir)
+    override fun open(onOpenCallback: OnOpenCallback) {
+        var success = false
+        thread {
+            val tmpDir = System.getProperty("java.io.tmpdir")
+            val dataStore = MqttDefaultFilePersistence(tmpDir)
 
-                if(clientId == "") clientId = UUID.randomUUID().toString()
-                client = MqttClient(serverURI, clientId, dataStore)
-                client?.setCallback(mqttCallback)
+            if(clientId == "") clientId = UUID.randomUUID().toString()
+            client = MqttClient(serverURI, clientId, dataStore)
+            client?.setCallback(mqttCallback)
 
-                var doConnect = true
-                if(options == null) options = MqttConnectOptions()
-                else {
-                    options!!.apply {
-                        isCleanSession = true
-                        connectionTimeout = 10
-                        keepAliveInterval = 20
-                        userName = this@MQTT.username
-                        password = this@MQTT.password.toCharArray()
-                    }
-                }
+            var doConnect = true
+            if(options == null) options = MqttConnectOptions()
+            else {
                 options!!.apply {
-                    val message = "{\"terminal_uid\":\"$clientId\"}"
-                    try {
-                        setWill(inMessageTopic, message.toByteArray(), _qos, retained)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        doConnect = false
-                    }
-                }
-
-                if(doConnect) {
-                    doClientConnection()
+                    isCleanSession = true
+                    connectionTimeout = 10
+                    keepAliveInterval = 20
+                    userName = this@MQTT.username
+                    password = this@MQTT.password.toCharArray()
                 }
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return false
+            val message = "{\"terminal_uid\":\"$clientId\"}"
+
+            do {
+                try {
+                    options!!.apply {
+                        try {
+                            setWill(inMessageTopic, message.toByteArray(), _qos, retained)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            doConnect = false
+                        }
+                    }
+
+                    if(doConnect) {
+                        doClientConnection()
+                        success = true
+                        onOpenCallback.success(this)
+                    }
+
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                } finally {
+                    if(!success) success = onOpenCallback.failure(this)
+                }
+            } while (!success)
         }
-        return true
     }
 
     override fun close() {
@@ -134,8 +141,9 @@ class MQTT : MQTTCommunicate {
                     e.printStackTrace()
                     success = false
                     times++
+                    Thread.sleep(1000)
                 }
-            } while (!success && times <= 20)
+            } while (!success && times <= 5)
             if(success) {
                 Log.v("MQTT", "连接成功于第${times}次 {uri: '${serverURI}', username: '${username}', password: '${password}'}")
             }

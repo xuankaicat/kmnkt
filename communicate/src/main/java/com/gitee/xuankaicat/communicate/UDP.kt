@@ -11,7 +11,7 @@ import java.nio.charset.Charset
 import kotlin.concurrent.thread
 
 class UDP : Communicate {
-    private val socket = DatagramSocket()
+    private var socket: DatagramSocket? = null
     override var serverPort = 9000
     private var _address: InetAddress = InetAddress.getByName("192.168.200.1")
     override var address: String
@@ -26,15 +26,17 @@ class UDP : Communicate {
     private var receiveThread: Thread? = null
 
     override fun send(message: String) {
+        if(socket == null) return
         val bytes = message.toByteArray(outCharset)
         val len = bytes.size
         val sendPacket = DatagramPacket(bytes, len, _address, serverPort)
         thread {
-            socket.send(sendPacket)
+            socket?.send(sendPacket)
         }
     }
 
     override fun startReceive(onReceive: OnReceiveFunc): Boolean {
+        if(socket == null) return false
         if(receiveThread != null) return false
         isReceiving = true
         val receive = ByteArray(100)
@@ -47,7 +49,7 @@ class UDP : Communicate {
                 }
 
                 try {
-                    socket.receive(receivePacket)
+                    socket?.receive(receivePacket)
                     val data = String(receivePacket.data, inCharset)
                     Handler(Looper.getMainLooper()).post {
                         isReceiving = onReceive(data)
@@ -66,11 +68,13 @@ class UDP : Communicate {
         receiveThread?.interrupt()
     }
 
-    override fun open(): Boolean {
-        //使用直接返回true替代抛出异常可以统一应用层调用风格
-        //throw Exception("UDP should not use 'open' function anyway.")
-        return true
+    override fun open(onOpenCallback: OnOpenCallback) {
+        socket = DatagramSocket()
+        onOpenCallback.success(this)
     }
 
-    override fun close() = socket.close()
+    override fun close() {
+        socket?.close()
+        socket = null
+    }
 }

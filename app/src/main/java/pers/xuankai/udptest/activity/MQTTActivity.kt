@@ -5,6 +5,7 @@ import com.dylanc.longan.immerseStatusBar
 import com.dylanc.longan.startActivity
 import com.gitee.xuankaicat.communicate.Communicate
 import com.gitee.xuankaicat.communicate.MQTT
+import com.gitee.xuankaicat.communicate.open
 import pers.xuankai.udptest.BaseActivity
 import pers.xuankai.udptest.databinding.ActivityMqttactivityBinding
 import java.nio.charset.Charset
@@ -19,7 +20,14 @@ class MQTTActivity : BaseActivity<ActivityMqttactivityBinding>() {
         password = "siot"
         inMessageTopic = "DeviceTest/000000"
         outMessageTopic = "DeviceTest/123456"
-        open()
+        open {
+            success {
+                it.startReceive {
+                    binding.textView.text = it
+                    return@startReceive true
+                }
+            }
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

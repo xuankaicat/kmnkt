@@ -75,13 +75,26 @@ interface Communicate {
     fun stopReceive()
 
     /**
-     * 开启通信，用于TCP建立连接
-     * @return 是否开启成功
+     * 开启通信，用于TCP与MQTT建立连接
      */
-    fun open(): Boolean
+    fun open() = open(OnOpenCallbackImpl())
+
+    /**
+     * 开启通信，用于TCP与MQTT建立连接
+     * @param onOpenCallback 开启成功或失败的回调，默认失败会等待5秒重新尝试连接。
+     */
+    fun open(onOpenCallback: OnOpenCallback)
 
     /**
      * 关闭通信
      */
     fun close()
 }
+
+/**
+ * 使用DSL构建开始通信
+ * @receiver Communicate 连接对象
+ * @param callback 开启成功或失败的回调，默认失败会等待5秒重新尝试连接。
+ */
+inline fun Communicate.open(callback: OnOpenCallbackImpl.() -> Unit)
+    = open(OnOpenCallbackImpl().also(callback))
