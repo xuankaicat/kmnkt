@@ -7,6 +7,7 @@ import org.eclipse.paho.client.mqttv3.*
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence
 import java.nio.charset.Charset
 import java.util.*
+import kotlin.collections.HashMap
 import kotlin.concurrent.thread
 
 class MQTT : MQTTCommunicate {
@@ -25,14 +26,6 @@ class MQTT : MQTTCommunicate {
     override var password: String = ""
     override var clientId: String = ""
 
-    override var publishTopic: String
-        get() = inMessageTopic
-        set(value) { inMessageTopic = value }
-
-    override var responseTopic: String
-        get() = outMessageTopic
-        set(value) { outMessageTopic = value }
-
     override var inMessageTopic: String = ""
     override var outMessageTopic: String = ""
 
@@ -46,37 +39,53 @@ class MQTT : MQTTCommunicate {
     override var outCharset: Charset = Charsets.UTF_8
 
     private var isReceiving = false
-    private var onReceive: OnReceiveFunc = {false}
 
-    override fun send(message: String) {
+    private val onReceives = HashMap<String, OnReceiveFunc>(3)
+
+    override fun send(message: String) = send(outMessageTopic, message)
+
+    override fun send(topic: String, message: String) {
         thread {
             try {
                 //参数分别为：主题、消息的字节数组、服务质量、是否在服务器保留断开连接后的最后一条消息
-                client?.publish(outMessageTopic, message.toByteArray(outCharset), _qos, retained)
-                Log.v("MQTT", "发送消息 {uri: '${serverURI}', topic: '${outMessageTopic}', message: '${message}'}")
+                client?.publish(topic, message.toByteArray(outCharset), _qos, retained)
+                Log.v("MQTT", "发送消息 {uri: '${serverURI}', topic: '$topic', message: '${message}'}")
             } catch (e: MqttException) {
                 e.printStackTrace()
             }
         }
     }
 
+    override fun addInMessageTopic(topic: String, onReceive: OnReceiveFunc) {
+        if(client == null) return
+        onReceives[topic] = onReceive
+        client?.subscribe(topic, _qos)
+    }
+
+    override fun removeInMessageTopic(topic: String) {
+        if(client == null) return
+        onReceives.remove(topic)
+        client?.unsubscribe(topic)
+    }
+
     override fun startReceive(onReceive: OnReceiveFunc): Boolean {
         if(client == null) return false
         if(isReceiving) return false
         isReceiving = true
-        this.onReceive = onReceive
+        onReceives[inMessageTopic] = onReceive
         client?.subscribe(inMessageTopic, _qos)//订阅主题，参数：主题、服务质量
         return true
     }
 
     override fun stopReceive() {
         if(!isReceiving) return
-        this.onReceive = {false}
+        onReceives.remove(inMessageTopic)
         isReceiving = false
         client?.unsubscribe(inMessageTopic)
     }
 
     override fun open(onOpenCallback: IOnOpenCallback) {
+        onReceives.clear()
         var success = false
         thread {
             val tmpDir = System.getProperty("java.io.tmpdir")
@@ -154,7 +163,8 @@ class MQTT : MQTTCommunicate {
     private val mqttCallback: MqttCallback = object : MqttCallback {
         override fun messageArrived(topic: String, message: MqttMessage) {
             //收到消息 String(message.payload)
-            if(!this@MQTT.onReceive.invoke(String(message.payload, inCharset))) {
+            val notStop = this@MQTT.onReceives[topic]?.invoke(String(message.payload, inCharset))
+            if(notStop != null && !notStop) {
                 stopReceive()
             }
         }

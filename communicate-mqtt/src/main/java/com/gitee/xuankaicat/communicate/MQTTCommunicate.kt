@@ -63,18 +63,6 @@ interface MQTTCommunicate : Communicate {
     var clientId: String
 
     /**
-     * 发布主题
-     */
-    @Deprecated("语义不清晰，使用inMessageTopic替代。")
-    var publishTopic: String
-
-    /**
-     * 响应主题
-     */
-    @Deprecated("语义不清晰，使用outMessageTopic替代。")
-    var responseTopic: String
-
-    /**
      * 输入信息响应主题，即接收对应主题的消息。
      */
     var inMessageTopic: String
@@ -88,6 +76,26 @@ interface MQTTCommunicate : Communicate {
      * MQTT参数设置，非定制不需要修改
      */
     var options: MqttConnectOptions?
+
+    /**
+     * 增加输入信息响应主题
+     * @param topic 主题
+     * @param onReceive 回调函数
+     */
+    fun addInMessageTopic(topic: String, onReceive: OnReceiveFunc)
+
+    /**
+     * 移除输入信息响应主题
+     * @param topic 主题
+     */
+    fun removeInMessageTopic(topic: String)
+
+    /**
+     * 发送指定topic的数据
+     * @param topic 主题
+     * @param message 数据内容
+     */
+    fun send(topic: String, message: String)
 }
 
 val Communicate.Companion.MQTT
