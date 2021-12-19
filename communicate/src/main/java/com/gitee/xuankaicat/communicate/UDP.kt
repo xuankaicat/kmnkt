@@ -52,7 +52,7 @@ class UDP : Communicate {
                     socket?.receive(receivePacket)
                     val data = String(receivePacket.data, inCharset)
                     Handler(Looper.getMainLooper()).post {
-                        isReceiving = onReceive(data, receivePacket)
+                        isReceiving = onReceive(data, receivePacket.address.hostAddress!!)
                     }
                 } catch (ignore: Exception) {
                     break
