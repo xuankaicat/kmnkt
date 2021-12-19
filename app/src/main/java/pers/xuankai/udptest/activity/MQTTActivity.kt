@@ -12,18 +12,18 @@ import java.nio.charset.Charset
 
 class MQTTActivity : BaseActivity<ActivityMqttactivityBinding>() {
     private val communicate = Communicate.MQTT.apply {
-        address = "192.168.3.22"
+        address = "xhys.cool"
         serverPort = 1883
         inCharset = Charset.forName("gb2312")
         outCharset = Charset.forName("gb2312")
-        username = "siot"
-        password = "siot"
-        inMessageTopic = "DeviceTest/000000"
+        username = "xuankai"
+        password = "xuankai"
+        inMessageTopic = "DeviceTest/111111"
         outMessageTopic = "DeviceTest/123456"
         open {
             success {
-                it.startReceive {
-                    binding.textView.text = it
+                it.startReceive { str, _ ->
+                    binding.textView.text = str
                     return@startReceive true
                 }
             }
@@ -41,8 +41,8 @@ class MQTTActivity : BaseActivity<ActivityMqttactivityBinding>() {
 
             communicate.send(sendText)
             binding.textView.text = "等待数据..."
-            communicate.startReceive {
-                binding.textView.text = it
+            communicate.startReceive { str, _ ->
+                binding.textView.text = str
                 return@startReceive false
             }
         }

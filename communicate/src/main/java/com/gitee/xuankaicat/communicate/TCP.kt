@@ -47,7 +47,7 @@ class TCP : Communicate {
                     val len = input?.read(receive) ?: 0
                     if(len != 0) {
                         Handler(Looper.getMainLooper()).post {
-                            onReceive(String(receive, 0, len, inCharset))
+                            onReceive(String(receive, 0, len, inCharset), receive)
                         }
                     }
                 } catch (ignore: Exception) {

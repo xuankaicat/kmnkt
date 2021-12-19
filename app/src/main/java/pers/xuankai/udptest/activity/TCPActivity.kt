@@ -28,8 +28,8 @@ class TCPActivity : BaseActivity<ActivityTcpBinding>() {
 
             communicate.send(sendText)
             binding.textView.text = "等待数据..."
-            communicate.startReceive {
-                binding.textView.text = it
+            communicate.startReceive { str, _ ->
+                binding.textView.text = str
                 return@startReceive false
             }
         }

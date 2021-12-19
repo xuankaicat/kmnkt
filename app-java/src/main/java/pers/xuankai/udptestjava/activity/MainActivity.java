@@ -37,7 +37,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
             communicate.send(sendText);
             binding.textView.setText("等待数据...");
-            communicate.startReceive(result -> {
+            communicate.startReceive((result, ignore) -> {
                 binding.textView.setText(result);
                 return false;
             });

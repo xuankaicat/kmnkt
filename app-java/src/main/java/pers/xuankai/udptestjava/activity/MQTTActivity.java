@@ -30,7 +30,7 @@ public class MQTTActivity extends BaseActivity<ActivityMqttactivityBinding> {
             @Override
             public void success(@NonNull Communicate communicate) {
                 super.success(communicate);
-                communicate.startReceive(result -> {
+                communicate.startReceive((result, ignore) -> {
                     getBinding().textView.setText(result);
                     return true;
                 });
@@ -53,7 +53,7 @@ public class MQTTActivity extends BaseActivity<ActivityMqttactivityBinding> {
 
             communicate.send(sendText);
             binding.textView.setText("等待数据...");
-            communicate.startReceive(result -> {
+            communicate.startReceive((result, ignore) -> {
                 binding.textView.setText(result);
                 return false;
             });

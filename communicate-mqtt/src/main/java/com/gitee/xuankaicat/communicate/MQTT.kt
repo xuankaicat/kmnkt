@@ -163,7 +163,7 @@ class MQTT : MQTTCommunicate {
     private val mqttCallback: MqttCallback = object : MqttCallback {
         override fun messageArrived(topic: String, message: MqttMessage) {
             //收到消息 String(message.payload)
-            val notStop = this@MQTT.onReceives[topic]?.invoke(String(message.payload, inCharset))
+            val notStop = this@MQTT.onReceives[topic]?.invoke(String(message.payload, inCharset), topic)
             if(notStop != null && !notStop) {
                 stopReceive()
             }

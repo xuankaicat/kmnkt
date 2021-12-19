@@ -4,7 +4,7 @@ package com.gitee.xuankaicat.communicate
 
 import java.nio.charset.Charset
 
-typealias OnReceiveFunc = (String) -> Boolean
+typealias OnReceiveFunc = (String, Any) -> Boolean
 
 interface Communicate {
     companion object {
