@@ -51,8 +51,9 @@ class UDP : Communicate {
                 try {
                     socket?.receive(receivePacket)
                     val data = String(receivePacket.data, inCharset)
+                    val ip = receivePacket.address.hostAddress!!
                     Handler(Looper.getMainLooper()).post {
-                        isReceiving = onReceive(data, receivePacket.address.hostAddress!!)
+                        isReceiving = onReceive(data, ip)
                     }
                 } catch (ignore: Exception) {
                     break
