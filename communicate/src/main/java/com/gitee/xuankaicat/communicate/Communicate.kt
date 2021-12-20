@@ -5,6 +5,7 @@ package com.gitee.xuankaicat.communicate
 import java.nio.charset.Charset
 
 typealias OnReceiveFunc = (String, Any) -> Boolean
+typealias OnReceiveSimpleFunc = (String) -> Boolean
 
 interface Communicate {
     companion object {
@@ -90,6 +91,16 @@ interface Communicate {
      */
     fun close()
 }
+
+/**
+ * 开始接收数据
+ * @param onReceive 处理接收到的数据的函数，函数返回值为是否继续接收消息.
+ * 请不要在函数中使用stopReceive()函数停止接收数据，这不会起作用。
+ * @return 是否开启成功
+ */
+inline fun Communicate.startReceive(crossinline onReceive: OnReceiveSimpleFunc): Boolean =
+    this.startReceive { v, _ -> onReceive.invoke(v) }
+
 
 /**
  * 使用DSL构建开始通信
