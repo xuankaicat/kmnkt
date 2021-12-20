@@ -22,7 +22,7 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.gitee.xuankaicat.communicate:communicate:1.1.3'//UDP、TCPClient
+    implementation 'com.gitee.xuankaicat.communicate:communicate:1.4.0'//UDP、TCPClient
 }
 ```
 
@@ -30,7 +30,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt:1.1.3'//UDP、TCPClient、MQTT
+    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt:1.4.0'//UDP、TCPClient、MQTT
 }
 ```
 
@@ -219,16 +219,16 @@ communicate.send(sendText);
 
 kotlin:
 ```kotlin
-communicate.startReceive {
-    //处理接收到的数据(it)
+communicate.startReceive { str, data ->
+    //处理接收到的数据str
     return@startReceive false//返回是否继续接收消息
 }
 ```
 
 java:
 ```java
-communicate.startReceive(result -> {
-    //处理接收到的数据(result)
+communicate.startReceive((str, data) -> {
+    //处理接收到的数据str
     return false;//返回是否继续接收消息
 });
 ```
