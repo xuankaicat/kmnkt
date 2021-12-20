@@ -167,17 +167,12 @@ class MQTT : MQTTCommunicate {
             //收到消息 String(message.payload)
             val msg = String(message.payload, inCharset)
             Log.v("MQTT", "收到来自[${topic}]的消息\"${msg}\"")
-            Log.v("MQTT", "开始获取notstop")
             var notStop = true
             Handler(Looper.getMainLooper()).post {
                 notStop = this@MQTT.onReceives[topic]?.invoke(msg, topic) == false
             }
-            Log.v("MQTT", "notstop的值为$notStop")
             if(!notStop) {
-                Log.v("MQTT", "关闭监听")
                 removeInMessageTopic(topic)
-            } else {
-                Log.v("MQTT", "继续监听")
             }
         }
 
