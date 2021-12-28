@@ -1,6 +1,7 @@
 package pers.xuankai.udptest.activity
 
 import android.os.Bundle
+import android.util.Log
 import com.dylanc.longan.immerseStatusBar
 import com.dylanc.longan.startActivity
 import com.gitee.xuankaicat.communicate.Communicate
@@ -12,7 +13,7 @@ import java.nio.charset.Charset
 
 class MQTTActivity : BaseActivity<ActivityMqttactivityBinding>() {
     private val communicate = Communicate.MQTT.apply {
-        address = "xhys.cool"
+        address = "192.168.3.22"
         serverPort = 1883
         inCharset = Charset.forName("gb2312")
         outCharset = Charset.forName("gb2312")
@@ -26,6 +27,13 @@ class MQTTActivity : BaseActivity<ActivityMqttactivityBinding>() {
                     binding.textView.text = str
                     return@startReceive true
                 }
+            }
+            failure {
+                Log.i("zyq","链接失败，1秒后重连")
+                Thread.sleep(1000)
+                //communicate.open(this)
+                //开启连接失败时执行
+                return@failure true//是否继续尝试连接
             }
         }
     }

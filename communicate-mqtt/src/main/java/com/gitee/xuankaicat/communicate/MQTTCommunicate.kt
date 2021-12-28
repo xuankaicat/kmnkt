@@ -48,6 +48,12 @@ interface MQTTCommunicate : Communicate {
     var qos: MqttQuality
 
     /**
+     * 连接超时时间，超过这个时间未连接将进行失败回调
+     * 默认为10秒
+     */
+    var timeOut: Int
+
+    /**
      * 用户名
      */
     var username: String

@@ -21,6 +21,8 @@ class MQTT : MQTTCommunicate {
             _qos = value.ordinal
         }
 
+    override var timeOut: Int = 10
+
     private val retained = false
     override var options: MqttConnectOptions? = null
 
@@ -98,16 +100,18 @@ class MQTT : MQTTCommunicate {
             client?.setCallback(mqttCallback)
 
             var doConnect = true
-            if(options == null) options = MqttConnectOptions()
-            else {
-                options!!.apply {
+            if(options == null) {
+                options = MqttConnectOptions().apply {
                     isCleanSession = true
-                    connectionTimeout = 10
                     keepAliveInterval = 20
-                    userName = this@MQTT.username
-                    password = this@MQTT.password.toCharArray()
                 }
             }
+            options?.apply {
+                connectionTimeout = timeOut
+                userName = this@MQTT.username
+                password = this@MQTT.password.toCharArray()
+            }
+
             val message = "{\"terminal_uid\":\"$clientId\"}"
 
             do {
@@ -130,7 +134,7 @@ class MQTT : MQTTCommunicate {
                 } catch (e: Exception) {
                     e.printStackTrace()
                 } finally {
-                    if(!success) success = onOpenCallback.failure(this)
+                    if(!success) success = !onOpenCallback.failure(this)
                 }
             } while (!success)
         }
@@ -142,22 +146,15 @@ class MQTT : MQTTCommunicate {
 
     private fun doClientConnection() {
         if(client?.isConnected == false) {
-            var success = true
-            var times = 1
-            do {
-                try {
-                    client?.connect(options)
-                } catch (e: Exception) {
-                    Log.e("MQTT", "第${times}次连接失败 {uri: '${serverURI}', username: '${username}', password: '${password}'}")
-                    e.printStackTrace()
-                    success = false
-                    times++
-                    Thread.sleep(1000)
-                }
-            } while (!success && times <= 5)
-            if(success) {
-                Log.v("MQTT", "连接成功于第${times}次 {uri: '${serverURI}', username: '${username}', password: '${password}'}")
+            try {
+                Log.v("MQTT", "开始进行连接 {uri: '${serverURI}', username: '${username}', password: '${password}'}")
+                client?.connect(options)
+            } catch (e: Exception) {
+                Log.e("MQTT", "连接失败 {uri: '${serverURI}', username: '${username}', password: '${password}'}")
+                e.printStackTrace()
+                throw e
             }
+            Log.v("MQTT", "连接成功 {uri: '${serverURI}', username: '${username}', password: '${password}'}")
         }
     }
 
