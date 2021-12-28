@@ -77,7 +77,7 @@ class TCP : Communicate {
                 } catch (e: Exception) {
                     e.printStackTrace()
                 } finally {
-                    if(!success) success = onOpenCallback.failure(this)
+                    if(!success) success = !onOpenCallback.failure(this)
                 }
             } while (!success)
         }
