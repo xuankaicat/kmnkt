@@ -45,6 +45,7 @@ class MQTT : MQTTCommunicate {
     private var isReceiving = false
 
     private val onReceives = HashMap<String, OnReceiveFunc>(3)
+    private var onOpenCallback: IOnOpenCallback = OnOpenCallback()
 
     override fun send(message: String) = send(outMessageTopic, message)
 
@@ -90,7 +91,9 @@ class MQTT : MQTTCommunicate {
 
     override fun open(onOpenCallback: IOnOpenCallback) {
         onReceives.clear()
-        var success = false
+        //存储回调对象
+        this.onOpenCallback = onOpenCallback
+        //初始化连接对象
         thread {
             val tmpDir = System.getProperty("java.io.tmpdir")
             val dataStore = MqttDefaultFilePersistence(tmpDir)
@@ -111,32 +114,22 @@ class MQTT : MQTTCommunicate {
                 userName = this@MQTT.username
                 password = this@MQTT.password.toCharArray()
             }
-
+            //设置LWT
             val message = "{\"terminal_uid\":\"$clientId\"}"
-
-            do {
-                try {
-                    options!!.apply {
-                        try {
-                            setWill(inMessageTopic, message.toByteArray(), _qos, retained)
-                        } catch (e: Exception) {
-                            e.printStackTrace()
-                            doConnect = false
-                        }
+            try {
+                options!!.apply {
+                    try {
+                        setWill(inMessageTopic, message.toByteArray(), _qos, retained)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        doConnect = false
                     }
-
-                    if(doConnect) {
-                        doClientConnection()
-                        success = true
-                        onOpenCallback.success(this)
-                    }
-
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                } finally {
-                    if(!success) success = !onOpenCallback.failure(this)
                 }
-            } while (!success)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            //执行连接
+            if(doConnect) doClientConnection()
         }
     }
 
@@ -146,15 +139,26 @@ class MQTT : MQTTCommunicate {
 
     private fun doClientConnection() {
         if(client?.isConnected == false) {
-            try {
-                Log.v("MQTT", "开始进行连接 {uri: '${serverURI}', username: '${username}', password: '${password}'}")
-                client?.connect(options)
-            } catch (e: Exception) {
-                Log.e("MQTT", "连接失败 {uri: '${serverURI}', username: '${username}', password: '${password}'}")
-                e.printStackTrace()
-                throw e
-            }
-            Log.v("MQTT", "连接成功 {uri: '${serverURI}', username: '${username}', password: '${password}'}")
+            var success = false
+            do {
+                try {
+                    Log.v("MQTT", "开始进行连接 {uri: '${serverURI}', username: '${username}', password: '${password}'}")
+                    client?.connect(options) //如果连接失败会在这里抛出异常
+                    success = true
+                    Log.v("MQTT", "连接成功 {uri: '${serverURI}', username: '${username}', password: '${password}'}")
+                    onOpenCallback.success(this)
+                } catch (e: Exception) {
+                    Log.e("MQTT", "连接失败 {uri: '${serverURI}', username: '${username}', password: '${password}'}")
+                    e.printStackTrace()
+                } finally {
+                    if(!success) {
+                        success = !onOpenCallback.failure(this)
+                        if(success) {
+                            Log.v("MQTT", "回调返回false,放弃连接 {uri: '${serverURI}', username: '${username}', password: '${password}'}")
+                        }
+                    }
+                }
+            } while (!success)
         }
     }
 
@@ -175,6 +179,7 @@ class MQTT : MQTTCommunicate {
 
         override fun deliveryComplete(arg0: IMqttDeliveryToken) {}
         override fun connectionLost(arg0: Throwable) {
+            Log.e("MQTT", "连接中断，开始尝试重新连接 {uri: '${serverURI}', username: '${username}', password: '${password}'}")
             doClientConnection() //连接断开，重连
         }
     }
