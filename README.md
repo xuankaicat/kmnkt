@@ -22,7 +22,7 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.gitee.xuankaicat.communicate:communicate:1.4.0'//UDP、TCPClient
+    implementation 'com.gitee.xuankaicat.communicate:communicate:1.4.1'//UDP、TCPClient
 }
 ```
 
@@ -30,7 +30,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt:1.4.0'//UDP、TCPClient、MQTT
+    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt:1.4.1'//UDP、TCPClient、MQTT
 }
 ```
 
@@ -119,6 +119,8 @@ private val communicate = Communicate.MQTT.apply {
     password = "siot"//设置密码
     publishTopic = "DeviceTest/000000"//设置订阅消息Topic
     responseTopic = "DeviceTest/123456"//设置发送消息Topic
+    /*MQTT自定义配置*/
+    timeOut = 10//设置超时时间
 }
 ```
 
@@ -137,6 +139,8 @@ protected void onCreate(@Nullable Bundle savedInstanceState) {
     communicate.setPassword("siot");//设置密码
     communicate.setInMessageTopic("DeviceTest/000000");//设置输入消息Topic
     communicate.setOutMessageTopic("DeviceTest/123456");//设置输出消息Topic
+    /*MQTT自定义配置*/
+    communicate.setTimeOut(10)//设置超时时间
 }
 
 //lambda构造
