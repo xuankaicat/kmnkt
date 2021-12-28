@@ -54,6 +54,17 @@ interface MQTTCommunicate : Communicate {
     var timeOut: Int
 
     /**
+     * 断开连接后是否清楚缓存，如果清除缓存则在重连后需要手动恢复订阅。默认清除缓存。
+     */
+    var cleanSession: Boolean
+
+    /**
+     * 检测连接是否中断的间隔。
+     * 默认为20秒
+     */
+    var keepAliveInterval: Int
+
+    /**
      * 用户名
      */
     var username: String
