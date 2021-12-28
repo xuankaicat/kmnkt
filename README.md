@@ -27,7 +27,7 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.gitee.xuankaicat.communicate:communicate:1.4.2'//UDP、TCPClient
+    implementation 'com.gitee.xuankaicat.communicate:communicate:1.4.3'//UDP、TCPClient
 }
 ```
 
@@ -35,7 +35,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt:1.4.2'//UDP、TCPClient、MQTT
+    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt:1.4.3'//UDP、TCPClient、MQTT
 }
 ```
 
@@ -126,6 +126,8 @@ private val communicate = Communicate.MQTT.apply {
     responseTopic = "DeviceTest/123456"//设置发送消息Topic
     /*MQTT自定义配置*/
     timeOut = 10//设置超时时间
+    cleanSession = true//断开连接后是否清楚缓存，如果清除缓存则在重连后需要手动恢复订阅。
+    keepAliveInterval = 20//检测连接是否中断的间隔
 }
 ```
 
@@ -146,6 +148,8 @@ protected void onCreate(@Nullable Bundle savedInstanceState) {
     communicate.setOutMessageTopic("DeviceTest/123456");//设置输出消息Topic
     /*MQTT自定义配置*/
     communicate.setTimeOut(10)//设置超时时间
+    communicate.setCleanSession(true);//断开连接后是否清楚缓存，如果清除缓存则在重连后需要手动恢复订阅。
+    communicate.setKeepAliveInterval(20);//检测连接是否中断的间隔
 }
 
 //lambda构造
@@ -159,6 +163,9 @@ private final Communicate communicate = Communicate.getTCPClient(c -> {
     c.setPassword("siot");//设置密码
     c.setInMessageTopic("DeviceTest/000000");//设置输入消息Topic
     c.setOutMessageTopic("DeviceTest/123456");//设置输出消息Topic
+    c.setTimeOut(10)//设置超时时间
+    c.setCleanSession(true);//断开连接后是否清楚缓存，如果清除缓存则在重连后需要手动恢复订阅。
+    c.setKeepAliveInterval(20);//检测连接是否中断的间隔
     return null;
 });
 ```
