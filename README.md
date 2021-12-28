@@ -5,6 +5,11 @@
 communicate是Android实现socket通信统一接口的实现。
 可以使用同一套接口快速实现UDP/TCPClient/MQTT连接。
 
+**优点**
+- 简单配置就可以快速使用
+- 对于实现多种通信方式的需求快速转换
+- 使用kotlin实现，对kotlin语法支持好(DSL)
+
 ## Gradle
 
 在根目录的 build.gradle 添加：
@@ -22,7 +27,7 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.gitee.xuankaicat.communicate:communicate:1.4.1'//UDP、TCPClient
+    implementation 'com.gitee.xuankaicat.communicate:communicate:1.4.2'//UDP、TCPClient
 }
 ```
 
@@ -30,7 +35,7 @@ dependencies {
 
 ```groovy
 dependencies {
-    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt:1.4.1'//UDP、TCPClient、MQTT
+    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt:1.4.2'//UDP、TCPClient、MQTT
 }
 ```
 
@@ -259,3 +264,7 @@ protected void onDestroy() {
     communicate.close();//关闭连接
 }
 ```
+
+## 反馈
+
+有任何使用上的问题或者想要的功能都可以通过提交issue提出，本人看到后会尽快处理回复。
