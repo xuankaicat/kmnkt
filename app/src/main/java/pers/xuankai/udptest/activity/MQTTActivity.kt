@@ -14,7 +14,7 @@ import java.nio.charset.Charset
 class MQTTActivity : BaseActivity<ActivityMqttactivityBinding>() {
     private val communicate = Communicate.MQTT.apply {
         address = "10.0.2.2"
-        serverPort = 1883
+        port = 1883
         inCharset = Charset.forName("gb2312")
         outCharset = Charset.forName("gb2312")
         username = "xuankai"

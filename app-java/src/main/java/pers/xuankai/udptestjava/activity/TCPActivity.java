@@ -16,7 +16,7 @@ import pers.xuankai.udptestjava.databinding.ActivityTcpBinding;
 public class TCPActivity extends BaseActivity<ActivityTcpBinding> {
     private final Communicate communicate = Communicate.getTCPClient(c -> {
         c.setAddress("10.0.2.2");
-        c.setServerPort(9000);
+        c.setPort(9000);
         c.setInCharset(Charset.forName("gb2312"));
         c.setOutCharset(Charset.forName("gb2312"));
         c.open();

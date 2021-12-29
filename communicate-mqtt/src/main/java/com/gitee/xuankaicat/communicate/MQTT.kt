@@ -44,7 +44,7 @@ class MQTT : MQTTCommunicate {
     override var address: String = "10.0.2.2"
 
     private val serverURI
-        get() = "tcp://${address}:${serverPort}"
+        get() = "tcp://${address}:${port}"
 
     override var inCharset: Charset = Charsets.UTF_8
     override var outCharset: Charset = Charsets.UTF_8

@@ -11,7 +11,7 @@ import java.nio.charset.Charset
 class TCPActivity : BaseActivity<ActivityTcpBinding>() {
     private val communicate = Communicate.TCPClient.apply {
         address = "10.0.2.2"
-        serverPort = 9000
+        port = 9000
         inCharset = Charset.forName("gb2312")
         outCharset = Charset.forName("gb2312")
         open()

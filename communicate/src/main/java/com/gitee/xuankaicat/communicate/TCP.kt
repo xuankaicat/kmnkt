@@ -43,7 +43,7 @@ class TCP : Communicate {
             try {
                 output?.write(message.toByteArray(outCharset))
             } catch (e: Exception) {
-                Log.e("TCP", "发送信息失败，可能是网络连接问题 {uri: '${address}', port: ${serverPort}}")
+                Log.e("TCP", "发送信息失败，可能是网络连接问题 {uri: '${address}', port: ${port}}")
                 e.printStackTrace()
             }
         }
@@ -56,7 +56,7 @@ class TCP : Communicate {
         receiveThread = thread {
             while (isReceiving) {
                 try {
-                    Log.v("TCP", "开始接收消息 {uri: '${address}', port: ${serverPort}}")
+                    Log.v("TCP", "开始接收消息 {uri: '${address}', port: ${port}}")
                     val len = input?.read(receive) ?: 0
                     if(len != 0) {
                         Handler(Looper.getMainLooper()).post {
@@ -66,7 +66,7 @@ class TCP : Communicate {
                 } catch (ignore: Exception) {
                     if(socket?.isConnected == true) {
                         //stopReceive
-                        Log.v("TCP", "停止接收消息 {uri: '${address}', port: ${serverPort}}")
+                        Log.v("TCP", "停止接收消息 {uri: '${address}', port: ${port}}")
                         break
                     } else {
                         //连接异常中断
@@ -94,7 +94,7 @@ class TCP : Communicate {
         try {
             socket = Socket(address, serverPort)
         } catch (e: Exception) {
-            Log.e("TCP", "创建Socket失败 {uri: '${address}', port: ${serverPort}}")
+            Log.e("TCP", "创建Socket失败 {uri: '${address}', port: ${port}}")
             e.printStackTrace()
             return
         }
@@ -107,14 +107,14 @@ class TCP : Communicate {
             var success = false
             do {
                 try {
-                    Log.v("TCP", "开始尝试建立连接 {uri: '${address}', port: ${serverPort}}")
+                    Log.v("TCP", "开始尝试建立连接 {uri: '${address}', port: ${port}}")
                     if(socket?.keepAlive == true) {
                         onOpenCallback.success(this)
                         success = true
-                        Log.v("TCP", "建立连接成功 {uri: '${address}', port: ${serverPort}}")
+                        Log.v("TCP", "建立连接成功 {uri: '${address}', port: ${port}}")
                     }
                 } catch (e: Exception) {
-                    Log.e("TCP", "建立连接失败 {uri: '${address}', port: ${serverPort}}")
+                    Log.e("TCP", "建立连接失败 {uri: '${address}', port: ${port}}")
                     e.printStackTrace()
                 } finally {
                     if(!success) success = !onOpenCallback.failure(this)

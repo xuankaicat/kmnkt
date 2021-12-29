@@ -16,7 +16,7 @@ import pers.xuankai.udptestjava.databinding.ActivityMainBinding;
 public class MainActivity extends BaseActivity<ActivityMainBinding> {
     private final Communicate communicate = Communicate.getUDP(c -> {
         c.setAddress("10.0.2.2");
-        c.setServerPort(9000);
+        c.setPort(9000);
         c.setInCharset(Charset.forName("gb2312"));
         c.setOutCharset(Charset.forName("gb2312"));
         c.open();

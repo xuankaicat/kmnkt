@@ -11,7 +11,7 @@ import java.nio.charset.Charset
 class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val communicate = Communicate.UDP.apply {
         address = "10.0.2.2"
-        serverPort = 1883
+        port = 1883
         inCharset = Charset.forName("gb2312")
         outCharset = Charset.forName("gb2312")
         open()
