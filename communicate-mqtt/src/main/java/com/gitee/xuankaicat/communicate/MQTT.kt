@@ -58,6 +58,7 @@ class MQTT : MQTTCommunicate {
                 client?.publish(topic, message.toByteArray(outCharset), _qos, retained)
                 Log.v("MQTT", "发送消息 {uri: '${serverURI}', topic: '$topic', message: '${message}'}")
             } catch (e: MqttException) {
+                Log.e("MQTT", "发送消息失败 {uri: '${serverURI}', topic: '$topic', message: '${message}'}")
                 e.printStackTrace()
             }
         }

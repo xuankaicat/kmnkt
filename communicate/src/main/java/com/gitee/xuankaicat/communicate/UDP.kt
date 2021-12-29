@@ -4,6 +4,7 @@ package com.gitee.xuankaicat.communicate
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
@@ -31,7 +32,12 @@ class UDP : Communicate {
         val len = bytes.size
         val sendPacket = DatagramPacket(bytes, len, _address, serverPort)
         thread {
-            socket?.send(sendPacket)
+            try {
+                socket?.send(sendPacket)
+            } catch (e: Exception) {
+                Log.e("UDP", "发送信息失败，可能是网络连接问题。")
+                e.printStackTrace()
+            }
         }
     }
 

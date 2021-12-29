@@ -4,6 +4,7 @@ package com.gitee.xuankaicat.communicate
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import java.io.InputStream
 import java.io.OutputStream
 import java.net.InetAddress
@@ -33,7 +34,12 @@ class TCP : Communicate {
 
     override fun send(message: String) {
         thread {
-            output?.write(message.toByteArray(outCharset))
+            try {
+                output?.write(message.toByteArray(outCharset))
+            } catch (e: Exception) {
+                Log.e("TCP", "发送信息失败，可能是网络连接问题。")
+                e.printStackTrace()
+            }
         }
     }
 
