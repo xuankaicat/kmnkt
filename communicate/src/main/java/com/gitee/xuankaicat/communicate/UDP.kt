@@ -35,7 +35,7 @@ class UDP : Communicate {
         if(socket == null) return
         val bytes = message.toByteArray(outCharset)
         val len = bytes.size
-        val sendPacket = DatagramPacket(bytes, len, _address, serverPort)
+        val sendPacket = DatagramPacket(bytes, len, _address, port)
         thread {
             try {
                 socket?.send(sendPacket)

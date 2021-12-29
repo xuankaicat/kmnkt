@@ -92,7 +92,7 @@ class TCP : Communicate {
         this.onOpenCallback = onOpenCallback
         //初始化连接对象
         try {
-            socket = Socket(address, serverPort)
+            socket = Socket(address, port)
         } catch (e: Exception) {
             Log.e("TCP", "创建Socket失败 {uri: '${address}', port: ${port}}")
             e.printStackTrace()
