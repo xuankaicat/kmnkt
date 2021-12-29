@@ -35,7 +35,7 @@ class UDP : Communicate {
             try {
                 socket?.send(sendPacket)
             } catch (e: Exception) {
-                Log.e("UDP", "发送信息失败，可能是网络连接问题。")
+                Log.e("UDP", "发送信息失败，可能是网络连接问题 {uri: '${address}', port: ${serverPort}}")
                 e.printStackTrace()
             }
         }
@@ -55,6 +55,7 @@ class UDP : Communicate {
                 }
 
                 try {
+                    Log.v("UDP", "开始接收消息 {uri: '${address}', port: ${serverPort}}")
                     socket?.receive(receivePacket)
                     val data = String(receivePacket.data, inCharset)
                     val ip = receivePacket.address.hostAddress!!
@@ -62,6 +63,7 @@ class UDP : Communicate {
                         isReceiving = onReceive(data, ip)
                     }
                 } catch (ignore: Exception) {
+                    Log.v("UDP", "停止接收消息 {uri: '${address}', port: ${serverPort}}")
                     break
                 }
             }
