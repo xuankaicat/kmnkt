@@ -16,4 +16,11 @@ interface IOnOpenCallback {
      */
     fun failure(communicate: Communicate): Boolean
 
+    /**
+     * 失去连接回调
+     * @param communicate Communicate
+     * @return 重新尝试连接
+     * > 尝试重新连接后的连接成功与失败将会触发success与failure回调
+     */
+    fun loss(communicate: Communicate): Boolean
 }

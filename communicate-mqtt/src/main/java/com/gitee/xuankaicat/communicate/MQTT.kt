@@ -179,11 +179,13 @@ class MQTT : MQTTCommunicate {
 
         override fun deliveryComplete(arg0: IMqttDeliveryToken) {}
         override fun connectionLost(arg0: Throwable) {
-            Log.e("MQTT", "连接中断，开始尝试重新连接 {uri: '${serverURI}', username: '${username}', password: '${password}'}")
-            doClientConnection() //连接断开，重连
-            if(cleanSession) {
-                isReceiving = false
-                Log.w("MQTT", "重连成功，消息可能需要重新订阅。如果不希望在重连后重新订阅，可以设置连接对象的cleanSession字段为false。 {uri: '${serverURI}', username: '${username}', password: '${password}'}")
+            if(onOpenCallback.loss(this@MQTT)) {
+                //重新连接
+                doClientConnection()
+                if(cleanSession) {
+                    isReceiving = false
+                    Log.w("MQTT", "重连成功，消息可能需要重新订阅。如果不希望在重连后重新订阅，可以设置连接对象的cleanSession字段为false。 {uri: '${serverURI}', username: '${username}', password: '${password}'}")
+                }
             }
         }
     }

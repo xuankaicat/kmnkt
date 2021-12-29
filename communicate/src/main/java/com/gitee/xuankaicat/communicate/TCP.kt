@@ -31,6 +31,7 @@ class TCP : Communicate {
 
     private var isReceiving = false
     private var receiveThread: Thread? = null
+    private var onOpenCallback: IOnOpenCallback = OnOpenCallback()
 
     override fun send(message: String) {
         thread {
@@ -58,8 +59,17 @@ class TCP : Communicate {
                         }
                     }
                 } catch (ignore: Exception) {
-                    Log.v("TCP", "停止接收消息 {uri: '${address}', port: ${serverPort}}")
-                    break
+                    if(socket?.isConnected == true) {
+                        //stopReceive
+                        Log.v("TCP", "停止接收消息 {uri: '${address}', port: ${serverPort}}")
+                        break
+                    } else {
+                        //连接异常中断
+                        if(onOpenCallback.loss(this)) {
+                            //重新连接
+                            doConnection()
+                        }
+                    }
                 }
             }
             isReceiving = false
@@ -73,12 +83,26 @@ class TCP : Communicate {
     }
 
     override fun open(onOpenCallback: IOnOpenCallback) {
-        var success = false
+        //存储回调对象
+        this.onOpenCallback = onOpenCallback
+        //初始化连接对象
+        try {
+            socket = Socket(address, serverPort)
+        } catch (e: Exception) {
+            Log.e("TCP", "创建Socket失败 {uri: '${address}', port: ${serverPort}}")
+            e.printStackTrace()
+            return
+        }
+        //执行连接
+        doConnection()
+    }
+
+    private fun doConnection() {
         thread {
+            var success = false
             do {
                 try {
                     Log.v("TCP", "开始尝试建立连接 {uri: '${address}', port: ${serverPort}}")
-                    socket = Socket(address, serverPort)
                     if(socket?.keepAlive == true) {
                         onOpenCallback.success(this)
                         success = true
