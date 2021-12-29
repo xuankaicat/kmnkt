@@ -15,7 +15,7 @@ import kotlin.concurrent.thread
 class TCP : Communicate {
     private var socket: Socket? = null
     override var serverPort = 9000
-    private var _address: InetAddress = InetAddress.getByName("192.168.200.1")
+    private var _address: InetAddress = InetAddress.getByName("10.0.2.2")
     override var address: String
         get() = _address.hostAddress!!
         set(value) {

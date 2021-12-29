@@ -36,7 +36,7 @@ class MQTT : MQTTCommunicate {
     override var outMessageTopic: String = ""
 
     override var serverPort = 9000
-    override var address: String = ""
+    override var address: String = "10.0.2.2"
 
     private val serverURI
         get() = "tcp://${address}:${serverPort}"

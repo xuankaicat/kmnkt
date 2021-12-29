@@ -13,7 +13,7 @@ import java.nio.charset.Charset
 
 class MQTTActivity : BaseActivity<ActivityMqttactivityBinding>() {
     private val communicate = Communicate.MQTT.apply {
-        address = "192.168.3.22"
+        address = "10.0.2.2"
         serverPort = 1883
         inCharset = Charset.forName("gb2312")
         outCharset = Charset.forName("gb2312")
@@ -34,6 +34,10 @@ class MQTTActivity : BaseActivity<ActivityMqttactivityBinding>() {
                 //communicate.open(this)
                 //开启连接失败时执行
                 return@failure true//是否继续尝试连接
+            }
+            loss {
+                Log.v("MQTT", "失去连接，尝试重连")
+                return@loss true
             }
         }
     }

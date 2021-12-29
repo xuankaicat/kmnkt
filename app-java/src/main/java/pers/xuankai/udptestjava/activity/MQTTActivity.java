@@ -18,7 +18,7 @@ import pers.xuankai.udptestjava.databinding.ActivityMqttactivityBinding;
 
 public class MQTTActivity extends BaseActivity<ActivityMqttactivityBinding> {
     private final MQTTCommunicate communicate = MQTTCommunicate.getMQTT(c -> {
-        c.setAddress("192.168.3.22");
+        c.setAddress("10.0.2.2");
         c.setServerPort(1883);
         c.setInCharset(Charset.forName("gb2312"));
         c.setOutCharset(Charset.forName("gb2312"));

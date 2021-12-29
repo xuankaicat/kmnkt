@@ -14,7 +14,7 @@ import kotlin.concurrent.thread
 class UDP : Communicate {
     private var socket: DatagramSocket? = null
     override var serverPort = 9000
-    private var _address: InetAddress = InetAddress.getByName("192.168.200.1")
+    private var _address: InetAddress = InetAddress.getByName("10.0.2.2")
     override var address: String
         get() = _address.hostAddress!!
         set(value) {
