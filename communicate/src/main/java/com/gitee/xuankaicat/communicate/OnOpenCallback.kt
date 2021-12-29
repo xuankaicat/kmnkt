@@ -17,10 +17,19 @@ open class OnOpenCallback : IOnOpenCallback {
         true
     }
 
+    /**
+     * 打开成功回调
+     * @param method 连接成功回调
+     */
     fun success(method: (communicate: Communicate) -> Unit) {
         success = method
     }
 
+    /**
+     * 打开失败回调
+     * @param method 连接失败回调
+     * @return 重新尝试连接
+     */
     fun failure(method: (communicate: Communicate) -> Boolean) {
         failure = method
     }
