@@ -69,6 +69,26 @@ class MQTT : MQTTCommunicate {
         }
     }
 
+    override fun send(topic: String, message: String, times: Int, delay: Long): Thread = thread {
+        var nowTimes = times
+        Log.v("MQTT", "开始循环发送信息,剩余次数: $nowTimes, 间隔: $delay {uri: '${address}', port: ${port}}")
+        while (nowTimes != 0) {
+            send(message)
+            Thread.sleep(delay)
+            if(nowTimes > 0) nowTimes--
+        }
+    }
+
+    override fun send(message: String, times: Int, delay: Long): Thread = thread {
+        var nowTimes = times
+        Log.v("MQTT", "开始循环发送信息,剩余次数: $nowTimes, 间隔: $delay {uri: '${address}', port: ${port}}")
+        while (nowTimes != 0) {
+            send(message)
+            Thread.sleep(delay)
+            if(nowTimes > 0) nowTimes--
+        }
+    }
+
     override fun addInMessageTopic(topic: String, onReceive: OnReceiveFunc) {
         if(client == null) return
         onReceives[topic] = onReceive

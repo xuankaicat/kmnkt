@@ -37,12 +37,32 @@ class UDP : Communicate {
         val len = bytes.size
         val sendPacket = DatagramPacket(bytes, len, _address, port)
         thread {
-            try {
-                socket?.send(sendPacket)
-            } catch (e: Exception) {
-                Log.e("UDP", "发送信息失败，可能是网络连接问题 {uri: '${address}', port: ${port}}")
-                e.printStackTrace()
+            doSend(sendPacket)
+        }
+    }
+
+    override fun send(message: String, times: Int, delay: Long): Thread = thread {
+        if(socket == null) return@thread
+        val bytes = message.toByteArray(outCharset)
+        val len = bytes.size
+        val sendPacket = DatagramPacket(bytes, len, _address, port)
+        var nowTimes = times
+        Log.v("UDP", "开始循环发送信息,剩余次数: $nowTimes, 间隔: $delay {uri: '${address}', port: ${port}}")
+        while (nowTimes != 0) {
+            thread {
+                doSend(sendPacket)
             }
+            Thread.sleep(delay)
+            if(nowTimes > 0) nowTimes--
+        }
+    }
+
+    private fun doSend(sendPacket: DatagramPacket) {
+        try {
+            socket?.send(sendPacket)
+        } catch (e: Exception) {
+            Log.e("UDP", "发送信息失败，可能是网络连接问题 {uri: '${address}', port: ${port}}")
+            e.printStackTrace()
         }
     }
 

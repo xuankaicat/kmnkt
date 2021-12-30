@@ -69,6 +69,16 @@ interface Communicate {
     fun send(message: String)
 
     /**
+     * 发送数据
+     * @param message 数据内容
+     * @param times 发送次数，-1表示持续发送
+     * @param delay 发送间隔，单位为毫秒
+     * @return 执行发送数据的线程
+     * > 想要在发送期间停止发送数据可以对返回的线程对象调用`interrupt()`函数
+     */
+    fun send(message: String, times: Int, delay: Long): Thread
+
+    /**
      * 开始接收数据
      * @param onReceive 处理接收到的数据的函数，函数返回值为是否继续接收消息.
      * 请不要在函数中使用stopReceive()函数停止接收数据，这不会起作用。

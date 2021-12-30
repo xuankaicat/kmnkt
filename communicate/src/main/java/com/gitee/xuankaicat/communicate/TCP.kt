@@ -49,6 +49,16 @@ class TCP : Communicate {
         }
     }
 
+    override fun send(message: String, times: Int, delay: Long): Thread = thread {
+        var nowTimes = times
+        Log.v("TCP", "开始循环发送信息,剩余次数: $nowTimes, 间隔: $delay {uri: '${address}', port: ${port}}")
+        while (nowTimes != 0) {
+            send(message)
+            Thread.sleep(delay)
+            if(nowTimes > 0) nowTimes--
+        }
+    }
+
     override fun startReceive(onReceive: OnReceiveFunc): Boolean {
         if(receiveThread != null) return false
         isReceiving = true
