@@ -15,6 +15,7 @@ import kotlin.concurrent.thread
 class TCP : Communicate {
     private var socket: Socket? = null
     override var port: Int = 9000
+    @Suppress("OverridingDeprecatedMember")
     override var serverPort
         get() = port
         set(value) {

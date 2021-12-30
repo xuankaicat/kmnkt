@@ -36,6 +36,7 @@ class MQTT : MQTTCommunicate {
     override var outMessageTopic: String = ""
 
     override var port: Int = 9000
+    @Suppress("OverridingDeprecatedMember")
     override var serverPort
         get() = port
         set(value) {
