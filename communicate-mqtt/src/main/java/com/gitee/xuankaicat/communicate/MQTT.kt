@@ -188,7 +188,7 @@ class MQTT : MQTTCommunicate {
                 //重新连接
                 doClientConnection()
                 if(cleanSession) {
-                    isReceiving = false
+                    stopReceive()
                     Log.w("MQTT", "重连成功，消息可能需要重新订阅。如果不希望在重连后重新订阅，可以设置连接对象的cleanSession字段为false。 {uri: '${serverURI}', username: '${username}', password: '${password}'}")
                 }
             }
