@@ -30,7 +30,7 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation 'androidx.core:core-ktx:1.7.0'
     api project(':communicate')
 
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
