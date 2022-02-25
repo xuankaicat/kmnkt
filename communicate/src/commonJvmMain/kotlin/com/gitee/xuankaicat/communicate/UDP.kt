@@ -2,9 +2,8 @@
 
 package com.gitee.xuankaicat.communicate
 
-import android.os.Handler
-import android.os.Looper
 import com.gitee.xuankaicat.communicate.utils.Log
+import com.gitee.xuankaicat.communicate.utils.mainThread
 import java.net.DatagramPacket
 import java.net.DatagramSocket
 import java.net.InetAddress
@@ -79,7 +78,7 @@ class UDP : Communicate {
                     socket?.receive(receivePacket)
                     val data = String(receivePacket.data, inCharset)
                     val ip = receivePacket.address.hostAddress!!
-                    Handler(Looper.getMainLooper()).post {
+                    mainThread {
                         isReceiving = onReceive(data, ip)
                     }
                 } catch (ignore: Exception) {

@@ -2,9 +2,8 @@
 
 package com.gitee.xuankaicat.communicate
 
-import android.os.Handler
-import android.os.Looper
 import com.gitee.xuankaicat.communicate.utils.Log
+import com.gitee.xuankaicat.communicate.utils.mainThread
 import java.io.InputStream
 import java.io.OutputStream
 import java.net.InetAddress
@@ -64,7 +63,7 @@ class TCP : Communicate {
                     Log.v("TCP", "开始接收消息 {uri: '${address}', port: ${port}}")
                     val len = input?.read(receive) ?: 0
                     if(len != 0) {
-                        Handler(Looper.getMainLooper()).post {
+                        mainThread {
                             onReceive(String(receive, 0, len, inCharset), receive)
                         }
                     }

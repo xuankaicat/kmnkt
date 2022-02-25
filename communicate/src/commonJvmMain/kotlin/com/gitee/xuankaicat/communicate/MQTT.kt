@@ -2,9 +2,8 @@
 
 package com.gitee.xuankaicat.communicate
 
-import android.os.Handler
-import android.os.Looper
 import com.gitee.xuankaicat.communicate.utils.Log
+import com.gitee.xuankaicat.communicate.utils.mainThread
 import org.eclipse.paho.client.mqttv3.*
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence
 import java.nio.charset.Charset
@@ -189,7 +188,7 @@ class MQTT : MQTTCommunicate {
             val msg = String(message.payload, inCharset)
             Log.v("MQTT", "收到来自[${topic}]的消息\"${msg}\"")
             var notStop = true
-            Handler(Looper.getMainLooper()).post {
+            mainThread {
                 notStop = this@MQTT.onReceives[topic]?.invoke(msg, topic) == false
             }
             if(!notStop) {

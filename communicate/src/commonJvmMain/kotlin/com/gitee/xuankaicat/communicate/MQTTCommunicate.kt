@@ -3,8 +3,6 @@
 package com.gitee.xuankaicat.communicate
 
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
-import kotlin.jvm.JvmName
-import kotlin.jvm.JvmStatic
 
 /**
  * Mqtt发送质量(qos)枚举
