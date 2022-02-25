@@ -14,12 +14,6 @@ import kotlin.concurrent.thread
 class UDP : Communicate {
     private var socket: DatagramSocket? = null
     override var port: Int = 9000
-    @Suppress("OverridingDeprecatedMember")
-    override var serverPort
-        get() = port
-        set(value) {
-            port = value
-        }
     private var _address: InetAddress = InetAddress.getByName("10.0.2.2")
     override var address: String
         get() = _address.hostAddress!!
