@@ -4,7 +4,7 @@ package com.gitee.xuankaicat.communicate
 
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
+import com.gitee.xuankaicat.communicate.utils.Log
 import org.eclipse.paho.client.mqttv3.*
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence
 import java.nio.charset.Charset

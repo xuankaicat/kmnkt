@@ -4,7 +4,7 @@ package com.gitee.xuankaicat.communicate
 
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
+import com.gitee.xuankaicat.communicate.utils.Log
 import java.io.InputStream
 import java.io.OutputStream
 import java.net.InetAddress

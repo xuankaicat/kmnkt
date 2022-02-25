@@ -1,6 +1,6 @@
 package com.gitee.xuankaicat.communicate
 
-import android.util.Log
+import com.gitee.xuankaicat.communicate.utils.Log
 
 /**
  * OnOpenCallback的默认实现
