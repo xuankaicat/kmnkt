@@ -51,6 +51,9 @@ kotlin {
         }
         val desktopMain by getting {
             dependsOn(commonJvmMain)
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+            }
         }
         val desktopTest by getting
     }
