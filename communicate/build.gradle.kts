@@ -5,7 +5,9 @@ plugins {
 }
 
 kotlin {
-    android()
+    android {
+        publishLibraryVariants("release")
+    }
     jvm("desktop") {
         compilations.all {
             kotlinOptions.jvmTarget = "11"
@@ -51,5 +53,18 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("maven") {
+                groupId = project.group.toString()
+                artifactId = project.name
+                version = project.version.toString()
+                from(components.getByName("release"))
+            }
+        }
     }
 }
