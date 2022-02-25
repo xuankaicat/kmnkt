@@ -39,7 +39,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     implementation project(path: ':communicate')
-    implementation project(path: ':communicate-mqtt')
     //Longan工具集合
     implementation 'com.github.DylanCaiCoding.Longan:longan:1.0.1'
     implementation 'com.github.DylanCaiCoding.Longan:longan-design:1.0.1'
