@@ -16,7 +16,6 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/app-java" />
             <option value="$PROJECT_DIR$/communicate" />
-            <option value="$PROJECT_DIR$/communicate-kmm" />
           </set>
         </option>
       </GradleProjectSettings>

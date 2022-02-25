@@ -6,6 +6,7 @@ import com.dylanc.longan.immerseStatusBar
 import com.dylanc.longan.startActivity
 import com.gitee.xuankaicat.communicate.Communicate
 import com.gitee.xuankaicat.communicate.MQTT
+import com.gitee.xuankaicat.communicate.open
 import pers.xuankai.udptest.BaseActivity
 import pers.xuankai.udptest.databinding.ActivityMqttactivityBinding
 import java.nio.charset.Charset
