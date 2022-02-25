@@ -39,13 +39,6 @@ interface Communicate {
     /**
      * 通信端口
      */
-    @Deprecated("serverPort不符合设置端口时的直觉。",
-        ReplaceWith("port"))
-    var serverPort: Int
-
-    /**
-     * 通信端口
-     */
     var port: Int
 
     /**
