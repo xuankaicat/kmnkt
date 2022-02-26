@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.util.Log
 import com.dylanc.longan.immerseStatusBar
 import com.dylanc.longan.startActivity
-import com.gitee.xuankaicat.communicate.Communicate
-import com.gitee.xuankaicat.communicate.MQTT
+import com.gitee.xuankaicat.communicate.dsl.mqtt
 import com.gitee.xuankaicat.communicate.open
 import pers.xuankai.udptest.BaseActivity
 import pers.xuankai.udptest.databinding.ActivityMqttactivityBinding
 import java.nio.charset.Charset
 
 class MQTTActivity : BaseActivity<ActivityMqttactivityBinding>() {
-    private val communicate = Communicate.MQTT.apply {
+    private val communicate = mqtt {
         address = "10.0.2.2"
         port = 1883
         inCharset = Charset.forName("gb2312")

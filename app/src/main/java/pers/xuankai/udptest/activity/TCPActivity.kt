@@ -3,13 +3,13 @@ package pers.xuankai.udptest.activity
 import android.os.Bundle
 import com.dylanc.longan.immerseStatusBar
 import com.dylanc.longan.startActivity
-import com.gitee.xuankaicat.communicate.Communicate
+import com.gitee.xuankaicat.communicate.dsl.tcp
 import pers.xuankai.udptest.BaseActivity
 import pers.xuankai.udptest.databinding.ActivityTcpBinding
 import java.nio.charset.Charset
 
 class TCPActivity : BaseActivity<ActivityTcpBinding>() {
-    private val communicate = Communicate.TCPClient.apply {
+    private val communicate = tcp {
         address = "10.0.2.2"
         port = 9000
         inCharset = Charset.forName("gb2312")
