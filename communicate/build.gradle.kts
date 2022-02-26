@@ -52,10 +52,15 @@ kotlin {
         val desktopMain by getting {
             dependsOn(commonJvmMain)
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
             }
         }
-        val desktopTest by getting
+        val desktopTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+            }
+        }
     }
 }
 
