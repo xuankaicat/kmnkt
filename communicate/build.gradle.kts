@@ -5,11 +5,6 @@ plugins {
 }
 
 kotlin {
-    jvm("commonJvm") {
-        compilations.all {
-            kotlinOptions.jvmTarget = "11"
-        }
-    }
     android {
         publishLibraryVariants("release")
     }
@@ -30,14 +25,7 @@ kotlin {
                 implementation(kotlin("test-annotations-common"))
             }
         }
-        val commonJvmMain by getting {
-            dependencies {
-                implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
-            }
-        }
-        val commonJvmTest by getting
         val androidMain by getting {
-            dependsOn(commonJvmMain)
             dependencies {
                 api("androidx.appcompat:appcompat:1.4.1")
                 api("androidx.core:core-ktx:1.7.0")
@@ -50,7 +38,6 @@ kotlin {
             }
         }
         val desktopMain by getting {
-            dependsOn(commonJvmMain)
             dependencies {
                 api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
             }
@@ -61,6 +48,15 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
             }
         }
+        val commonJvmMain by sourceSets.creating {
+            dependsOn(commonMain)
+            desktopMain.dependsOn(this)
+            androidMain.dependsOn(this)
+            dependencies {
+                implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
+            }
+        }
+        val commonJvmTest by sourceSets.creating
     }
 }
 
