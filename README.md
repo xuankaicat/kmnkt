@@ -1,9 +1,13 @@
-# communicate-android
+# communicate-kmm
 
 [![](https://jitpack.io/v/com.gitee.xuankaicat/communicate.svg)](https://jitpack.io/#com.gitee.xuankaicat/communicate)
 
-communicate是Android实现socket通信统一接口的实现。
+communicate是基于Kotlin Multiplatform的跨平台socket通信统一接口的实现。
 可以使用同一套接口快速实现UDP/TCPClient/MQTT连接。
+
+**支持平台**
+- Android
+- Desktop
 
 **优点**
 - 简单配置就可以快速使用
@@ -27,15 +31,8 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.gitee.xuankaicat.communicate:communicate:1.5.0-M1'//UDP、TCPClient
-}
-```
-
-如果需要MQTT支持只需要添加以下依赖：
-
-```groovy
-dependencies {
-    implementation 'com.gitee.xuankaicat.communicate:communicate-mqtt:1.5.0-M1'//UDP、TCPClient、MQTT
+    implementation 'com.gitee.xuankaicat.communicate:communicate-android:2.0.0-dev01'//适用于Android
+    implementation 'com.gitee.xuankaicat.communicate:communicate-desktop:2.0.0-dev01'//适用于Desktop
 }
 ```
 
@@ -46,7 +43,9 @@ dependencies {
 
 kotlin：
 ```kotlin
-private val communicate = Communicate.UDP.apply {
+import com.gitee.xuankaicat.communicate.dsl.udp
+
+private val communicate = udp {
     address = "10.0.2.2"//设置ip地址
     port = 9000//设置端口号
     inCharset = Charset.forName("gb2312")//设置输入编码
@@ -54,33 +53,15 @@ private val communicate = Communicate.UDP.apply {
 }
 ```
 
-java：
-```java
-//普通构造
-private Communicate communicate = Communicate.UDP();
-@Override
-protected void onCreate(@Nullable Bundle savedInstanceState) {
-    communicate.setAddress("10.0.2.2");//设置ip地址
-    communicate.setPort(9000);//设置端口号
-    communicate.setInCharset(Charset.forName("gb2312"));//设置输入编码
-    communicate.setOutCharset(Charset.forName("gb2312"));//设置输出编码
-}
-
-//lambda构造
-private final Communicate communicate = Communicate.getUDP(c -> {
-    c.setAddress("10.0.2.2");//设置ip地址
-    c.setPort(9000);//设置端口号
-    c.setInCharset(Charset.forName("gb2312"));//设置输入编码
-    c.setOutCharset(Charset.forName("gb2312"));//设置输出编码
-    return null;
-});
-```
+> `com.gitee.xuankaicat.communicate.dsl.udp`于2.0.0-dev02后支持使用
 
 ### 创建TCPClient对象
 
 kotlin:
 ```kotlin
-private val communicate = Communicate.TCPClient.apply {
+import com.gitee.xuankaicat.communicate.dsl.tcp
+
+private val communicate = tcp {
     address = "10.0.2.2"//设置ip地址
     port = 9000//设置端口号
     inCharset = Charset.forName("gb2312")//设置输入编码
@@ -88,33 +69,15 @@ private val communicate = Communicate.TCPClient.apply {
 }
 ```
 
-java:
-```java
-//普通构造
-private Communicate communicate = Communicate.TCPClient();
-@Override
-protected void onCreate(@Nullable Bundle savedInstanceState) {
-    communicate.setAddress("10.0.2.2");//设置ip地址
-    communicate.setPort(9000);//设置端口号
-    communicate.setInCharset(Charset.forName("gb2312"));//设置输入编码
-    communicate.setOutCharset(Charset.forName("gb2312"));//设置输出编码
-}
-
-//lambda构造
-private final Communicate communicate = Communicate.getTCPClient(c -> {
-    c.setAddress("10.0.2.2");//设置ip地址
-    c.setPort(9000);//设置端口号
-    c.setInCharset(Charset.forName("gb2312"));//设置输入编码
-    c.setOutCharset(Charset.forName("gb2312"));//设置输出编码
-    return null;
-});
-```
+> `com.gitee.xuankaicat.communicate.dsl.tcp`于2.0.0-dev02后支持使用
 
 ### 创建MQTT对象
 
 kotlin:
 ```kotlin
-private val communicate = Communicate.MQTT.apply {
+import com.gitee.xuankaicat.communicate.dsl.mqtt
+
+private val communicate = mqtt {
     address = "10.0.2.2"//设置ip地址
     port = 9000//设置端口号
     inCharset = Charset.forName("gb2312")//设置输入编码
@@ -131,44 +94,7 @@ private val communicate = Communicate.MQTT.apply {
 }
 ```
 
-java:
-```java
-//普通构造
-private MQTTCommunicate communicate = MQTTCommunicate.MQTT();
-@Override
-protected void onCreate(@Nullable Bundle savedInstanceState) {
-    communicate.setAddress("10.0.2.2");//设置ip地址
-    communicate.setPort(9000);//设置端口号
-    communicate.setInCharset(Charset.forName("gb2312"));//设置输入编码
-    communicate.setOutCharset(Charset.forName("gb2312"));//设置输出编码
-    /*MQTT必须的额外配置*/
-    communicate.setUsername("siot");//设置用户名
-    communicate.setPassword("siot");//设置密码
-    communicate.setInMessageTopic("DeviceTest/000000");//设置输入消息Topic
-    communicate.setOutMessageTopic("DeviceTest/123456");//设置输出消息Topic
-    /*MQTT自定义配置*/
-    communicate.setTimeOut(10)//设置超时时间
-    communicate.setCleanSession(true);//断开连接后是否清楚缓存，如果清除缓存则在重连后需要手动恢复订阅。
-    communicate.setKeepAliveInterval(20);//检测连接是否中断的间隔
-}
-
-//lambda构造
-private final Communicate communicate = Communicate.getTCPClient(c -> {
-    c.setAddress("10.0.2.2");//设置ip地址
-    c.setPort(9000);//设置端口号
-    c.setInCharset(Charset.forName("gb2312"));//设置输入编码
-    c.setOutCharset(Charset.forName("gb2312"));//设置输出编码
-    /*MQTT必须的额外配置*/
-    c.setUsername("siot");//设置用户名
-    c.setPassword("siot");//设置密码
-    c.setInMessageTopic("DeviceTest/000000");//设置输入消息Topic
-    c.setOutMessageTopic("DeviceTest/123456");//设置输出消息Topic
-    c.setTimeOut(10)//设置超时时间
-    c.setCleanSession(true);//断开连接后是否清楚缓存，如果清除缓存则在重连后需要手动恢复订阅。
-    c.setKeepAliveInterval(20);//检测连接是否中断的间隔
-    return null;
-});
-```
+> `com.gitee.xuankaicat.communicate.dsl.mqtt`于2.0.0-dev02后支持使用
 
 > MQTT的其他参数配置可以参考`MQTTCommunicate`接口
 
@@ -178,11 +104,6 @@ kotlin:
 
 ```kotlin
 communicate.open()
-```
-
-java:
-```java
-communicate.open();
 ```
 
 **回调默认设置**
@@ -216,38 +137,11 @@ communicate.open {
 }
 ```
 
-java:
-```java
-communicate.open(new OnOpenCallback() {
-    @Override
-    public void success(@NonNull Communicate communicate) {
-        //开启连接成功时执行
-    }
-
-    @Override
-    public boolean failure(@NonNull Communicate communicate) {
-        //开启连接失败时执行
-        return false;//是否继续尝试连接
-    }
-    
-    @Override
-    public boolean loss(@NonNull Communicate communicate) {
-        //失去连接时执行
-        return false;//是否尝试重连
-    }
-});
-```
-
 ### 发送数据
 
 kotlin:
 ```kotlin
 communicate.send(sendText)
-```
-
-java:
-```java
-communicate.send(sendText);
 ```
 
 ### 接收数据
@@ -262,14 +156,6 @@ communicate.startReceive { str, data ->
 }
 ```
 
-java:
-```java
-communicate.startReceive((str, data) -> {
-    //处理接收到的数据str
-    return false;//返回是否继续接收消息
-});
-```
-
 ### 关闭连接
 
 以Activity举例，需要写在`onDestroy`中。
@@ -280,16 +166,6 @@ override fun onDestroy() {
     super.onDestroy()
     communicate.stopReceive()//停止接收数据
     communicate.close()//关闭连接
-}
-```
-
-java:
-```java
-@Override
-protected void onDestroy() {
-    super.onDestroy();
-    communicate.stopReceive();//停止接收数据
-    communicate.close();//关闭连接
 }
 ```
 
