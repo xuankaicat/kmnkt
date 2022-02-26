@@ -1,4 +1,4 @@
-# communicate-kmm
+# communicate-multiplatform
 
 [![](https://jitpack.io/v/com.gitee.xuankaicat/communicate.svg)](https://jitpack.io/#com.gitee.xuankaicat/communicate)
 
