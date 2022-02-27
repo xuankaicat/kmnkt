@@ -8,8 +8,8 @@ import java.math.BigInteger
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-object CreateHelper {
-    private fun hmac(plainText: String, key: String, algorithm: String, format: String): String {
+internal object CreateHelper {
+     private fun hmac(plainText: String, key: String, algorithm: String, format: String): String {
         val mac = Mac.getInstance(algorithm)
 
         val secretKeySpec = SecretKeySpec(key.toByteArray(), algorithm)
@@ -20,36 +20,43 @@ object CreateHelper {
         return String.format(format, BigInteger(1, result))
     }
 
-    private fun hmacSha256(plainText: String, key: String): String =
+    fun hmacSha256(plainText: String, key: String): String =
         hmac(plainText, key, "HmacSHA256", "%064x")
+}
 
-    fun mqtt(aliyunMqtt: AliyunMqtt, builder: MQTTCommunicate.() -> Unit): MQTTCommunicate {
-        val timestamp = System.currentTimeMillis().toString()
-        return Communicate.MQTT.apply {
-            port = 443
-            uriType = "ssl"
-            //TODO: 支持不同地区的address
-            address = "${aliyunMqtt.productKey}.iot-as-mqtt.cn-shanghai.aliyuncs.com"
-            username = "${aliyunMqtt.deviceName}&${aliyunMqtt.productKey}"
-            password = hmacSha256(
-                "clientId${aliyunMqtt.productKey}.${aliyunMqtt.deviceName}" +
-                        "deviceName${aliyunMqtt.deviceName}" +
-                        "productKey${aliyunMqtt.productKey}" +
-                        "timestamp${timestamp}",
-                aliyunMqtt.deviceSecret
-            )
-            clientId = "${aliyunMqtt.productKey}.${aliyunMqtt.deviceName}|" +
-                    "timestamp=${timestamp}" +
-                    ",_v=paho-java-1.0.0,securemode=2,signmethod=hmacsha256|"
-            Log.v("AliyunMQTT", "自动创建mqtt连接对象 " +
-                    "{port: $port, uriType: '$uriType', address: '$address'" +
-                    "username: '${username}', password: ${password}, clientId: ${clientId}}")
-        }.apply(builder)
-    }
+/**
+ * 构造阿里云MQTT。
+ * 可以根据AliyunMqtt生成port uriType address username password clientId。
+ * 对于新版公共实例和企业版实例需设置address为企业版实例下MQTT接入域名。
+ * @param builder 构建器
+ * @return MQTT
+ */
+fun mqtt(aliyunMqtt: AliyunMqtt, builder: MQTTCommunicate.() -> Unit): MQTTCommunicate {
+    val timestamp = System.currentTimeMillis().toString()
+    return Communicate.MQTT.apply {
+        port = 443
+        uriType = "ssl"
+        address = "${aliyunMqtt.productKey}.iot-as-mqtt.${aliyunMqtt.regionId}.aliyuncs.com"
+        username = "${aliyunMqtt.deviceName}&${aliyunMqtt.productKey}"
+        password = CreateHelper.hmacSha256(
+            "clientId${aliyunMqtt.productKey}.${aliyunMqtt.deviceName}" +
+                    "deviceName${aliyunMqtt.deviceName}" +
+                    "productKey${aliyunMqtt.productKey}" +
+                    "timestamp${timestamp}",
+            aliyunMqtt.deviceSecret
+        )
+        clientId = "${aliyunMqtt.productKey}.${aliyunMqtt.deviceName}|" +
+                "timestamp=${timestamp}" +
+                ",_v=paho-java-1.0.0,securemode=2,signmethod=hmacsha256|"
+        Log.v("AliyunMQTT", "自动创建mqtt连接对象 " +
+                "{port: $port, uriType: '$uriType', address: '$address'" +
+                "username: '${username}', password: ${password}, clientId: ${clientId}}")
+    }.apply(builder)
 }
 
 data class AliyunMqtt(
     val productKey: String,
     val deviceName: String,
     val deviceSecret: String,
+    val regionId: String = "cn-shanghai",
 )
