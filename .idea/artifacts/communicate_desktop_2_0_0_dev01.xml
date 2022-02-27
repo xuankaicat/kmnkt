@@ -1,8 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="communicate-desktop-2.0.0-dev01">
     <output-path>$PROJECT_DIR$/communicate/build/libs</output-path>
-    <root id="archive" name="communicate-desktop-2.0.0-dev01.jar">
-      <element id="module-output" name="android-communicate.communicate.desktopMain" />
-    </root>
+    <root id="archive" name="communicate-desktop-2.0.0-dev01.jar" />
   </artifact>
 </component>

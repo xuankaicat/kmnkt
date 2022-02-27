@@ -6,8 +6,8 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "android-communicate"
+rootProject.name = "communicate-multiplatform"
 include(":app")
 include(":app-java")
 include(":communicate")
-
+include("communicate-aliyun-iot")
