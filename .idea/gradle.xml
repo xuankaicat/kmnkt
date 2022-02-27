@@ -19,25 +19,6 @@
           </set>
         </option>
       </GradleProjectSettings>
-      <GradleProjectSettings>
-        <option name="delegatedBuild" value="true" />
-        <option name="testRunner" value="GRADLE" />
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="$PROJECT_DIR$/../../../codeCache/gradle-7.3.3" />
-        <option name="gradleJvm" value="corretto-11" />
-        <option name="modules">
-          <set>
-            <option value="$PROJECT_DIR$/../communicate-multiplatform" />
-            <option value="$PROJECT_DIR$/../communicate-multiplatform/buildSrc" />
-            <option value="$PROJECT_DIR$/../communicate-multiplatform/communicate" />
-            <option value="$PROJECT_DIR$/../communicate-multiplatform/communicate-aliyun-iot" />
-            <option value="$PROJECT_DIR$/../communicate-multiplatform/examples" />
-            <option value="$PROJECT_DIR$/../communicate-multiplatform/examples/app" />
-            <option value="$PROJECT_DIR$/../communicate-multiplatform/examples/app-java" />
-          </set>
-        </option>
-      </GradleProjectSettings>
     </option>
   </component>
 </project>
