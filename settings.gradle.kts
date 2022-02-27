@@ -7,7 +7,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "communicate-multiplatform"
-include(":app")
-include(":app-java")
+include(":examples:app")
+include(":examples:app-java")
 include(":communicate")
 include("communicate-aliyun-iot")
