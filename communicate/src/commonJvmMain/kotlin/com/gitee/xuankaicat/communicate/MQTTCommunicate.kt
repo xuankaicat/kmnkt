@@ -48,6 +48,12 @@ interface MQTTCommunicate : Communicate {
     var qos: MqttQuality
 
     /**
+     * 通信方式
+     * 默认为tcp
+     */
+    var uriType: String
+
+    /**
      * 连接超时时间，超过这个时间未连接将进行失败回调
      * 默认为10秒
      */
