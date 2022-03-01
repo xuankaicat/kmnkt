@@ -1,7 +1,7 @@
+@file:Suppress("unused")
+
 package com.gitee.xuankaicat.communicate.aliyuniot
 
-import com.gitee.xuankaicat.communicate.Communicate
-import com.gitee.xuankaicat.communicate.MQTT
 import com.gitee.xuankaicat.communicate.MQTTCommunicate
 import com.gitee.xuankaicat.communicate.utils.Log
 import java.math.BigInteger
@@ -22,6 +22,8 @@ internal object CreateHelper {
 
     fun hmacSha256(plainText: String, key: String): String =
         hmac(plainText, key, "HmacSHA256", "%064x")
+
+    fun timestamp() = System.currentTimeMillis().toString()
 }
 
 /**
@@ -32,22 +34,7 @@ internal object CreateHelper {
  * @return MQTT
  */
 fun mqtt(aliyunMqtt: AliyunMqtt, builder: MQTTCommunicate.() -> Unit): MQTTCommunicate {
-    val timestamp = System.currentTimeMillis().toString()
-    return Communicate.MQTT.apply {
-        port = 443
-        uriType = "ssl"
-        address = "${aliyunMqtt.productKey}.iot-as-mqtt.${aliyunMqtt.regionId}.aliyuncs.com"
-        username = "${aliyunMqtt.deviceName}&${aliyunMqtt.productKey}"
-        password = CreateHelper.hmacSha256(
-            "clientId${aliyunMqtt.productKey}.${aliyunMqtt.deviceName}" +
-                    "deviceName${aliyunMqtt.deviceName}" +
-                    "productKey${aliyunMqtt.productKey}" +
-                    "timestamp${timestamp}",
-            aliyunMqtt.deviceSecret
-        )
-        clientId = "${aliyunMqtt.productKey}.${aliyunMqtt.deviceName}|" +
-                "timestamp=${timestamp}" +
-                ",_v=paho-java-1.0.0,securemode=2,signmethod=hmacsha256|"
+    return AlinkMQTT(aliyunMqtt).apply {
         Log.v("AliyunMQTT", "自动创建mqtt连接对象 " +
                 "{port: $port, uriType: '$uriType', address: '$address'" +
                 "username: '${username}', password: ${password}, clientId: ${clientId}}")
