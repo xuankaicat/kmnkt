@@ -10,7 +10,7 @@ import java.net.InetAddress
 import java.nio.charset.Charset
 import kotlin.concurrent.thread
 
-class UDP : Communicate {
+open class UDP : Communicate {
     private var socket: DatagramSocket? = null
     override var port: Int = 9000
     private var _address: InetAddress = InetAddress.getByName("10.0.2.2")

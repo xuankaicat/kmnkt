@@ -11,7 +11,7 @@ import java.net.Socket
 import java.nio.charset.Charset
 import kotlin.concurrent.thread
 
-class TCP : Communicate {
+open class TCP : Communicate {
     private var socket: Socket? = null
     override var port: Int = 9000
     private var _address: InetAddress = InetAddress.getByName("10.0.2.2")

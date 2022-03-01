@@ -11,7 +11,7 @@ import java.util.*
 import kotlin.collections.HashMap
 import kotlin.concurrent.thread
 
-class MQTT : MQTTCommunicate {
+open class MQTT : MQTTCommunicate {
     private var client: MqttClient? = null
     private var _qos = 2
     override var qos: MqttQuality
