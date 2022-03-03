@@ -12,6 +12,7 @@ import com.gitee.xuankaicat.communicate.aliyuniot.utils.sendAndReceiveAlink
 /**
  * 添加设备拓扑关系
  * @receiver MQTTCommunicate
+ * - [管理拓扑关系](https://help.aliyun.com/document_detail/89299.htm)
  */
 fun MQTTCommunicate.topoAdd(aliyunMqtt: AliyunMqtt, clientId: String? = null, onReceive: OnReceiveAlinkResultFunc) {
     this as AlinkMQTT
