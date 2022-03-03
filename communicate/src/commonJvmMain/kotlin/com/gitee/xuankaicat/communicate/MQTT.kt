@@ -85,8 +85,8 @@ open class MQTT : MQTTCommunicate {
     }
 
     override fun sendAndReceive(outTopic: String, inTopic: String, message: String, onReceive: OnReceiveFunc) {
-        send(outTopic, message)
         addInMessageTopic(inTopic, onReceive)
+        send(outTopic, message)
     }
 
     override fun addInMessageTopic(topic: String, onReceive: OnReceiveFunc) {
