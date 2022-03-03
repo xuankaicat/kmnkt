@@ -141,19 +141,21 @@ open class MQTT : MQTTCommunicate {
                 userName = this@MQTT.username
                 password = this@MQTT.password.toCharArray()
             }
-            //设置LWT
-            val message = "{\"terminal_uid\":\"$clientId\"}"
-            try {
-                options!!.apply {
-                    try {
-                        setWill(inMessageTopic, message.toByteArray(), _qos, retained)
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        doConnect = false
+            if(inMessageTopic.isNotEmpty()) {
+                //设置LWT
+                val message = "{\"terminal_uid\":\"$clientId\"}"
+                try {
+                    options!!.apply {
+                        try {
+                            setWill(inMessageTopic, message.toByteArray(), _qos, retained)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                            doConnect = false
+                        }
                     }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
             //执行连接
             if(doConnect) doClientConnection()
