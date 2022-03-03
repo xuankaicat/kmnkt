@@ -21,7 +21,7 @@ fun MQTTCommunicate.topoAdd(aliyunMqtt: AliyunMqtt, clientId: String? = null, on
     val param = mapOf(
         "deviceName" to aliyunMqtt.deviceName,
         "productKey" to aliyunMqtt.productKey,
-        "sign" to getSign(timestamp),
+        "sign" to aliyunMqtt.getSign(timestamp),
         "signmethod" to "hmacSha256",
         "timestamp" to timestamp,
         "clientId" to (clientId ?: "${aliyunMqtt.productKey}&${aliyunMqtt.deviceName}"),

@@ -46,4 +46,12 @@ data class AliyunMqtt(
     val deviceName: String,
     val deviceSecret: String,
     val regionId: String = "cn-shanghai",
-)
+) {
+    fun getSign(timestamp: String = CreateHelper.timestamp()) = CreateHelper.hmacSha256(
+        "clientId${productKey}.${deviceName}" +
+                "deviceName${deviceName}" +
+                "productKey${productKey}" +
+                "timestamp${timestamp}",
+        deviceSecret
+    )
+}
