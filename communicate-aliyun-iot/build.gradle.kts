@@ -8,11 +8,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":communicate"))
-            }
-        }
-        val commonJvmMain by getting {
-            dependencies {
-                api(project(":communicate"))
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
             }
         }
     }
