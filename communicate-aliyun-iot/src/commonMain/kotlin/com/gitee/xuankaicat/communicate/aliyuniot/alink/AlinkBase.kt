@@ -2,6 +2,8 @@ package com.gitee.xuankaicat.communicate.aliyuniot.alink
 
 import kotlinx.serialization.*
 
+typealias AlinkData = List<Map<String, String>>
+
 /**
  * Alink协议基本格式
  * @property id 消息ID号。需定义为String类型的数字，取值范围0~4294967295，且每个消息ID在当前设备中具有唯一性。
@@ -18,7 +20,7 @@ data class AlinkBase(
     @Required
     val version: String = "1.0",
     @Required
-    val params: List<Map<String, String>> = listOf(),
+    val params: AlinkData = listOf(),
     val method: String,
 ) {
     /**
@@ -28,3 +30,17 @@ data class AlinkBase(
     @Serializable
     data class Sys(@Required val ack: String = "0")
 }
+
+/**
+ * Alink协议通用返回结果
+ * @property id 消息ID
+ * @property code 返回结果，200代表成功。
+ * @property data 请求成功时的返回结果。
+ * @constructor
+ */
+@Serializable
+data class AlinkResult(
+    val id: String,
+    val code: Int,
+    val data: AlinkData,
+)
