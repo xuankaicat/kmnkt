@@ -15,7 +15,11 @@ import com.gitee.xuankaicat.communicate.aliyuniot.utils.toJsonObject
  * @receiver MQTTCommunicate
  * - [管理拓扑关系](https://help.aliyun.com/document_detail/89299.htm)
  */
-fun MQTTCommunicate.topoAdd(aliyunMqtt: AliyunMqtt, clientId: String? = null, onReceive: OnReceiveAlinkResultFunc) {
+fun MQTTCommunicate.topoAdd(
+    aliyunMqtt: AliyunMqtt,
+    clientId: String? = null,
+    onReceive: OnReceiveAlinkResultFunc = {}
+) {
     this as AlinkMQTT
 
     val timestamp = CreateHelper.timestamp()
