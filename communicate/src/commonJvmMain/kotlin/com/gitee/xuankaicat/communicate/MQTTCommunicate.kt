@@ -141,5 +141,15 @@ interface MQTTCommunicate : Communicate {
     fun sendAndReceive(outTopic: String, inTopic: String, message: String, onReceive: OnReceiveFunc)
 }
 
+/**
+ * 发送指定发送主题数据并根据接收主题接收消息
+ * @param outTopic 发送主题
+ * @param inTopic 接收主题
+ * @param message 数据内容
+ * @param onReceive 回调函数
+ */
+inline fun MQTTCommunicate.sendAndReceive(outTopic: String, inTopic: String, message: String, crossinline onReceive: OnReceiveSimpleFunc) =
+    this.sendAndReceive(outTopic, inTopic, message) { v, _ -> onReceive.invoke(v) }
+
 val Communicate.Companion.MQTT
     get() = MQTTCommunicate.MQTT
