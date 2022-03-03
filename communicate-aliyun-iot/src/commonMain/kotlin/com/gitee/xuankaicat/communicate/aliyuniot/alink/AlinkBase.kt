@@ -1,8 +1,8 @@
 package com.gitee.xuankaicat.communicate.aliyuniot.alink
 
 import kotlinx.serialization.*
-
-typealias AlinkData = List<Map<String, String>>
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
 
 /**
  * Alink协议基本格式
@@ -20,7 +20,7 @@ data class AlinkBase(
     @Required
     val version: String = "1.0",
     @Required
-    val params: AlinkData = listOf(),
+    val params: JsonElement = JsonObject(mapOf()),
     val method: String,
 ) {
     /**
@@ -42,5 +42,5 @@ data class AlinkBase(
 data class AlinkResult(
     val id: String,
     val code: Int,
-    val data: AlinkData,
+    val data: JsonObject,
 )

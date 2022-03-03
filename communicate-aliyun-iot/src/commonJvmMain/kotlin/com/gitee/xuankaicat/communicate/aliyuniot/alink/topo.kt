@@ -8,6 +8,7 @@ import com.gitee.xuankaicat.communicate.aliyuniot.AliyunMqtt
 import com.gitee.xuankaicat.communicate.aliyuniot.CreateHelper
 import com.gitee.xuankaicat.communicate.aliyuniot.utils.OnReceiveAlinkResultFunc
 import com.gitee.xuankaicat.communicate.aliyuniot.utils.sendAndReceiveAlink
+import com.gitee.xuankaicat.communicate.aliyuniot.utils.toJsonObject
 
 /**
  * 添加设备拓扑关系
@@ -28,7 +29,7 @@ fun MQTTCommunicate.topoAdd(aliyunMqtt: AliyunMqtt, clientId: String? = null, on
     )
 
     val msgObj = AlinkBase(nextId,
-        params = listOf(param),
+        params = param.toJsonObject(),
         method = "thing.topo.add"
     )
 
