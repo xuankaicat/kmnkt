@@ -9,11 +9,11 @@ import com.gitee.xuankaicat.communicate.aliyuniot.utils.sendAndReceiveAlink
 import com.gitee.xuankaicat.communicate.aliyuniot.utils.toJsonObject
 
 /**
- * 设备上报属性
+ * 设备属性上报
  * @receiver MQTTCommunicate
  * - [设备属性、事件、服务](https://help.aliyun.com/document_detail/89301.html)
  */
-fun MQTTCommunicate.eventPost(
+fun MQTTCommunicate.propertyPost(
     params: Map<String, Any>,
     onReceive: OnReceiveAlinkResultFunc = {}
 ) {
@@ -26,3 +26,4 @@ fun MQTTCommunicate.eventPost(
 
     sendAndReceiveAlink("/sys/${productKey}/${deviceName}/thing/event/property/post", msgObj, onReceive)
 }
+
