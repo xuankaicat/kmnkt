@@ -10,6 +10,8 @@ import com.gitee.xuankaicat.communicate.aliyuniot.utils.sendAndReceiveAlink
 import com.gitee.xuankaicat.communicate.aliyuniot.utils.toJsonObject
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonPrimitive
 
 /**
  * 设备属性上报
@@ -50,4 +52,25 @@ fun MQTTCommunicate.propertySet(
         onReceive(Json.decodeFromString(v))
         return@addInMessageTopic !receiveOnce
     }
+}
+
+/**
+ * 获取期望属性值
+ * @receiver MQTTCommunicate
+ * - [设备期望属性值](https://help.aliyun.com/document_detail/109807.html)
+ */
+fun MQTTCommunicate.desiredGet(
+    params: List<String>,
+    onReceive: OnReceiveAlinkResultFunc
+) {
+    this as AlinkMQTT
+
+    val id = nextId
+    val msgObj = AlinkBase(id,
+        params = JsonArray(params.map { JsonPrimitive(it) }),
+        sys = AlinkBase.Sys("1"),
+        method = "thing.property.desired.get"
+    )
+
+    sendAndReceiveAlink(id, "/sys/${productKey}/${deviceName}/thing/property/desired/get", msgObj, onReceive)
 }
