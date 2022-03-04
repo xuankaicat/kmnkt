@@ -7,6 +7,8 @@ import com.gitee.xuankaicat.communicate.aliyuniot.AlinkMQTT
 import com.gitee.xuankaicat.communicate.aliyuniot.utils.OnReceiveAlinkResultFunc
 import com.gitee.xuankaicat.communicate.aliyuniot.utils.sendAndReceiveAlink
 import com.gitee.xuankaicat.communicate.aliyuniot.utils.toJsonObject
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 /**
  * 设备属性上报
@@ -27,3 +29,20 @@ fun MQTTCommunicate.propertyPost(
     sendAndReceiveAlink("/sys/${productKey}/${deviceName}/thing/event/property/post", msgObj, onReceive)
 }
 
+/**
+ * 设备属性设置
+ * @receiver MQTTCommunicate
+ * @param receiveOnce 是否只接收一次，默认为false表示一直接收
+ * - [设备属性、事件、服务](https://help.aliyun.com/document_detail/89301.html)
+ */
+fun MQTTCommunicate.propertySet(
+    receiveOnce: Boolean = false,
+    onReceive: OnReceiveAlinkResultFunc = {},
+) {
+    this as AlinkMQTT
+
+    addInMessageTopic("/sys/gvjbFCd19iJ/${deviceName}/thing/service/property/set") { v, _ ->
+        onReceive(Json.decodeFromString(v))
+        return@addInMessageTopic true
+    }
+}
