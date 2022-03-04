@@ -32,10 +32,11 @@ fun MQTTCommunicate.topoAdd(
         "clientId" to (clientId ?: "${aliyunMqtt.productKey}&${aliyunMqtt.deviceName}"),
     )
 
-    val msgObj = AlinkBase(nextId,
+    val id = nextId
+    val msgObj = AlinkBase(id,
         params = param.toJsonObject(),
         method = "thing.topo.add"
     )
 
-    sendAndReceiveAlink("/sys/$productKey/$deviceName/thing/topo/add", msgObj, onReceive)
+    sendAndReceiveAlink(id, "/sys/$productKey/$deviceName/thing/topo/add", msgObj, onReceive)
 }

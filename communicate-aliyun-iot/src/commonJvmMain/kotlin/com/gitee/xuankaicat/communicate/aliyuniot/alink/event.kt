@@ -21,12 +21,13 @@ fun MQTTCommunicate.propertyPost(
 ) {
     this as AlinkMQTT
 
-    val msgObj = AlinkBase(nextId,
+    val id = nextId
+    val msgObj = AlinkBase(id,
         params = params.toJsonObject(),
         method = "thing.event.property.post"
     )
 
-    sendAndReceiveAlink("/sys/${productKey}/${deviceName}/thing/event/property/post", msgObj, onReceive)
+    sendAndReceiveAlink(id, "/sys/${productKey}/${deviceName}/thing/event/property/post", msgObj, onReceive)
 }
 
 /**

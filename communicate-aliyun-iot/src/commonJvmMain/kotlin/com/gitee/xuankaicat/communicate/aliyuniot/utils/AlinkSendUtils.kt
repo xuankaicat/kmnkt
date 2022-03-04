@@ -15,10 +15,13 @@ typealias OnReceiveAlinkResultFunc = (AlinkResult) -> Unit
  * @see AlinkResult
  */
 internal inline fun MQTTCommunicate.sendAndReceiveAlink(
+    messageId: String,
     topic: String,
     sendObj: AlinkBase,
     crossinline onReceive: OnReceiveAlinkResultFunc
 ) = sendAndReceive(topic, topic + "_reply", Json.encodeToString(sendObj)) { v ->
-    onReceive.invoke(Json.decodeFromString(v))
+    val result: AlinkResult = Json.decodeFromString(v)
+    if(result.id != messageId) return@sendAndReceive true
+    onReceive.invoke(result)
     return@sendAndReceive false
 }
