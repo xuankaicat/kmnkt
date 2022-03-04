@@ -91,12 +91,14 @@ open class MQTT : MQTTCommunicate {
 
     override fun addInMessageTopic(topic: String, onReceive: OnReceiveFunc) {
         if(client == null) return
+        Log.v("MQTT", "开始订阅$topic")
         onReceives[topic] = onReceive
         client?.subscribe(topic, _qos)
     }
 
     override fun removeInMessageTopic(topic: String) {
         if(client == null) return
+        Log.v("MQTT", "结束订阅$topic")
         onReceives.remove(topic)
         client?.unsubscribe(topic)
     }
