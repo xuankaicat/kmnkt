@@ -28,5 +28,5 @@ fun MQTTCommunicate.deviceInfoUpdate(
         method = "thing.deviceinfo.update"
     )
 
-    sendAndReceiveAlink(id, "/sys/${productKey}/${deviceName}/thing/deviceinfo/update", msgObj, onReceive)
+    sendAndReceiveAlink(id, "/sys/${productKey}/${deviceName}/thing/deviceinfo/update", msgObj, false, onReceive)
 }

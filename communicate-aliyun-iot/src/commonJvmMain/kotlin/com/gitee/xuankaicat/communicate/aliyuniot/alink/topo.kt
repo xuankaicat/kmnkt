@@ -41,5 +41,5 @@ fun MQTTCommunicate.topoAdd(
         method = "thing.topo.add"
     )
 
-    sendAndReceiveAlink(id, "/sys/$productKey/$deviceName/thing/topo/add", msgObj, onReceive)
+    sendAndReceiveAlink(id, "/sys/$productKey/$deviceName/thing/topo/add", msgObj, false, onReceive)
 }

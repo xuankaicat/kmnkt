@@ -33,7 +33,7 @@ fun MQTTCommunicate.propertyPost(
         method = "thing.event.property.post"
     )
 
-    sendAndReceiveAlink(id, "/sys/${productKey}/${deviceName}/thing/event/property/post", msgObj, onReceive)
+    sendAndReceiveAlink(id, "/sys/${productKey}/${deviceName}/thing/event/property/post", msgObj, false, onReceive)
 }
 
 /**
@@ -61,6 +61,7 @@ fun MQTTCommunicate.propertySet(
  */
 fun MQTTCommunicate.desiredGet(
     params: List<String>,
+    repeat: Boolean = true,
     onReceive: OnReceiveAlinkResultFunc
 ) {
     this as AlinkMQTT
@@ -72,5 +73,5 @@ fun MQTTCommunicate.desiredGet(
         method = "thing.property.desired.get"
     )
 
-    sendAndReceiveAlink(id, "/sys/${productKey}/${deviceName}/thing/property/desired/get", msgObj, onReceive)
+    sendAndReceiveAlink(id, "/sys/${productKey}/${deviceName}/thing/property/desired/get", msgObj, repeat, onReceive)
 }
