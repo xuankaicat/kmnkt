@@ -33,7 +33,7 @@ internal object CreateHelper {
  * @param builder 构建器
  * @return MQTT
  */
-fun mqtt(aliyunMqtt: AliyunMqtt, builder: MQTTCommunicate.() -> Unit): MQTTCommunicate {
+fun mqtt(aliyunMqtt: AliyunMqtt, builder: MQTTCommunicate.() -> Unit = {}): MQTTCommunicate {
     return AlinkMQTT(aliyunMqtt).apply {
         Log.v("AliyunMQTT", "自动创建mqtt连接对象 " +
                 "{port: $port, uriType: '$uriType', address: '$address'" +
