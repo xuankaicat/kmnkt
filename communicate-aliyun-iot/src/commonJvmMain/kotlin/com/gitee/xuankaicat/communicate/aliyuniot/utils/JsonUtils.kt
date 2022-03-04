@@ -11,6 +11,10 @@ internal fun Map<String, Any>.toJsonObject(): JsonElement =
                 @Suppress("UNCHECKED_CAST") (it.value as Map<String, Any>).toJsonObject()
             is String ->
                 JsonPrimitive(it.value as String)
+            is Number ->
+                JsonPrimitive(it.value as Number)
+            is Boolean ->
+                JsonPrimitive(it.value as Boolean)
             else -> throw Exception()
         }
     })
