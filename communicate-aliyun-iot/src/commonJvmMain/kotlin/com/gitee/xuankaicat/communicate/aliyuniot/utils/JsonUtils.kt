@@ -1,6 +1,7 @@
 package com.gitee.xuankaicat.communicate.aliyuniot.utils
 
 import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 
@@ -15,6 +16,6 @@ internal fun Map<String, Any>.toJsonObject(): JsonElement =
                 JsonPrimitive(it.value as Number)
             is Boolean ->
                 JsonPrimitive(it.value as Boolean)
-            else -> throw Exception()
+            else -> JsonNull
         }
     })
