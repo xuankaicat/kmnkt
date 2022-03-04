@@ -4,6 +4,7 @@ package com.gitee.xuankaicat.communicate.aliyuniot.alink
 
 import com.gitee.xuankaicat.communicate.MQTTCommunicate
 import com.gitee.xuankaicat.communicate.aliyuniot.AlinkMQTT
+import com.gitee.xuankaicat.communicate.aliyuniot.utils.OnReceiveAlinkRequestFunc
 import com.gitee.xuankaicat.communicate.aliyuniot.utils.OnReceiveAlinkResultFunc
 import com.gitee.xuankaicat.communicate.aliyuniot.utils.sendAndReceiveAlink
 import com.gitee.xuankaicat.communicate.aliyuniot.utils.toJsonObject
@@ -38,7 +39,7 @@ fun MQTTCommunicate.propertyPost(
  */
 fun MQTTCommunicate.propertySet(
     receiveOnce: Boolean = false,
-    onReceive: OnReceiveAlinkResultFunc = {},
+    onReceive: OnReceiveAlinkRequestFunc = {},
 ) {
     this as AlinkMQTT
 

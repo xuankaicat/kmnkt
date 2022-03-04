@@ -9,6 +9,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 typealias OnReceiveAlinkResultFunc = (AlinkResult) -> Unit
+typealias OnReceiveAlinkRequestFunc = (AlinkBase) -> Unit
 
 /**
  * 发送并接收alink消息
