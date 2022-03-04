@@ -14,10 +14,12 @@ import kotlinx.serialization.json.Json
 /**
  * 设备属性上报
  * @receiver MQTTCommunicate
+ * @param expectResponse 期待服务端返回信息
  * - [设备属性、事件、服务](https://help.aliyun.com/document_detail/89301.html)
  */
 fun MQTTCommunicate.propertyPost(
     params: Map<String, Any>,
+    expectResponse: Boolean = false,
     onReceive: OnReceiveAlinkResultFunc = {}
 ) {
     this as AlinkMQTT
@@ -25,6 +27,7 @@ fun MQTTCommunicate.propertyPost(
     val id = nextId
     val msgObj = AlinkBase(id,
         params = params.toJsonObject(),
+        sys = AlinkBase.Sys(if(expectResponse) "1" else "0"),
         method = "thing.event.property.post"
     )
 

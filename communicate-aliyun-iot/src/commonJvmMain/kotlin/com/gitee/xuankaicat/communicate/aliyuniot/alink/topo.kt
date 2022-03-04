@@ -13,11 +13,13 @@ import com.gitee.xuankaicat.communicate.aliyuniot.utils.toJsonObject
 /**
  * 添加设备拓扑关系
  * @receiver MQTTCommunicate
+ * @param expectResponse 期待服务端返回信息
  * - [管理拓扑关系](https://help.aliyun.com/document_detail/89299.htm)
  */
 fun MQTTCommunicate.topoAdd(
     aliyunMqtt: AliyunMqtt,
     clientId: String? = null,
+    expectResponse: Boolean = false,
     onReceive: OnReceiveAlinkResultFunc = {}
 ) {
     this as AlinkMQTT
@@ -35,6 +37,7 @@ fun MQTTCommunicate.topoAdd(
     val id = nextId
     val msgObj = AlinkBase(id,
         params = param.toJsonObject(),
+        sys = AlinkBase.Sys(if(expectResponse) "1" else "0"),
         method = "thing.topo.add"
     )
 
