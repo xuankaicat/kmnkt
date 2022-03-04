@@ -43,4 +43,8 @@ data class AlinkResult(
     val id: String,
     val code: Int,
     val data: JsonObject,
-)
+) {
+    var message: String? = null
+    var method: String? = null
+    var version: String? = null
+}
