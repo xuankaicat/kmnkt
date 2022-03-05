@@ -1,8 +1,10 @@
 # 默认忽略的文件
-/../../communicate-multiplatform./.idea/shelf/
-/../../communicate-multiplatform./.idea/workspace.xml
+/shelf/
+workspace.xml
 # 基于编辑器的 HTTP 客户端请求
-/../../communicate-multiplatform./.idea/httpRequests/
+/httpRequests/
 # Datasource local storage ignored files
-/../../communicate-multiplatform./.idea/dataSources/
-/../../communicate-multiplatform./.idea/dataSources.local.xml
+/dataSources/
+dataSources.local.xml
+
+gradle.xml

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="AliyunIotDemo-jvm-2.0.0-alpha">
+    <output-path>$PROJECT_DIR$/examples/AliyunIotDemo/build/libs</output-path>
+    <root id="archive" name="AliyunIotDemo-jvm-2.0.0-alpha.jar">
+      <element id="module-output" name="kmnkt.examples.AliyunIotDemo.jvmMain" />
+    </root>
+  </artifact>
+</component>

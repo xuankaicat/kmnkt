@@ -20,8 +20,8 @@ kotlin {
                 implementation(compose.desktop.currentOs)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
-                implementation(project(":communicate"))
-                implementation(project(":communicate-aliyun-iot"))
+                implementation(project(":socket"))
+                implementation(project(":aliyun-iot"))
             }
         }
         val jvmTest by getting

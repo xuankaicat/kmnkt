@@ -6,9 +6,9 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "communicate-multiplatform"
+rootProject.name = "kmnkt"
 include(":examples:app")
 include(":examples:app-java")
 include(":examples:AliyunIotDemo")
-include(":communicate")
-include(":communicate-aliyun-iot")
+include(":socket")
+include(":aliyun-iot")
