@@ -37,6 +37,15 @@ interface Communicate {
     }
 
     /**
+     * 通信对象，如果通信未打开则为null
+     * - 对于UDP，对象类型为DatagramSocket?
+     * - 对于TCPClient，对象类型为Socket?
+     * - 对于MQTT，对象类型为MqttClient?
+     * - 对MQTT对象类型的操作需要引入`org.eclipse.paho:org.eclipse.paho.client.mqttv3`依赖
+     */
+    val socket: Any?
+
+    /**
      * 通信端口
      */
     var port: Int

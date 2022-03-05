@@ -11,7 +11,10 @@ import java.nio.charset.Charset
 import kotlin.concurrent.thread
 
 open class UDP : Communicate {
-    private var socket: DatagramSocket? = null
+    private var _socket: DatagramSocket? = null
+    override val socket: Any?
+        get() = _socket
+
     override var port: Int = 9000
     private var _address: InetAddress = InetAddress.getByName("10.0.2.2")
     override var address: String
@@ -26,7 +29,7 @@ open class UDP : Communicate {
     private var receiveThread: Thread? = null
 
     override fun send(message: String) {
-        if(socket == null) return
+        if(_socket == null) return
         val bytes = message.toByteArray(outCharset)
         val len = bytes.size
         val sendPacket = DatagramPacket(bytes, len, _address, port)
@@ -36,7 +39,7 @@ open class UDP : Communicate {
     }
 
     override fun send(message: String, times: Int, delay: Long): Thread = thread {
-        if(socket == null) return@thread
+        if(_socket == null) return@thread
         val bytes = message.toByteArray(outCharset)
         val len = bytes.size
         val sendPacket = DatagramPacket(bytes, len, _address, port)
@@ -53,7 +56,7 @@ open class UDP : Communicate {
 
     private fun doSend(sendPacket: DatagramPacket) {
         try {
-            socket?.send(sendPacket)
+            _socket?.send(sendPacket)
         } catch (e: Exception) {
             Log.e("UDP", "发送信息失败，可能是网络连接问题 {uri: '${address}', port: ${port}}")
             e.printStackTrace()
@@ -61,7 +64,7 @@ open class UDP : Communicate {
     }
 
     override fun startReceive(onReceive: OnReceiveFunc): Boolean {
-        if(socket == null) return false
+        if(_socket == null) return false
         if(receiveThread != null) return false
         isReceiving = true
         val receive = ByteArray(100)
@@ -75,7 +78,7 @@ open class UDP : Communicate {
 
                 try {
                     Log.v("UDP", "开始接收消息 {uri: '${address}', port: ${port}}")
-                    socket?.receive(receivePacket)
+                    _socket?.receive(receivePacket)
                     val data = String(receivePacket.data, inCharset)
                     val ip = receivePacket.address.hostAddress!!
                     mainThread {
@@ -97,12 +100,12 @@ open class UDP : Communicate {
     }
 
     override fun open(onOpenCallback: IOnOpenCallback) {
-        socket = DatagramSocket()
+        _socket = DatagramSocket()
         onOpenCallback.success(this)
     }
 
     override fun close() {
-        socket?.close()
-        socket = null
+        _socket?.close()
+        _socket = null
     }
 }

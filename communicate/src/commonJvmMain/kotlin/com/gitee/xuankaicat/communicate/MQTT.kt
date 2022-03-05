@@ -13,6 +13,9 @@ import kotlin.concurrent.thread
 
 open class MQTT : MQTTCommunicate {
     private var client: MqttClient? = null
+    override val socket: Any?
+        get() = client
+
     private var _qos = 2
     override var qos: MqttQuality
         get() = MqttQuality.values()[_qos]
