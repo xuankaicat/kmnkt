@@ -50,7 +50,6 @@ dependencies {
 
 ### 创建UDP连接对象
 
-kotlin：
 ```kotlin
 import com.gitee.xuankaicat.communicate.dsl.udp
 
@@ -64,7 +63,6 @@ private val communicate = udp {
 
 ### 创建TCPClient对象
 
-kotlin:
 ```kotlin
 import com.gitee.xuankaicat.communicate.dsl.tcp
 
@@ -78,7 +76,6 @@ private val communicate = tcp {
 
 ### 创建MQTT对象
 
-kotlin:
 ```kotlin
 import com.gitee.xuankaicat.communicate.dsl.mqtt
 
@@ -103,8 +100,6 @@ private val communicate = mqtt {
 
 ### 开启连接
 
-kotlin:
-
 ```kotlin
 communicate.open()
 ```
@@ -123,7 +118,6 @@ communicate.open()
 
 > 如果要自行实现`failure`回调函数并重新连接请在函数中增加等待函数，如`Thread.sleep(5000)`。
 
-kotlin:
 ```kotlin
 communicate.open {
     success {
@@ -142,7 +136,6 @@ communicate.open {
 
 ### 发送数据
 
-kotlin:
 ```kotlin
 communicate.send(sendText)
 ```
@@ -151,7 +144,6 @@ communicate.send(sendText)
 
 > 一般来说我们会在`open`的`success`回调中使用接收数据，在其他地方使用你需要确保连接已经成功打开。
 
-kotlin:
 ```kotlin
 communicate.startReceive { str, data ->
     //处理接收到的数据str
@@ -161,15 +153,9 @@ communicate.startReceive { str, data ->
 
 ### 关闭连接
 
-以Activity举例，需要写在`onDestroy`中。
-
-kotlin:
 ```kotlin
-override fun onDestroy() {
-    super.onDestroy()
-    communicate.stopReceive()//停止接收数据
-    communicate.close()//关闭连接
-}
+communicate.stopReceive()//停止接收数据
+communicate.close()//关闭连接
 ```
 
 ## 反馈
