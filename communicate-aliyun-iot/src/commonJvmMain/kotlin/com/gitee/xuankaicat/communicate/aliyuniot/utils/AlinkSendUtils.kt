@@ -15,7 +15,7 @@ typealias OnReceiveAlinkRequestFunc = (AlinkBase) -> Unit
  * 发送并接收alink消息
  * @see AlinkResult
  */
-internal inline fun MQTTCommunicate.sendAndReceiveAlink(
+inline fun MQTTCommunicate.sendAndReceiveAlink(
     messageId: String,
     topic: String,
     sendObj: AlinkBase,

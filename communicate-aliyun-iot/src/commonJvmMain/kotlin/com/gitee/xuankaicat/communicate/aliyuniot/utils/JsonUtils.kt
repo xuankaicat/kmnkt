@@ -5,7 +5,7 @@ import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 
-internal fun Map<String, Any>.toJsonObject(): JsonElement =
+fun Map<String, Any>.toJsonObject(): JsonElement =
     JsonObject(this.mapValues {
         when (it.value) {
             is Map<*, *> ->
