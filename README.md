@@ -16,6 +16,8 @@ kmnkt（原communicate）是基于Kotlin Multiplatform的跨平台socket通信�
 
 ## Gradle
 
+### Groovy DSL
+
 在根目录的 build.gradle 添加：
 
 ```groovy
@@ -37,6 +39,32 @@ dependencies {
     // 阿里云alink支持
     implementation 'com.gitee.xuankaicat.kmnkt:communicate-aliyun-iot-android:2.0.0-alpha01'// 适用于Android
     implementation 'com.gitee.xuankaicat.kmnkt:communicate-aliyun-iot-desktop:2.0.0-alpha01'// 适用于Desktop
+}
+```
+
+### Kotlin DSL
+
+在根目录的 build.gradle.kts 添加：
+
+```kotlin
+allprojects {
+    repositories {
+        // ...
+        maven("https://www.jitpack.io")
+    }
+}
+```
+
+添加依赖：
+
+```kotlin
+dependencies {
+    // udp/tcp/mqtt支持
+    implementation("com.gitee.xuankaicat.kmnkt:communicate-android:2.0.0-alpha01")// 适用于Android
+    implementation("com.gitee.xuankaicat.kmnkt:communicate-desktop:2.0.0-alpha01")// 适用于Desktop
+    // 阿里云alink支持
+    implementation("com.gitee.xuankaicat.kmnkt:communicate-aliyun-iot-android:2.0.0-alpha01")// 适用于Android
+    implementation("com.gitee.xuankaicat.kmnkt:communicate-aliyun-iot-desktop:2.0.0-alpha01")// 适用于Desktop
 }
 ```
 
