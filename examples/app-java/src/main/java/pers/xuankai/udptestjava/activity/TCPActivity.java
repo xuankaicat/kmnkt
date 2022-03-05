@@ -44,7 +44,7 @@ public class TCPActivity extends BaseActivity<ActivityTcpBinding> {
         });
 
         binding.btnUdp.setOnClickListener(v -> {
-            Intent intent = new Intent(TCPActivity.this, MainActivity.class);
+            Intent intent = new Intent(TCPActivity.this, UDPActivity.class);
             startActivity(intent);
         });
     }

@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/StudySpace/android/communicate-multiplatform/examples/app/src/main/res/layout/activity_main.xml" value="0.213768115942029" />
+      </map>
+    </option>
+  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
-    <file type="web" url="file://$PROJECT_DIR$" />
+    <file type="web" url="file://$PROJECT_DIR$/../communicate-multiplatform" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />

@@ -35,7 +35,7 @@ class TCPActivity : BaseActivity<ActivityTcpBinding>() {
         }
 
         binding.btnUdp.setOnClickListener {
-            startActivity<MainActivity>()
+            startActivity<UDPActivity>()
         }
     }
 

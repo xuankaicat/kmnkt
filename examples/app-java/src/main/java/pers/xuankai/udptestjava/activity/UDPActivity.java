@@ -13,7 +13,7 @@ import com.gitee.xuankaicat.communicate.Communicate;
 import pers.xuankai.udptestjava.BaseActivity;
 import pers.xuankai.udptestjava.databinding.ActivityMainBinding;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding> {
+public class UDPActivity extends BaseActivity<ActivityMainBinding> {
     private final Communicate communicate = Communicate.getUDP(c -> {
         c.setAddress("10.0.2.2");
         c.setPort(9000);
@@ -44,12 +44,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
         });
 
         binding.btnTcp.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, TCPActivity.class);
+            Intent intent = new Intent(UDPActivity.this, TCPActivity.class);
             startActivity(intent);
         });
 
         binding.btnMQTT.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, MQTTActivity.class);
+            Intent intent = new Intent(UDPActivity.this, MQTTActivity.class);
             startActivity(intent);
         });
     }

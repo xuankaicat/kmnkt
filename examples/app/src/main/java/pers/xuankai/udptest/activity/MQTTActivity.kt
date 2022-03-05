@@ -73,7 +73,7 @@ class MQTTActivity : BaseActivity<ActivityMqttactivityBinding>() {
         }
 
         binding.btnUdp.setOnClickListener {
-            startActivity<MainActivity>()
+            startActivity<UDPActivity>()
         }
     }
 

@@ -74,7 +74,7 @@ public class MQTTActivity extends BaseActivity<ActivityMqttactivityBinding> {
         });
 
         binding.btnUdp.setOnClickListener(v -> {
-            Intent intent = new Intent(MQTTActivity.this, MainActivity.class);
+            Intent intent = new Intent(MQTTActivity.this, UDPActivity.class);
             startActivity(intent);
         });
     }

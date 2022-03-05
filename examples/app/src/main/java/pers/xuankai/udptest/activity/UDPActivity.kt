@@ -8,7 +8,7 @@ import pers.xuankai.udptest.BaseActivity
 import pers.xuankai.udptest.databinding.ActivityMainBinding
 import java.nio.charset.Charset
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
+class UDPActivity : BaseActivity<ActivityMainBinding>() {
     private val communicate = udp {
         address = "10.0.2.2"
         port = 1883

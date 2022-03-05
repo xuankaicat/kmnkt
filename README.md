@@ -7,7 +7,7 @@ communicate是基于Kotlin Multiplatform的跨平台socket通信统一接口的�
 
 **支持平台**
 - Android
-- Desktop
+- Jvm
 
 **优点**
 - 简单配置就可以快速使用
@@ -31,13 +31,22 @@ allprojects {
 
 ```groovy
 dependencies {
-    implementation 'com.gitee.xuankaicat.communicate:communicate-android:2.0.0-dev01'//适用于Android
-    implementation 'com.gitee.xuankaicat.communicate:communicate-desktop:2.0.0-dev01'//适用于Desktop
+    // udp/tcp/mqtt支持
+    implementation 'com.gitee.xuankaicat.communicate:communicate-android:2.0.0-dev07'// 适用于Android
+    implementation 'com.gitee.xuankaicat.communicate:communicate-desktop:2.0.0-dev07'// 适用于Desktop
+    // 阿里云alink支持
+    implementation 'com.gitee.xuankaicat.communicate:communicate-aliyun-iot-android:2.0.0-dev07'// 适用于Android
+    implementation 'com.gitee.xuankaicat.communicate:communicate-aliyun-iot-desktop:2.0.0-dev07'// 适用于Desktop
 }
 ```
 
-## 示例
+## 示例项目
 
+* [app](examples/app) - 安卓中的udp/tcp/mqtt示例
+* [app-java](examples/app-java) - 在安卓中使用java语言进行开发的udp/tcp/mqtt示例
+* [AliyunIotDemo](examples/AliyunIotDemo) - 基于JetBrains Compose for Desktop的阿里云Iot桌面应用示例
+
+## 示例代码
 
 ### 创建UDP连接对象
 
@@ -53,8 +62,6 @@ private val communicate = udp {
 }
 ```
 
-> `com.gitee.xuankaicat.communicate.dsl.udp`于2.0.0-dev02后支持使用
-
 ### 创建TCPClient对象
 
 kotlin:
@@ -68,8 +75,6 @@ private val communicate = tcp {
     outCharset = Charset.forName("gb2312")//设置输出编码
 }
 ```
-
-> `com.gitee.xuankaicat.communicate.dsl.tcp`于2.0.0-dev02后支持使用
 
 ### 创建MQTT对象
 
@@ -93,8 +98,6 @@ private val communicate = mqtt {
     keepAliveInterval = 20//检测连接是否中断的间隔
 }
 ```
-
-> `com.gitee.xuankaicat.communicate.dsl.mqtt`于2.0.0-dev02后支持使用
 
 > MQTT的其他参数配置可以参考`MQTTCommunicate`接口
 
