@@ -34,11 +34,11 @@ allprojects {
 ```groovy
 dependencies {
     // udp/tcp/mqtt支持
-    implementation 'com.gitee.xuankaicat.kmnkt:communicate-android:2.0.0-alpha01'// 适用于Android
-    implementation 'com.gitee.xuankaicat.kmnkt:communicate-desktop:2.0.0-alpha01'// 适用于Desktop
+    implementation 'com.gitee.xuankaicat.kmnkt:socket-android:2.0.0-alpha02'// 适用于Android
+    implementation 'com.gitee.xuankaicat.kmnkt:socket-desktop:2.0.0-alpha02'// 适用于Desktop
     // 阿里云alink支持
-    implementation 'com.gitee.xuankaicat.kmnkt:communicate-aliyun-iot-android:2.0.0-alpha01'// 适用于Android
-    implementation 'com.gitee.xuankaicat.kmnkt:communicate-aliyun-iot-desktop:2.0.0-alpha01'// 适用于Desktop
+    implementation 'com.gitee.xuankaicat.kmnkt:aliyun-iot-android:2.0.0-alpha02'// 适用于Android
+    implementation 'com.gitee.xuankaicat.kmnkt:aliyun-iot-desktop:2.0.0-alpha02'// 适用于Desktop
 }
 ```
 
@@ -60,11 +60,11 @@ allprojects {
 ```kotlin
 dependencies {
     // udp/tcp/mqtt支持
-    implementation("com.gitee.xuankaicat.kmnkt:communicate-android:2.0.0-alpha01")// 适用于Android
-    implementation("com.gitee.xuankaicat.kmnkt:communicate-desktop:2.0.0-alpha01")// 适用于Desktop
+    implementation("com.gitee.xuankaicat.kmnkt:socket-android:2.0.0-alpha02")// 适用于Android
+    implementation("com.gitee.xuankaicat.kmnkt:socket-desktop:2.0.0-alpha02")// 适用于Desktop
     // 阿里云alink支持
-    implementation("com.gitee.xuankaicat.kmnkt:communicate-aliyun-iot-android:2.0.0-alpha01")// 适用于Android
-    implementation("com.gitee.xuankaicat.kmnkt:communicate-aliyun-iot-desktop:2.0.0-alpha01")// 适用于Desktop
+    implementation("com.gitee.xuankaicat.kmnkt:aliyun-iot-android:2.0.0-alpha02")// 适用于Android
+    implementation("com.gitee.xuankaicat.kmnkt:aliyun-iot-desktop:2.0.0-alpha02")// 适用于Desktop
 }
 ```
 
@@ -79,9 +79,9 @@ dependencies {
 ### 创建UDP连接对象
 
 ```kotlin
-import com.gitee.xuankaicat.communicate.dsl.udp
+import com.gitee.xuankaicat.kmnkt.socket.dsl.udp
 
-private val communicate = udp {
+private val socket = udp {
     address = "10.0.2.2"//设置ip地址
     port = 9000//设置端口号
     inCharset = Charset.forName("gb2312")//设置输入编码
@@ -92,9 +92,9 @@ private val communicate = udp {
 ### 创建TCPClient对象
 
 ```kotlin
-import com.gitee.xuankaicat.communicate.dsl.tcp
+import com.gitee.xuankaicat.kmnkt.socket.dsl.tcp
 
-private val communicate = tcp {
+private val socket = tcp {
     address = "10.0.2.2"//设置ip地址
     port = 9000//设置端口号
     inCharset = Charset.forName("gb2312")//设置输入编码
@@ -102,12 +102,12 @@ private val communicate = tcp {
 }
 ```
 
-### 创建MQTT对象
+### 创建Mqtt对象
 
 ```kotlin
-import com.gitee.xuankaicat.communicate.dsl.mqtt
+import com.gitee.xuankaicat.kmnkt.socket.dsl.mqtt
 
-private val communicate = mqtt {
+private val socket = mqtt {
     address = "10.0.2.2"//设置ip地址
     port = 9000//设置端口号
     inCharset = Charset.forName("gb2312")//设置输入编码
@@ -124,12 +124,26 @@ private val communicate = mqtt {
 }
 ```
 
-> MQTT的其他参数配置可以参考`MQTTCommunicate`接口
+> MQTT的其他参数配置可以参考[`IMqttSocket`](socket/src/commonJvmMain/kotlin/com/gitee/xuankaicat/kmnkt/socket/IMqttSocket.kt)接口
+
+### 创建阿里云IotMqtt对象
+
+```kotlin
+import com.gitee.xuankaicat.kmnkt.aliyuniot.AliyunMqtt
+import com.gitee.xuankaicat.kmnkt.aliyuniot.mqtt
+
+private val socket = mqtt(AliyunMqtt(
+    productKey = "",
+    deviceName = "",
+    deviceSecret = "",
+    regionId = "cn-shanghai"
+))
+```
 
 ### 开启连接
 
 ```kotlin
-communicate.open()
+socket.open()
 ```
 
 **回调默认设置**
@@ -147,7 +161,7 @@ communicate.open()
 > 如果要自行实现`failure`回调函数并重新连接请在函数中增加等待函数，如`Thread.sleep(5000)`。
 
 ```kotlin
-communicate.open {
+socket.open {
     success {
         //开启连接成功时执行
     }
@@ -165,7 +179,7 @@ communicate.open {
 ### 发送数据
 
 ```kotlin
-communicate.send(sendText)
+socket.send(sendText)
 ```
 
 ### 接收数据
@@ -173,7 +187,7 @@ communicate.send(sendText)
 > 一般来说我们会在`open`的`success`回调中使用接收数据，在其他地方使用你需要确保连接已经成功打开。
 
 ```kotlin
-communicate.startReceive { str, data ->
+socket.startReceive { str, data ->
     //处理接收到的数据str
     return@startReceive false//返回是否继续接收消息
 }
@@ -182,8 +196,8 @@ communicate.startReceive { str, data ->
 ### 关闭连接
 
 ```kotlin
-communicate.stopReceive()//停止接收数据
-communicate.close()//关闭连接
+socket.stopReceive()//停止接收数据
+socket.close()//关闭连接
 ```
 
 ## 反馈
