@@ -3,7 +3,7 @@ package pers.xuankai.udptest.activity
 import android.os.Bundle
 import com.dylanc.longan.immerseStatusBar
 import com.dylanc.longan.startActivity
-import com.gitee.xuankaicat.communicate.dsl.tcp
+import com.gitee.xuankaicat.kmnkt.socket.dsl.tcp
 import pers.xuankai.udptest.BaseActivity
 import pers.xuankai.udptest.databinding.ActivityTcpBinding
 import java.nio.charset.Charset

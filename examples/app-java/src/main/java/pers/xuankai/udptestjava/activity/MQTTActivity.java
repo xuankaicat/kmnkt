@@ -7,9 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.dylanc.longan.SystemBarsKt;
-import com.gitee.xuankaicat.communicate.Communicate;
-import com.gitee.xuankaicat.communicate.OnOpenCallback;
-import com.gitee.xuankaicat.communicate.MQTTCommunicate;
+import com.gitee.xuankaicat.kmnkt.socket.Communicate;
+import com.gitee.xuankaicat.kmnkt.socket.OnOpenCallback;
+import com.gitee.xuankaicat.kmnkt.socket.MQTTCommunicate;
 
 import java.nio.charset.Charset;
 

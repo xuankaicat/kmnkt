@@ -1,9 +1,9 @@
-import com.gitee.xuankaicat.communicate.aliyuniot.AliyunMqtt
-import com.gitee.xuankaicat.communicate.aliyuniot.alink.AlinkBase
-import com.gitee.xuankaicat.communicate.aliyuniot.alink.propertyPost
-import com.gitee.xuankaicat.communicate.aliyuniot.alink.propertySet
-import com.gitee.xuankaicat.communicate.aliyuniot.mqtt
-import com.gitee.xuankaicat.communicate.open
+import com.gitee.xuankaicat.kmnkt.aliyuniot.AliyunMqtt
+import com.gitee.xuankaicat.kmnkt.aliyuniot.alink.AlinkBase
+import com.gitee.xuankaicat.kmnkt.aliyuniot.alink.propertyPost
+import com.gitee.xuankaicat.kmnkt.aliyuniot.alink.propertySet
+import com.gitee.xuankaicat.kmnkt.aliyuniot.mqtt
+import com.gitee.xuankaicat.kmnkt.socket.open
 
 object Mqtt {
     val mqtt = mqtt(AliyunMqtt(

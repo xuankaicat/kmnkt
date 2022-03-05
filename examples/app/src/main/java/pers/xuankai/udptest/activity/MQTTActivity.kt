@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.util.Log
 import com.dylanc.longan.immerseStatusBar
 import com.dylanc.longan.startActivity
-import com.gitee.xuankaicat.communicate.dsl.mqtt
-import com.gitee.xuankaicat.communicate.open
+import com.gitee.xuankaicat.kmnkt.socket.dsl.mqtt
+import com.gitee.xuankaicat.kmnkt.socket.open
 import pers.xuankai.udptest.BaseActivity
 import pers.xuankai.udptest.databinding.ActivityMqttactivityBinding
 import java.nio.charset.Charset

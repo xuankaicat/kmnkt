@@ -7,7 +7,7 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
-import com.gitee.xuankaicat.communicate.aliyuniot.alink.desiredGet
+import com.gitee.xuankaicat.kmnkt.aliyuniot.alink.desiredGet
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
