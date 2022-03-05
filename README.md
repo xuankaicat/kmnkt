@@ -32,11 +32,11 @@ allprojects {
 ```groovy
 dependencies {
     // udp/tcp/mqtt支持
-    implementation 'com.gitee.xuankaicat.communicate:communicate-android:2.0.0-dev07'// 适用于Android
-    implementation 'com.gitee.xuankaicat.communicate:communicate-desktop:2.0.0-dev07'// 适用于Desktop
+    implementation 'com.gitee.xuankaicat.communicate:communicate-android:2.0.0-alpha01'// 适用于Android
+    implementation 'com.gitee.xuankaicat.communicate:communicate-desktop:2.0.0-alpha01'// 适用于Desktop
     // 阿里云alink支持
-    implementation 'com.gitee.xuankaicat.communicate:communicate-aliyun-iot-android:2.0.0-dev07'// 适用于Android
-    implementation 'com.gitee.xuankaicat.communicate:communicate-aliyun-iot-desktop:2.0.0-dev07'// 适用于Desktop
+    implementation 'com.gitee.xuankaicat.communicate:communicate-aliyun-iot-android:2.0.0-alpha01'// 适用于Android
+    implementation 'com.gitee.xuankaicat.communicate:communicate-aliyun-iot-desktop:2.0.0-alpha01'// 适用于Desktop
 }
 ```
 
