@@ -1,8 +1,8 @@
-# communicate-multiplatform
+# kmnkt
 
-[![](https://jitpack.io/v/com.gitee.xuankaicat/communicate.svg)](https://jitpack.io/#com.gitee.xuankaicat/communicate)
+[![](https://jitpack.io/v/com.gitee.xuankaicat/kmnkt.svg)](https://jitpack.io/#com.gitee.xuankaicat/kmnkt)
 
-communicate是基于Kotlin Multiplatform的跨平台socket通信统一接口的实现。
+kmnkt（原communicate）是基于Kotlin Multiplatform的跨平台socket通信统一接口的实现。
 可以使用同一套接口快速实现UDP/TCPClient/MQTT连接。
 
 **支持平台**
@@ -32,11 +32,11 @@ allprojects {
 ```groovy
 dependencies {
     // udp/tcp/mqtt支持
-    implementation 'com.gitee.xuankaicat.communicate:communicate-android:2.0.0-alpha01'// 适用于Android
-    implementation 'com.gitee.xuankaicat.communicate:communicate-desktop:2.0.0-alpha01'// 适用于Desktop
+    implementation 'com.gitee.xuankaicat.kmnkt:communicate-android:2.0.0-alpha01'// 适用于Android
+    implementation 'com.gitee.xuankaicat.kmnkt:communicate-desktop:2.0.0-alpha01'// 适用于Desktop
     // 阿里云alink支持
-    implementation 'com.gitee.xuankaicat.communicate:communicate-aliyun-iot-android:2.0.0-alpha01'// 适用于Android
-    implementation 'com.gitee.xuankaicat.communicate:communicate-aliyun-iot-desktop:2.0.0-alpha01'// 适用于Desktop
+    implementation 'com.gitee.xuankaicat.kmnkt:communicate-aliyun-iot-android:2.0.0-alpha01'// 适用于Android
+    implementation 'com.gitee.xuankaicat.kmnkt:communicate-aliyun-iot-desktop:2.0.0-alpha01'// 适用于Desktop
 }
 ```
 
