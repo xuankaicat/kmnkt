@@ -1,6 +1,6 @@
 package com.gitee.xuankaicat.kmnkt.aliyuniot.utils
 
-import com.gitee.xuankaicat.kmnkt.socket.MQTTCommunicate
+import com.gitee.xuankaicat.kmnkt.socket.IMqttSocket
 import com.gitee.xuankaicat.kmnkt.aliyuniot.alink.AlinkBase
 import com.gitee.xuankaicat.kmnkt.aliyuniot.alink.AlinkResult
 import com.gitee.xuankaicat.kmnkt.socket.sendAndReceive
@@ -15,7 +15,7 @@ typealias OnReceiveAlinkRequestFunc = (AlinkBase) -> Unit
  * 发送并接收alink消息
  * @see AlinkResult
  */
-inline fun MQTTCommunicate.sendAndReceiveAlink(
+inline fun IMqttSocket.sendAndReceiveAlink(
     messageId: String,
     topic: String,
     sendObj: AlinkBase,

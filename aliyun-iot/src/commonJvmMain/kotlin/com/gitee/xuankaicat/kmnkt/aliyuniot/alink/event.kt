@@ -2,7 +2,7 @@
 
 package com.gitee.xuankaicat.kmnkt.aliyuniot.alink
 
-import com.gitee.xuankaicat.kmnkt.socket.MQTTCommunicate
+import com.gitee.xuankaicat.kmnkt.socket.IMqttSocket
 import com.gitee.xuankaicat.kmnkt.aliyuniot.AlinkMQTT
 import com.gitee.xuankaicat.kmnkt.aliyuniot.utils.OnReceiveAlinkRequestFunc
 import com.gitee.xuankaicat.kmnkt.aliyuniot.utils.OnReceiveAlinkResultFunc
@@ -19,7 +19,7 @@ import kotlinx.serialization.json.JsonPrimitive
  * @param expectResponse 期待服务端返回信息
  * - [设备属性、事件、服务](https://help.aliyun.com/document_detail/89301.html)
  */
-fun MQTTCommunicate.propertyPost(
+fun IMqttSocket.propertyPost(
     params: Map<String, Any>,
     expectResponse: Boolean = false,
     onReceive: OnReceiveAlinkResultFunc = {}
@@ -42,7 +42,7 @@ fun MQTTCommunicate.propertyPost(
  * @param receiveOnce 是否只接收一次，默认为false表示一直接收
  * - [设备属性、事件、服务](https://help.aliyun.com/document_detail/89301.html)
  */
-fun MQTTCommunicate.propertySet(
+fun IMqttSocket.propertySet(
     receiveOnce: Boolean = false,
     onReceive: OnReceiveAlinkRequestFunc = {},
 ) {
@@ -59,7 +59,7 @@ fun MQTTCommunicate.propertySet(
  * @receiver MQTTCommunicate
  * - [设备期望属性值](https://help.aliyun.com/document_detail/109807.html)
  */
-fun MQTTCommunicate.desiredGet(
+fun IMqttSocket.desiredGet(
     params: List<String>,
     repeat: Boolean = true,
     onReceive: OnReceiveAlinkResultFunc

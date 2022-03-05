@@ -26,10 +26,10 @@ enum class MqttQuality {
     ExactlyOnce,
 }
 
-interface MQTTCommunicate : Communicate {
+interface IMqttSocket : ISocket {
     companion object {
         @JvmStatic
-        val MQTT: MQTTCommunicate
+        val MQTT: IMqttSocket
             @JvmName("MQTT")
             get() = MQTT()
 
@@ -39,7 +39,7 @@ interface MQTTCommunicate : Communicate {
          * @return MQTT
          */
         @JvmStatic
-        fun getMQTT(build: (MQTTCommunicate) -> Unit): MQTTCommunicate = MQTT.apply(build)
+        fun getMQTT(build: (IMqttSocket) -> Unit): IMqttSocket = MQTT.apply(build)
     }
 
     /**
@@ -148,8 +148,8 @@ interface MQTTCommunicate : Communicate {
  * @param message 数据内容
  * @param onReceive 回调函数
  */
-inline fun MQTTCommunicate.sendAndReceive(outTopic: String, inTopic: String, message: String, crossinline onReceive: OnReceiveSimpleFunc) =
+inline fun IMqttSocket.sendAndReceive(outTopic: String, inTopic: String, message: String, crossinline onReceive: OnReceiveSimpleFunc) =
     this.sendAndReceive(outTopic, inTopic, message) { v, _ -> onReceive.invoke(v) }
 
-val Communicate.Companion.MQTT
-    get() = MQTTCommunicate.MQTT
+val ISocket.Companion.MQTT
+    get() = IMqttSocket.MQTT

@@ -9,7 +9,7 @@ import pers.xuankai.udptest.databinding.ActivityTcpBinding
 import java.nio.charset.Charset
 
 class TCPActivity : BaseActivity<ActivityTcpBinding>() {
-    private val communicate = tcp {
+    private val socket = tcp {
         address = "10.0.2.2"
         port = 9000
         inCharset = Charset.forName("gb2312")
@@ -26,9 +26,9 @@ class TCPActivity : BaseActivity<ActivityTcpBinding>() {
             val sendText = binding.editText.text.toString()
             if(sendText.isEmpty()) return@setOnClickListener
 
-            communicate.send(sendText)
+            socket.send(sendText)
             binding.textView.text = "等待数据..."
-            communicate.startReceive { str, _ ->
+            socket.startReceive { str, _ ->
                 binding.textView.text = str
                 return@startReceive false
             }
@@ -41,7 +41,7 @@ class TCPActivity : BaseActivity<ActivityTcpBinding>() {
 
     override fun onDestroy() {
         super.onDestroy()
-        communicate.stopReceive()
-        communicate.close()
+        socket.stopReceive()
+        socket.close()
     }
 }

@@ -11,7 +11,7 @@ import pers.xuankai.udptest.databinding.ActivityMqttactivityBinding
 import java.nio.charset.Charset
 
 class MQTTActivity : BaseActivity<ActivityMqttactivityBinding>() {
-    private val communicate = mqtt {
+    private val mqtt = mqtt {
         address = "10.0.2.2"
         port = 1883
         inCharset = Charset.forName("gb2312")
@@ -50,9 +50,9 @@ class MQTTActivity : BaseActivity<ActivityMqttactivityBinding>() {
             val sendText = binding.editText.text.toString()
             if(sendText.isEmpty()) return@setOnClickListener
 
-            communicate.send(sendText)
+            mqtt.send(sendText)
             binding.textView.text = "等待数据..."
-            communicate.startReceive { str, _ ->
+            mqtt.startReceive { str, _ ->
                 binding.textView.text = str
                 return@startReceive false
             }
@@ -64,12 +64,12 @@ class MQTTActivity : BaseActivity<ActivityMqttactivityBinding>() {
 
         binding.btnOpen.setOnClickListener {
             val sendText = "{cmd:\"set\", status:1}"
-            communicate.send(sendText)
+            mqtt.send(sendText)
         }
 
         binding.btnClose.setOnClickListener {
             val sendText = "{cmd:\"set\", status:0}"
-            communicate.send(sendText)
+            mqtt.send(sendText)
         }
 
         binding.btnUdp.setOnClickListener {
@@ -79,7 +79,7 @@ class MQTTActivity : BaseActivity<ActivityMqttactivityBinding>() {
 
     override fun onDestroy() {
         super.onDestroy()
-        communicate.stopReceive()
-        communicate.close()
+        mqtt.stopReceive()
+        mqtt.close()
     }
 }

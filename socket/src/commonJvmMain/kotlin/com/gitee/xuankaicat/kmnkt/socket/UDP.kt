@@ -10,7 +10,7 @@ import java.net.InetAddress
 import java.nio.charset.Charset
 import kotlin.concurrent.thread
 
-open class UDP : Communicate {
+open class UDP : ISocket {
     private var _socket: DatagramSocket? = null
     override val socket: Any?
         get() = _socket

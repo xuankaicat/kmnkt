@@ -7,10 +7,10 @@ import java.nio.charset.Charset
 typealias OnReceiveFunc = (String, Any) -> Boolean
 typealias OnReceiveSimpleFunc = (String) -> Boolean
 
-interface Communicate {
+interface ISocket {
     companion object {
         @JvmStatic
-        val TCPClient: Communicate
+        val TCPClient: ISocket
             @JvmName("TCPClient")
             get() = TCP()
 
@@ -20,10 +20,10 @@ interface Communicate {
          * @return TCPClient
          */
         @JvmStatic
-        fun getTCPClient(build: (Communicate) -> Unit): Communicate = TCPClient.apply(build)
+        fun getTCPClient(build: (ISocket) -> Unit): ISocket = TCPClient.apply(build)
 
         @JvmStatic
-        val UDP: Communicate
+        val UDP: ISocket
             @JvmName("UDP")
             get() = UDP()
 
@@ -33,7 +33,7 @@ interface Communicate {
          * @return UDP
          */
         @JvmStatic
-        fun getUDP(build: (Communicate) -> Unit): Communicate = UDP.apply(build)
+        fun getUDP(build: (ISocket) -> Unit): ISocket = UDP.apply(build)
     }
 
     /**
@@ -117,14 +117,14 @@ interface Communicate {
  * 请不要在函数中使用stopReceive()函数停止接收数据，这不会起作用。
  * @return 是否开启成功
  */
-inline fun Communicate.startReceive(crossinline onReceive: OnReceiveSimpleFunc): Boolean =
+inline fun ISocket.startReceive(crossinline onReceive: OnReceiveSimpleFunc): Boolean =
     this.startReceive { v, _ -> onReceive.invoke(v) }
 
 
 /**
  * 使用DSL构建开始通信
- * @receiver Communicate 连接对象
+ * @receiver ISocket 连接对象
  * @param callback 开启成功或失败的回调，默认失败会等待5秒重新尝试连接。
  */
-inline fun Communicate.open(callback: OnOpenCallback.() -> Unit)
+inline fun ISocket.open(callback: OnOpenCallback.() -> Unit)
     = open(OnOpenCallback().also(callback))

@@ -7,9 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.dylanc.longan.SystemBarsKt;
-import com.gitee.xuankaicat.kmnkt.socket.Communicate;
+import com.gitee.xuankaicat.kmnkt.socket.ISocket;
 import com.gitee.xuankaicat.kmnkt.socket.OnOpenCallback;
-import com.gitee.xuankaicat.kmnkt.socket.MQTTCommunicate;
+import com.gitee.xuankaicat.kmnkt.socket.IMqttSocket;
 
 import java.nio.charset.Charset;
 
@@ -17,7 +17,7 @@ import pers.xuankai.udptestjava.BaseActivity;
 import pers.xuankai.udptestjava.databinding.ActivityMqttactivityBinding;
 
 public class MQTTActivity extends BaseActivity<ActivityMqttactivityBinding> {
-    private final MQTTCommunicate communicate = MQTTCommunicate.getMQTT(c -> {
+    private final IMqttSocket mqtt = IMqttSocket.getMQTT(c -> {
         c.setAddress("10.0.2.2");
         c.setPort(1883);
         c.setInCharset(Charset.forName("gb2312"));
@@ -28,9 +28,9 @@ public class MQTTActivity extends BaseActivity<ActivityMqttactivityBinding> {
         c.setOutMessageTopic("DeviceTest/123456");
         c.open(new OnOpenCallback() {
             @Override
-            public void success(@NonNull Communicate communicate) {
-                super.success(communicate);
-                communicate.startReceive((result, ignore) -> {
+            public void success(@NonNull ISocket ISocket) {
+                super.success(ISocket);
+                ISocket.startReceive((result, ignore) -> {
                     getBinding().textView.setText(result);
                     return true;
                 });
@@ -51,9 +51,9 @@ public class MQTTActivity extends BaseActivity<ActivityMqttactivityBinding> {
             String sendText = binding.editText.getText().toString();
             if(sendText.equals("")) return;
 
-            communicate.send(sendText);
+            mqtt.send(sendText);
             binding.textView.setText("等待数据...");
-            communicate.startReceive((result, ignore) -> {
+            mqtt.startReceive((result, ignore) -> {
                 binding.textView.setText(result);
                 return false;
             });
@@ -65,12 +65,12 @@ public class MQTTActivity extends BaseActivity<ActivityMqttactivityBinding> {
 
         binding.btnOpen.setOnClickListener(v -> {
             String sendText = "{cmd:\"set\", status:1}";
-            communicate.send(sendText);
+            mqtt.send(sendText);
         });
 
         binding.btnClose.setOnClickListener(v -> {
             String sendText = "{cmd:\"set\", status:0}";
-            communicate.send(sendText);
+            mqtt.send(sendText);
         });
 
         binding.btnUdp.setOnClickListener(v -> {
@@ -82,7 +82,7 @@ public class MQTTActivity extends BaseActivity<ActivityMqttactivityBinding> {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        communicate.stopReceive();
-        communicate.close();
+        mqtt.stopReceive();
+        mqtt.close();
     }
 }

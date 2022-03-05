@@ -9,12 +9,12 @@ import com.dylanc.longan.SystemBarsKt;
 
 import java.nio.charset.Charset;
 
-import com.gitee.xuankaicat.kmnkt.socket.Communicate;
+import com.gitee.xuankaicat.kmnkt.socket.ISocket;
 import pers.xuankai.udptestjava.BaseActivity;
 import pers.xuankai.udptestjava.databinding.ActivityMainBinding;
 
 public class UDPActivity extends BaseActivity<ActivityMainBinding> {
-    private final Communicate communicate = Communicate.getUDP(c -> {
+    private final ISocket socket = ISocket.getUDP(c -> {
         c.setAddress("10.0.2.2");
         c.setPort(9000);
         c.setInCharset(Charset.forName("gb2312"));
@@ -35,9 +35,9 @@ public class UDPActivity extends BaseActivity<ActivityMainBinding> {
             String sendText = binding.editText.getText().toString();
             if(sendText.equals("")) return;
 
-            communicate.send(sendText);
+            socket.send(sendText);
             binding.textView.setText("等待数据...");
-            communicate.startReceive((result, ignore) -> {
+            socket.startReceive((result, ignore) -> {
                 binding.textView.setText(result);
                 return false;
             });
@@ -57,7 +57,7 @@ public class UDPActivity extends BaseActivity<ActivityMainBinding> {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        communicate.stopReceive();
-        communicate.close();
+        socket.stopReceive();
+        socket.close();
     }
 }

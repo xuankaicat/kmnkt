@@ -11,7 +11,7 @@ import java.util.*
 import kotlin.collections.HashMap
 import kotlin.concurrent.thread
 
-open class MQTT : MQTTCommunicate {
+open class MQTT : IMqttSocket {
     private var client: MqttClient? = null
     override val socket: Any?
         get() = client

@@ -2,7 +2,7 @@
 
 package com.gitee.xuankaicat.kmnkt.aliyuniot.alink
 
-import com.gitee.xuankaicat.kmnkt.socket.MQTTCommunicate
+import com.gitee.xuankaicat.kmnkt.socket.IMqttSocket
 import com.gitee.xuankaicat.kmnkt.aliyuniot.AlinkMQTT
 import com.gitee.xuankaicat.kmnkt.aliyuniot.AliyunMqtt
 import com.gitee.xuankaicat.kmnkt.aliyuniot.CreateHelper
@@ -16,7 +16,7 @@ import com.gitee.xuankaicat.kmnkt.aliyuniot.utils.toJsonObject
  * @param expectResponse 期待服务端返回信息
  * - [管理拓扑关系](https://help.aliyun.com/document_detail/89299.htm)
  */
-fun MQTTCommunicate.topoAdd(
+fun IMqttSocket.topoAdd(
     aliyunMqtt: AliyunMqtt,
     clientId: String? = null,
     expectResponse: Boolean = false,
