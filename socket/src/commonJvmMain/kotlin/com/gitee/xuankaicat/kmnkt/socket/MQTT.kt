@@ -59,14 +59,20 @@ open class MQTT : IMqttSocket {
 
     override fun send(topic: String, message: String) {
         thread {
-            try {
-                //参数分别为：主题、消息的字节数组、服务质量、是否在服务器保留断开连接后的最后一条消息
-                client?.publish(topic, message.toByteArray(outCharset), _qos, retained)
-                Log.v("MQTT", "发送消息 {uri: '${serverURI}', topic: '$topic', message: '${message}'}")
-            } catch (e: MqttException) {
-                Log.e("MQTT", "发送消息失败 {uri: '${serverURI}', topic: '$topic', message: '${message}'}")
-                e.printStackTrace()
-            }
+            sendSync(topic, message)
+        }
+    }
+
+    override fun sendSync(message: String) = sendSync(outMessageTopic, message)
+
+    override fun sendSync(topic: String, message: String) {
+        try {
+            //参数分别为：主题、消息的字节数组、服务质量、是否在服务器保留断开连接后的最后一条消息
+            client?.publish(topic, message.toByteArray(outCharset), _qos, retained)
+            Log.v("MQTT", "发送消息 {uri: '${serverURI}', topic: '$topic', message: '${message}'}")
+        } catch (e: MqttException) {
+            Log.e("MQTT", "发送消息失败 {uri: '${serverURI}', topic: '$topic', message: '${message}'}")
+            e.printStackTrace()
         }
     }
 
@@ -93,6 +99,11 @@ open class MQTT : IMqttSocket {
     override fun sendAndReceive(outTopic: String, inTopic: String, message: String, onReceive: OnReceiveFunc) {
         addInMessageTopic(inTopic, onReceive)
         send(outTopic, message)
+    }
+
+    override fun sendAndReceiveSync(outTopic: String, inTopic: String, message: String, onReceive: OnReceiveFunc) {
+        addInMessageTopic(inTopic, onReceive)
+        sendSync(outTopic, message)
     }
 
     override fun addInMessageTopic(topic: String, onReceive: OnReceiveFunc) {

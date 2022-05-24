@@ -114,6 +114,19 @@ interface IMqttSocket : ISocket {
     fun removeInMessageTopic(topic: String)
 
     /**
+     * 同步发送数据
+     * @param message 数据内容
+     */
+    fun sendSync(message: String)
+
+    /**
+     * 同步发送数据
+     * @param topic 主题
+     * @param message 数据内容
+     */
+    fun sendSync(topic: String, message: String)
+
+    /**
      * 发送指定topic的数据
      * @param topic 主题
      * @param message 数据内容
@@ -139,6 +152,15 @@ interface IMqttSocket : ISocket {
      * @param onReceive 回调函数
      */
     fun sendAndReceive(outTopic: String, inTopic: String, message: String, onReceive: OnReceiveFunc)
+
+    /**
+     * 同步发送指定发送主题数据并根据接收主题接收消息
+     * @param outTopic 发送主题
+     * @param inTopic 接收主题
+     * @param message 数据内容
+     * @param onReceive 回调函数
+     */
+    fun sendAndReceiveSync(outTopic: String, inTopic: String, message: String, onReceive: OnReceiveFunc)
 }
 
 /**
@@ -149,7 +171,17 @@ interface IMqttSocket : ISocket {
  * @param onReceive 回调函数
  */
 inline fun IMqttSocket.sendAndReceive(outTopic: String, inTopic: String, message: String, crossinline onReceive: OnReceiveSimpleFunc) =
-    this.sendAndReceive(outTopic, inTopic, message) { v, _ -> onReceive.invoke(v) }
+    this.sendAndReceive(outTopic, inTopic, message) { v, _ -> onReceive(v) }
+
+/**
+ * 同步发送指定发送主题数据并根据接收主题接收消息
+ * @param outTopic 发送主题
+ * @param inTopic 接收主题
+ * @param message 数据内容
+ * @param onReceive 回调函数
+ */
+inline fun IMqttSocket.sendAndReceiveSync(outTopic: String, inTopic: String, message: String, crossinline onReceive: OnReceiveSimpleFunc) =
+    this.sendAndReceiveSync(outTopic, inTopic, message) { v, _ -> onReceive(v) }
 
 val ISocket.Companion.MQTT
     get() = IMqttSocket.MQTT
