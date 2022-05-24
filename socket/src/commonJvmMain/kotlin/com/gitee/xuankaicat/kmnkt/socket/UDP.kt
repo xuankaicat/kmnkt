@@ -23,6 +23,9 @@ open class UDP : ISocket {
         set(value) {
             _address = InetAddress.getByName(value)
         }
+
+    override var callbackOnMain: Boolean = true
+
     override var inCharset: Charset = Charsets.UTF_8
     override var outCharset: Charset = Charsets.UTF_8
 
@@ -82,7 +85,11 @@ open class UDP : ISocket {
                     _socket?.receive(receivePacket)
                     val data = String(receivePacket.data, inCharset)
                     val ip = receivePacket.address.hostAddress!!
-                    mainThread {
+                    if (callbackOnMain) {
+                        mainThread {
+                            isReceiving = onReceive(data, ip)
+                        }
+                    } else {
                         isReceiving = onReceive(data, ip)
                     }
                 } catch (ignore: Exception) {

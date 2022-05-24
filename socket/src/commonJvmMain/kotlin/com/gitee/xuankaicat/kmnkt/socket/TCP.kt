@@ -24,6 +24,9 @@ open class TCP : ISocket {
         set(value) {
             _address = InetAddress.getByName(value)
         }
+
+    override var callbackOnMain: Boolean = true
+
     override var inCharset: Charset = Charsets.UTF_8
     override var outCharset: Charset = Charsets.UTF_8
 
@@ -67,7 +70,11 @@ open class TCP : ISocket {
                     Log.v("TCP", "开始接收消息 {uri: '${address}', port: ${port}}")
                     val len = input?.read(receive) ?: 0
                     if(len != 0) {
-                        mainThread {
+                        if (callbackOnMain) {
+                            mainThread {
+                                onReceive(String(receive, 0, len, inCharset), receive)
+                            }
+                        } else {
                             onReceive(String(receive, 0, len, inCharset), receive)
                         }
                     }

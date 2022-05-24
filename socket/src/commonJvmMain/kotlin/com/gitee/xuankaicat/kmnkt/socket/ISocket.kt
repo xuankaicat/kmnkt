@@ -61,6 +61,11 @@ interface ISocket {
     var path: String
 
     /**
+     * 在主线程上执行回调
+     */
+    var callbackOnMain: Boolean
+
+    /**
      * 输入编码
      */
     var inCharset: Charset

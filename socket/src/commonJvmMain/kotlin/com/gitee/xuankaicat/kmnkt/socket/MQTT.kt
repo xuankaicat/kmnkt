@@ -45,6 +45,8 @@ open class MQTT : IMqttSocket {
     private val serverURI
         get() = "${uriType}://${address}:${port}${path}"
 
+    override var callbackOnMain: Boolean = true
+
     override var inCharset: Charset = Charsets.UTF_8
     override var outCharset: Charset = Charsets.UTF_8
 
@@ -202,7 +204,11 @@ open class MQTT : IMqttSocket {
             val msg = String(message.payload, inCharset)
             Log.v("MQTT", "收到来自[${topic}]的消息\"${msg}\"")
             var notStop = true
-            mainThread {
+            if (callbackOnMain) {
+                mainThread {
+                    notStop = this@MQTT.onReceives[topic]?.invoke(msg, topic) == false
+                }
+            } else {
                 notStop = this@MQTT.onReceives[topic]?.invoke(msg, topic) == false
             }
             if(!notStop) {
