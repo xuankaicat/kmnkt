@@ -40,9 +40,10 @@ open class MQTT : IMqttSocket {
     override var uriType: String = "tcp"
     override var port: Int = 9000
     override var address: String = "10.0.2.2"
+    override var path: String = ""
 
     private val serverURI
-        get() = "${uriType}://${address}:${port}"
+        get() = "${uriType}://${address}:${port}${path}"
 
     override var inCharset: Charset = Charsets.UTF_8
     override var outCharset: Charset = Charsets.UTF_8

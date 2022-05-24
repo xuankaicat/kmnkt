@@ -56,6 +56,11 @@ interface ISocket {
     var address: String
 
     /**
+     * 通信路径
+     */
+    var path: String
+
+    /**
      * 输入编码
      */
     var inCharset: Charset
