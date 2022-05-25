@@ -124,6 +124,10 @@ open class MQTT : IMqttSocket {
                 Thread.sleep(2L)
                 nowTime += 2L
             }
+
+            if(nowTime >= timeout) {
+                removeInMessageTopic(inTopic)
+            }
         }
 
         return result
