@@ -106,6 +106,29 @@ open class MQTT : IMqttSocket {
         sendSync(outTopic, message)
     }
 
+    override fun sendAndReceiveSync(outTopic: String, inTopic: String, message: String, timeout: Long): String? {
+        var result: String? = null
+
+        sendAndReceiveSync(outTopic, inTopic, message) { str, _ ->
+            result = str
+            false
+        }
+
+        if(timeout == -1L) {
+            while (result == null) {
+                Thread.sleep(2L)
+            }
+        } else {
+            var nowTime = 0L
+            while (result == null && nowTime < timeout) {
+                Thread.sleep(2L)
+                nowTime += 2L
+            }
+        }
+
+        return result
+    }
+
     override fun addInMessageTopic(topic: String, onReceive: OnReceiveFunc) {
         if(client == null) return
         Log.v("MQTT", "开始订阅$topic")

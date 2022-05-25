@@ -161,6 +161,16 @@ interface IMqttSocket : ISocket {
      * @param onReceive 回调函数
      */
     fun sendAndReceiveSync(outTopic: String, inTopic: String, message: String, onReceive: OnReceiveFunc)
+
+    /**
+     * 同步发送指定发送主题数据并根据接收主题接收消息
+     * @param outTopic 发送主题
+     * @param inTopic 接收主题
+     * @param message 数据内容
+     * @param timeout 超时时间，单位毫秒，设为负数则无时间规定
+     * @return 接收到的内容，如果超时则会返回null
+     */
+    fun sendAndReceiveSync(outTopic: String, inTopic: String, message: String, timeout: Long = -1L): String?
 }
 
 /**
