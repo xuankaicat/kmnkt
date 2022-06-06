@@ -10,7 +10,7 @@ kotlin {
     }
     jvm("desktop") {
         compilations.all {
-            kotlinOptions.jvmTarget = "11"
+            kotlinOptions.jvmTarget = "8"
         }
     }
     sourceSets {
@@ -27,8 +27,8 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                api("androidx.appcompat:appcompat:1.4.1")
-                api("androidx.core:core-ktx:1.7.0")
+                implementation("androidx.appcompat:appcompat:1.4.2")
+                implementation("androidx.core:core-ktx:1.8.0")
                 implementation("org.eclipse.paho:org.eclipse.paho.android.service:1.1.1")
             }
         }
@@ -40,13 +40,13 @@ kotlin {
         }
         val desktopMain by getting {
             dependencies {
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
             }
         }
         val desktopTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.2")
             }
         }
         val commonJvmMain by sourceSets.creating {
