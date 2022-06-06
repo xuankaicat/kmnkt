@@ -57,6 +57,7 @@ interface ISocket {
 
     /**
      * 通信路径
+     * 对于MQTT，最后的访问结果为"${uriType}://${address}:${port}${path}"
      */
     var path: String
 
