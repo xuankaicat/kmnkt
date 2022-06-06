@@ -7,7 +7,6 @@ import com.gitee.xuankaicat.kmnkt.socket.utils.mainThread
 import org.eclipse.paho.client.mqttv3.*
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence
 import java.nio.charset.Charset
-import java.util.*
 import kotlin.collections.HashMap
 import kotlin.concurrent.thread
 
@@ -50,9 +49,9 @@ open class MQTT : IMqttSocket {
     override var inCharset: Charset = Charsets.UTF_8
     override var outCharset: Charset = Charsets.UTF_8
 
-    private var isReceiving = false
+    private var receiving = -1
 
-    private val onReceives = HashMap<String, OnReceiveFunc>(3)
+    private val onReceives = HashMap<String, MutableList<OnReceiveFunc?>?>(3)
     private var onOpenCallback: IOnOpenCallback = OnOpenCallback()
 
     override fun send(message: String) = send(outMessageTopic, message)
@@ -136,31 +135,49 @@ open class MQTT : IMqttSocket {
     override fun addInMessageTopic(topic: String, onReceive: OnReceiveFunc) {
         if(client == null) return
         Log.v("MQTT", "开始订阅$topic")
-        onReceives[topic] = onReceive
+        onReceives[topic]?.let {
+            it += onReceive
+        } ?: run {
+            onReceives[topic] = mutableListOf(onReceive)
+        }
         client?.subscribe(topic, _qos)
     }
 
     override fun removeInMessageTopic(topic: String) {
         if(client == null) return
-        Log.v("MQTT", "结束订阅$topic")
-        onReceives.remove(topic)
-        client?.unsubscribe(topic)
+        onReceives[topic]?.let {
+
+            val mainTopic = if(topic == inMessageTopic) it[receiving] else null
+
+            it.removeIf { callback -> callback == null }
+            if(it.size == 0) {
+                onReceives.remove(topic)
+                client?.unsubscribe(topic)
+                Log.v("MQTT", "结束订阅$topic")
+            } else if(mainTopic != null) {
+                receiving = it.indexOf(mainTopic)
+            }
+            null
+        }
     }
 
     override fun startReceive(onReceive: OnReceiveFunc): Boolean {
         if(client == null) return false
-        if(isReceiving) return false
-        isReceiving = true
-        onReceives[inMessageTopic] = onReceive
-        client?.subscribe(inMessageTopic, _qos)//订阅主题，参数：主题、服务质量
+        if(receiving != -1) return false
+        addInMessageTopic(inMessageTopic, onReceive)
+        onReceives[inMessageTopic]?.let {
+            receiving = it.size - 1
+        }
         return true
     }
 
     override fun stopReceive() {
-        if(!isReceiving) return
-        onReceives.remove(inMessageTopic)
-        isReceiving = false
-        client?.unsubscribe(inMessageTopic)
+        if(receiving == -1) return
+        onReceives[inMessageTopic]?.let {
+            it[receiving] = null
+        }
+        removeInMessageTopic(inMessageTopic)
+        receiving = -1
     }
 
     override fun open(onOpenCallback: IOnOpenCallback) {
@@ -172,7 +189,7 @@ open class MQTT : IMqttSocket {
             val tmpDir = System.getProperty("java.io.tmpdir")
             val dataStore = MqttDefaultFilePersistence(tmpDir)
 
-            if(clientId == "") clientId = UUID.randomUUID().toString()
+            if(clientId == "") clientId = java.util.UUID.randomUUID().toString()
             client = MqttClient(serverURI, clientId, dataStore)
             client?.setCallback(mqttCallback)
 
@@ -241,15 +258,27 @@ open class MQTT : IMqttSocket {
             //收到消息 String(message.payload)
             val msg = String(message.payload, inCharset)
             Log.v("MQTT", "收到来自[${topic}]的消息\"${msg}\"")
-            var notStop = true
-            if (callbackOnMain) {
-                mainThread {
-                    notStop = this@MQTT.onReceives[topic]?.invoke(msg, topic) == false
+            var doClean = false
+
+            val callbacks = this@MQTT.onReceives[topic] ?: mutableListOf()
+
+            val callbackBlock = {
+                for (i in 0..callbacks.size) {
+                    val stillRun = callbacks[i]?.let { it(msg, topic) } ?: false
+                    if(!stillRun) {
+                        callbacks[i] = null
+                        doClean = true
+                    }
                 }
-            } else {
-                notStop = this@MQTT.onReceives[topic]?.invoke(msg, topic) == false
             }
-            if(!notStop) {
+
+            if (callbackOnMain) {
+                mainThread { callbackBlock() }
+            } else {
+                callbackBlock()
+            }
+
+            if(doClean) {
                 removeInMessageTopic(topic)
             }
         }
