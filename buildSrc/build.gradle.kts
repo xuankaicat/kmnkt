@@ -4,6 +4,7 @@ plugins {
 
 repositories {
     google()
+    gradlePluginPortal()
     mavenCentral()
     maven("https://repo.eclipse.org/content/repositories/paho-snapshots/")
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
