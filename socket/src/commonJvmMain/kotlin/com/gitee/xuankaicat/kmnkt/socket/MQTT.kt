@@ -108,10 +108,12 @@ open class MQTT : IMqttSocket {
     override fun sendAndReceiveSync(outTopic: String, inTopic: String, message: String, timeout: Long): String? {
         var result: String? = null
 
-        sendAndReceiveSync(outTopic, inTopic, message) { str, _ ->
+        val callback: OnReceiveFunc = { str, _ ->
             result = str
             false
         }
+
+        sendAndReceiveSync(outTopic, inTopic, message, callback)
 
         if(timeout == -1L) {
             while (result == null) {
@@ -125,6 +127,9 @@ open class MQTT : IMqttSocket {
             }
 
             if(nowTime >= timeout) {
+                onReceives[inTopic]?.let {
+                    it.removeIf { c -> c == callback }
+                }
                 removeInMessageTopic(inTopic)
             }
         }
