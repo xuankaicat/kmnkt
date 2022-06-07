@@ -35,43 +35,49 @@ private val socket = tcp {
 }
 ```
 
+### 创建Mqtt对象(简化)
+
+```kotlin
+import com.gitee.xuankaicat.kmnkt.socket.dsl.mqtt
+
+private val socket = mqtt {
+    address = "10.0.2.2" //设置ip地址
+    port = 9000 //设置端口号
+    username = "siot" //设置用户名
+    password = "siot" //设置密码
+    // 在这里设置的Topic并不代表订阅或发布只能用这个Topic，详见MQTT扩展用法。
+    inMessageTopic = "DeviceTest/000000" //设置订阅消息Topic
+    outMessageTopic = "DeviceTest/123456" //设置发送消息Topic
+}
+```
+
 ### 创建Mqtt对象
 
 ```kotlin
 import com.gitee.xuankaicat.kmnkt.socket.dsl.mqtt
 
 private val socket = mqtt {
-    address = "10.0.2.2"//设置ip地址
-    port = 9000//设置端口号
-    inCharset = Charset.forName("gb2312")//设置输入编码
-    outCharset = Charset.forName("gb2312")//设置输出编码
-    /*MQTT必须的额外配置*/
-    username = "siot"//设置用户名
-    password = "siot"//设置密码
-    publishTopic = "DeviceTest/000000"//设置订阅消息Topic
-    responseTopic = "DeviceTest/123456"//设置发送消息Topic
-    /*MQTT自定义配置*/
-    timeOut = 10//设置超时时间
-    cleanSession = true//断开连接后是否清楚缓存，如果清除缓存则在重连后需要手动恢复订阅。
-    keepAliveInterval = 20//检测连接是否中断的间隔
+    address = "10.0.2.2"
+    port = 9000
+    inCharset = Charset.forName("gb2312") //设置输入编码
+    outCharset = Charset.forName("gb2312") //设置输出编码
+    username = "siot"
+    password = "siot"
+    inMessageTopic = "DeviceTest/000000"
+    outMessageTopic = "DeviceTest/123456"
+    /*自定义配置*/
+    qos = MqttQuality.ExactlyOnce // 服务质量 详见MqttQuality
+    uriType = "tcp" //通信方式 默认为tcp
+    clientId = "" //客户端ID，如果为空则为随机值
+    timeOut = 10 //设置超时时间
+    cleanSession = true //断开连接后是否清楚缓存，如果清除缓存则在重连后需要手动恢复订阅。
+    keepAliveInterval = 20 //检测连接是否中断的间隔
+    /*行为配置*/
+    threadLock = false //是否启用线程同步锁 默认false
 }
 ```
 
 > MQTT的其他参数配置可以参考[`IMqttSocket`](src/commonJvmMain/kotlin/com/gitee/xuankaicat/kmnkt/socket/IMqttSocket.kt)接口
-
-### 创建阿里云IotMqtt对象
-
-```kotlin
-import com.gitee.xuankaicat.kmnkt.aliyuniot.AliyunMqtt
-import com.gitee.xuankaicat.kmnkt.aliyuniot.mqtt
-
-private val socket = mqtt(AliyunMqtt(
-    productKey = "",
-    deviceName = "",
-    deviceSecret = "",
-    regionId = "cn-shanghai"
-))
-```
 
 ### 开启连接
 
@@ -81,11 +87,11 @@ socket.open()
 
 **回调默认设置**
 
-| 回调函数 | 返回值 |触发时机 |默认行为 |
-| -------- | -------- | -------- |-------- |
-| success  | 无返回值     | 连接成功后 | 打印日志 |
-| failure  | 是否重新连接 | 连接失败后 | 打印日志，5秒后尝试重新连接 |
-| loss     | 是否重新连接 | 失去连接后 | 打印日志，尝试重新连接 |
+| 回调函数    | 返回值    | 触发时机  | 默认行为           |
+|---------|--------|-------|----------------|
+| success | 无返回值   | 连接成功后 | 打印日志           |
+| failure | 是否重新连接 | 连接失败后 | 打印日志，5秒后尝试重新连接 |
+| loss    | 是否重新连接 | 失去连接后 | 打印日志，尝试重新连接    |
 
 > `loss`回调函数尝试重新连接后的连接成功与失败将会触发`success`与`failure`回调。
 
