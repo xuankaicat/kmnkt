@@ -139,12 +139,14 @@ open class MQTT : IMqttSocket {
 
     override fun addInMessageTopic(topic: String, onReceive: OnReceiveFunc) {
         if(client == null) return
-        Log.v("MQTT", "开始订阅$topic")
-        onReceives[topic]?.let {
-            it += onReceive
-        } ?: run {
-            onReceives[topic] = mutableListOf(onReceive)
-            client?.subscribe(topic, _qos)
+        synchronized("_MQTT$$${topic}".intern()) {
+            Log.v("MQTT", "开始订阅$topic")
+            onReceives[topic]?.let {
+                it += onReceive
+            } ?: run {
+                onReceives[topic] = mutableListOf(onReceive)
+                client?.subscribe(topic, _qos)
+            }
         }
     }
 
@@ -262,7 +264,7 @@ open class MQTT : IMqttSocket {
         override fun messageArrived(topic: String, message: MqttMessage) {
             this@MQTT.onReceives[topic]?.let { callbacks ->
 
-                synchronized(callbacks) {
+                synchronized("_MQTT$$${topic}".intern()) {
 
                     //收到消息 String(message.payload)
                     val msg = String(message.payload, inCharset)
