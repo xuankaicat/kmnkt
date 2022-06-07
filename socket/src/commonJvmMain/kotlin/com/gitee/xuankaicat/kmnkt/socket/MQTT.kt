@@ -260,31 +260,35 @@ open class MQTT : IMqttSocket {
     //订阅主题的回调
     private val mqttCallback: MqttCallback = object : MqttCallback {
         override fun messageArrived(topic: String, message: MqttMessage) {
-            //收到消息 String(message.payload)
-            val msg = String(message.payload, inCharset)
-            Log.v("MQTT", "收到来自[${topic}]的消息\"${msg}\"")
-            var doClean = false
+            this@MQTT.onReceives[topic]?.let { callbacks ->
 
-            val callbacks = this@MQTT.onReceives[topic] ?: mutableListOf()
+                synchronized(callbacks) {
 
-            val callbackBlock = {
-                for (i in 0 until callbacks.size) {
-                    val stillRun = callbacks[i]?.let { it(msg, topic) } ?: false
-                    if(!stillRun) {
-                        callbacks[i] = null
-                        doClean = true
+                    //收到消息 String(message.payload)
+                    val msg = String(message.payload, inCharset)
+                    Log.v("MQTT", "收到来自[${topic}]的消息\"${msg}\"")
+                    var doClean = false
+
+                    val callbackBlock = {
+                        for (i in 0 until callbacks.size) {
+                            val stillRun = callbacks[i]?.let { it(msg, topic) } ?: false
+                            if(!stillRun) {
+                                callbacks[i] = null
+                                doClean = true
+                            }
+                        }
+                    }
+
+                    if (callbackOnMain) {
+                        mainThread { callbackBlock() }
+                    } else {
+                        callbackBlock()
+                    }
+
+                    if(doClean) {
+                        removeInMessageTopic(topic)
                     }
                 }
-            }
-
-            if (callbackOnMain) {
-                mainThread { callbackBlock() }
-            } else {
-                callbackBlock()
-            }
-
-            if(doClean) {
-                removeInMessageTopic(topic)
             }
         }
 
