@@ -73,6 +73,7 @@ dependencies {
 * [app](examples/app) - 安卓中的udp/tcp/mqtt示例
 * [app-java](examples/app-java) - 在安卓中使用java语言进行开发的udp/tcp/mqtt示例
 * [AliyunIotDemo](examples/AliyunIotDemo) - 基于JetBrains Compose for Desktop的阿里云Iot桌面应用示例
+* [springbootDemo](examples/springbootDemo) - 在springboot中的mqtt示例
 
 ## 模块
 

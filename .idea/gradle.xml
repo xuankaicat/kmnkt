@@ -7,7 +7,6 @@
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleHome" value="$PROJECT_DIR$/../../../codeCache/gradle-7.3.3" />
-        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
@@ -17,6 +16,7 @@
             <option value="$PROJECT_DIR$/examples/AliyunIotDemo" />
             <option value="$PROJECT_DIR$/examples/app" />
             <option value="$PROJECT_DIR$/examples/app-java" />
+            <option value="$PROJECT_DIR$/examples/springbootDemo" />
             <option value="$PROJECT_DIR$/socket" />
           </set>
         </option>

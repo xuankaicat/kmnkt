@@ -11,5 +11,6 @@ rootProject.name = "kmnkt"
 include(":examples:app")
 include(":examples:app-java")
 include(":examples:AliyunIotDemo")
+include(":examples:springbootDemo")
 include(":socket")
 include(":aliyun-iot")
