@@ -144,8 +144,8 @@ open class MQTT : IMqttSocket {
             it += onReceive
         } ?: run {
             onReceives[topic] = mutableListOf(onReceive)
+            client?.subscribe(topic, _qos)
         }
-        client?.subscribe(topic, _qos)
     }
 
     override fun removeInMessageTopic(topic: String) {
