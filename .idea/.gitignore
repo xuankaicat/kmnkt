@@ -8,3 +8,4 @@ workspace.xml
 dataSources.local.xml
 
 gradle.xml
+misc.xml
