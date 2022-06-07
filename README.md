@@ -14,6 +14,10 @@ kmnkt（原communicate）是基于Kotlin Multiplatform的跨平台socket通信�
 - 对于实现多种通信方式的需求快速转换
 - 使用kotlin实现，对kotlin语法支持好(DSL)
 
+## 如何使用
+1. 在项目中引入依赖，参阅[Gradle](#gradle)。
+2. 查看[示例项目](#示例项目)或对应[模块](#模块)的文档。
+
 ## Gradle
 
 ### Groovy DSL
