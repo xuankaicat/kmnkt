@@ -54,6 +54,12 @@ interface IMqttSocket : ISocket {
     var uriType: String
 
     /**
+     * 通信路径，用于在使用ws进行通信时设置uri
+     * 最后的访问结果为"${uriType}://${address}:${port}${path}"
+     */
+    var path: String
+
+    /**
      * 连接超时时间，超过这个时间未连接将进行失败回调
      * 默认为10秒
      */

@@ -56,12 +56,6 @@ interface ISocket {
     var address: String
 
     /**
-     * 通信路径
-     * 对于MQTT，最后的访问结果为"${uriType}://${address}:${port}${path}"
-     */
-    var path: String
-
-    /**
      * 在主线程上执行回调
      */
     var callbackOnMain: Boolean

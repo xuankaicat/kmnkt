@@ -18,7 +18,6 @@ open class TCP : ISocket {
 
     override var port: Int = 9000
     private var _address: InetAddress = InetAddress.getByName("10.0.2.2")
-    override var path: String = ""
     override var address: String
         get() = _address.hostAddress!!
         set(value) {
