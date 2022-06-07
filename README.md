@@ -34,11 +34,11 @@ allprojects {
 ```groovy
 dependencies {
     // udp/tcp/mqtt支持
-    implementation 'com.gitee.xuankaicat.kmnkt:socket-android:2.0.0-alpha02'// 适用于Android
-    implementation 'com.gitee.xuankaicat.kmnkt:socket-desktop:2.0.0-alpha02'// 适用于Desktop
+    implementation 'com.gitee.xuankaicat.kmnkt:socket-android:2.0.0-alpha03-3'// 适用于Android
+    implementation 'com.gitee.xuankaicat.kmnkt:socket-desktop:2.0.0-alpha03-3'// 适用于Desktop
     // 阿里云alink支持
-    implementation 'com.gitee.xuankaicat.kmnkt:aliyun-iot-android:2.0.0-alpha02'// 适用于Android
-    implementation 'com.gitee.xuankaicat.kmnkt:aliyun-iot-desktop:2.0.0-alpha02'// 适用于Desktop
+    implementation 'com.gitee.xuankaicat.kmnkt:aliyun-iot-android:2.0.0-alpha03-3'// 适用于Android
+    implementation 'com.gitee.xuankaicat.kmnkt:aliyun-iot-desktop:2.0.0-alpha03-3'// 适用于Desktop
 }
 ```
 
@@ -60,11 +60,11 @@ allprojects {
 ```kotlin
 dependencies {
     // udp/tcp/mqtt支持
-    implementation("com.gitee.xuankaicat.kmnkt:socket-android:2.0.0-alpha02")// 适用于Android
-    implementation("com.gitee.xuankaicat.kmnkt:socket-desktop:2.0.0-alpha02")// 适用于Desktop
+    implementation("com.gitee.xuankaicat.kmnkt:socket-android:2.0.0-alpha03-3")// 适用于Android
+    implementation("com.gitee.xuankaicat.kmnkt:socket-desktop:2.0.0-alpha03-3")// 适用于Desktop
     // 阿里云alink支持
-    implementation("com.gitee.xuankaicat.kmnkt:aliyun-iot-android:2.0.0-alpha02")// 适用于Android
-    implementation("com.gitee.xuankaicat.kmnkt:aliyun-iot-desktop:2.0.0-alpha02")// 适用于Desktop
+    implementation("com.gitee.xuankaicat.kmnkt:aliyun-iot-android:2.0.0-alpha03-3")// 适用于Android
+    implementation("com.gitee.xuankaicat.kmnkt:aliyun-iot-desktop:2.0.0-alpha03-3")// 适用于Desktop
 }
 ```
 
