@@ -101,6 +101,12 @@ interface IMqttSocket : ISocket {
     var options: MqttConnectOptions?
 
     /**
+     * 是否启用线程同步锁
+     * 默认false
+     */
+    var threadLock: Boolean
+
+    /**
      * 增加输入信息响应主题
      * @param topic 主题
      * @param onReceive 回调函数

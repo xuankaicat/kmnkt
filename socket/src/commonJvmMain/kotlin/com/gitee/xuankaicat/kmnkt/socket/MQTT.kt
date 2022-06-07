@@ -54,6 +54,8 @@ open class MQTT : IMqttSocket {
     private val onReceives = HashMap<String, MutableList<OnReceiveFunc?>?>(3)
     private var onOpenCallback: IOnOpenCallback = OnOpenCallback()
 
+    override var threadLock: Boolean = false
+
     override fun send(message: String) = send(outMessageTopic, message)
 
     override fun send(topic: String, message: String) {
@@ -139,7 +141,7 @@ open class MQTT : IMqttSocket {
 
     override fun addInMessageTopic(topic: String, onReceive: OnReceiveFunc) {
         if(client == null) return
-        synchronized("_MQTT$$${topic}".intern()) {
+        lock(topic) {
             Log.v("MQTT", "开始订阅$topic")
             onReceives[topic]?.let {
                 it += onReceive
@@ -152,19 +154,20 @@ open class MQTT : IMqttSocket {
 
     override fun removeInMessageTopic(topic: String) {
         if(client == null) return
-        onReceives[topic]?.let {
+        lock(topic) {
+            onReceives[topic]?.let {
 
-            val mainTopic = if(topic == inMessageTopic) it[receiving] else null
+                val mainTopic = if(topic == inMessageTopic) it[receiving] else null
 
-            it.removeIf { callback -> callback == null }
-            if(it.size == 0) {
-                onReceives.remove(topic)
-                client?.unsubscribe(topic)
-                Log.v("MQTT", "结束订阅$topic")
-            } else if(mainTopic != null) {
-                receiving = it.indexOf(mainTopic)
+                it.removeIf { callback -> callback == null }
+                if(it.size == 0) {
+                    onReceives.remove(topic)
+                    client?.unsubscribe(topic)
+                    Log.v("MQTT", "结束订阅$topic")
+                } else if(mainTopic != null) {
+                    receiving = it.indexOf(mainTopic)
+                }
             }
-            null
         }
     }
 
@@ -262,14 +265,12 @@ open class MQTT : IMqttSocket {
     //订阅主题的回调
     private val mqttCallback: MqttCallback = object : MqttCallback {
         override fun messageArrived(topic: String, message: MqttMessage) {
-            this@MQTT.onReceives[topic]?.let { callbacks ->
-
-                synchronized("_MQTT$$${topic}".intern()) {
-
+            var doClean = false
+            lock(topic) {
+                this@MQTT.onReceives[topic]?.let { callbacks ->
                     //收到消息 String(message.payload)
                     val msg = String(message.payload, inCharset)
                     Log.v("MQTT", "收到来自[${topic}]的消息\"${msg}\"")
-                    var doClean = false
 
                     val callbackBlock = {
                         for (i in 0 until callbacks.size) {
@@ -286,11 +287,10 @@ open class MQTT : IMqttSocket {
                     } else {
                         callbackBlock()
                     }
-
-                    if(doClean) {
-                        removeInMessageTopic(topic)
-                    }
                 }
+            }
+            if(doClean) {
+                removeInMessageTopic(topic)
             }
         }
 
@@ -304,6 +304,19 @@ open class MQTT : IMqttSocket {
                     Log.w("MQTT", "重连成功，消息可能需要重新订阅。如果不希望在重连后重新订阅，可以设置连接对象的cleanSession字段为false。 {uri: '${serverURI}', username: '${username}', password: '${password}'}")
                 }
             }
+        }
+    }
+
+    /**
+     * 根据topic设置同步锁
+     * @param topic String
+     * @param block Function0<Unit>
+     */
+    private inline fun lock(topic: String, block: () -> Unit) {
+        if(threadLock) {
+            synchronized("_MQTT$$${topic}".intern(), block)
+        } else {
+            block()
         }
     }
 }
