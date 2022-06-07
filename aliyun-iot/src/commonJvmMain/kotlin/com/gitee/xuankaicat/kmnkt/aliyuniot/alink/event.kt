@@ -48,7 +48,7 @@ fun IMqttSocket.propertySet(
 ) {
     this as AlinkMQTT
 
-    addInMessageTopic("/sys/gvjbFCd19iJ/${deviceName}/thing/service/property/set") { v, _ ->
+    addInMessageTopic("/sys/${productKey}/${deviceName}/thing/service/property/set") { v, _ ->
         onReceive(Json.decodeFromString(v))
         return@addInMessageTopic !receiveOnce
     }
