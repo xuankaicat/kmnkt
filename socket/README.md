@@ -3,8 +3,9 @@
 
 ## 示例项目
 
-* [app](examples/app) - 安卓中的udp/tcp/mqtt示例
-* [app-java](examples/app-java) - 在安卓中使用java语言进行开发的udp/tcp/mqtt示例
+* [app](../examples/app) - 安卓中的udp/tcp/mqtt示例
+* [app-java](../examples/app-java) - 在安卓中使用java语言进行开发的udp/tcp/mqtt示例
+* [springbootDemo](../examples/springbootDemo) - 在springboot中的mqtt示例
 
 ## 基本用法
 
@@ -167,4 +168,29 @@ socket.sendAndReceive("发布topic", "订阅topic", "hello") { str, topic ->
 socket.sendAndReceive("发布topic", "订阅topic", "hello") { 
     // it: 收到的消息
 }
+```
+
+### 同步发送消息
+
+```kotlin
+socket.sendSync("hello") // 根据outMessageTopic发布消息
+socket.sendSync("topic", "hello") // 根据指定topic发布消息
+```
+
+### 订阅并发布消息
+
+```kotlin
+socket.sendAndReceiveSync("发布topic", "订阅topic", "hello") { str, topic ->
+    // str: 收到的消息
+    // topic: 消息topic
+}
+// 简化版本
+socket.sendAndReceiveSync("发布topic", "订阅topic", "hello") { 
+    // it: 收到的消息
+}
+// 订阅并发布后等待至拿到响应消息并赋值给result
+// 如果超过10秒没有收到消息则将result设为"消息响应超时"，并取消订阅topic
+val result = socket.sendAndReceiveSync(
+    "发布topic", "订阅topic", "hello", 10000L
+) ?: "消息响应超时"
 ```
