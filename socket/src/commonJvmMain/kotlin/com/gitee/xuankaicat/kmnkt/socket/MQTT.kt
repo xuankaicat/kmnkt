@@ -268,7 +268,7 @@ open class MQTT : IMqttSocket {
             val callbacks = this@MQTT.onReceives[topic] ?: mutableListOf()
 
             val callbackBlock = {
-                for (i in 0..callbacks.size) {
+                for (i in 0 until callbacks.size) {
                     val stillRun = callbacks[i]?.let { it(msg, topic) } ?: false
                     if(!stillRun) {
                         callbacks[i] = null
