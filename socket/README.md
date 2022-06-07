@@ -183,7 +183,7 @@ socket.sendSync("hello") // 根据outMessageTopic发布消息
 socket.sendSync("topic", "hello") // 根据指定topic发布消息
 ```
 
-### 订阅并发布消息
+### 同步订阅并发布消息
 
 ```kotlin
 socket.sendAndReceiveSync("发布topic", "订阅topic", "hello") { str, topic ->
