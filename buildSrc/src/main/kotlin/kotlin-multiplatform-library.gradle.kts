@@ -13,6 +13,9 @@ kotlin {
             kotlinOptions.jvmTarget = "1.8"
         }
     }
+    js(IR) {
+        useCommonJs()
+    }
     sourceSets {
         val commonMain by getting {
             dependencies {
