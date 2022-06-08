@@ -5,7 +5,7 @@ import com.gitee.xuankaicat.kmnkt.socket.utils.Log
 /**
  * OnOpenCallback的默认实现
  */
-open class OnOpenCallback : IOnOpenCallback {
+actual open class OnOpenCallback : IOnOpenCallback {
     private var success: ((ISocket) -> Unit) = { communicate ->
         Log.v("openCallback", "${communicate.address}:建立连接成功")
     }

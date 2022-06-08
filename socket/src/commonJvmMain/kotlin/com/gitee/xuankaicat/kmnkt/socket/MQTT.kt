@@ -10,7 +10,7 @@ import java.nio.charset.Charset
 import kotlin.collections.HashMap
 import kotlin.concurrent.thread
 
-open class MQTT : IMqttSocket {
+actual open class MQTT : IMqttSocket {
     private var client: MqttClient? = null
     override val socket: Any?
         get() = client

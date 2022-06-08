@@ -2,7 +2,10 @@
 
 package com.gitee.xuankaicat.kmnkt.socket
 
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions
+import com.gitee.xuankaicat.kmnkt.socket.utils.MqttConnectOptions
+import com.gitee.xuankaicat.kmnkt.socket.utils.Thread
+import kotlin.jvm.JvmName
+import kotlin.jvm.JvmStatic
 
 /**
  * Mqtt发送质量(qos)枚举
