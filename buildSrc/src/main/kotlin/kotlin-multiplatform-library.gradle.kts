@@ -61,6 +61,11 @@ kotlin {
             }
         }
         val commonJvmTest by sourceSets.creating
+        val jsMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
+            }
+        }
     }
 }
 

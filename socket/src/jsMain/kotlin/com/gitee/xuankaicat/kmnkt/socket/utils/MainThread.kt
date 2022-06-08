@@ -1,3 +1,9 @@
 package com.gitee.xuankaicat.kmnkt.socket.utils
 
-actual fun mainThread(block: () -> Unit) = block()
+import kotlinx.coroutines.*
+
+actual fun mainThread(block: () -> Unit) {
+    MainScope().promise {
+        block()
+    }
+}
