@@ -16,7 +16,8 @@ kotlin {
         }
     }
     js(IR) {
-        useCommonJs()
+        browser()
+        binaries.executable()
     }
     sourceSets {
         val commonMain by getting {
