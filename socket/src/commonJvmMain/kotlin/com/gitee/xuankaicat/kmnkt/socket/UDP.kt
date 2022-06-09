@@ -2,7 +2,6 @@
 
 package com.gitee.xuankaicat.kmnkt.socket
 
-import com.gitee.xuankaicat.kmnkt.socket.utils.Log
 import com.gitee.xuankaicat.kmnkt.socket.utils.mainThread
 import java.net.DatagramPacket
 import java.net.DatagramSocket
@@ -11,6 +10,8 @@ import java.nio.charset.Charset
 import kotlin.concurrent.thread
 
 actual open class UDP : ISocket {
+    override var enableDefaultLog = true
+
     private var _socket: DatagramSocket? = null
     override val socket: Any?
         get() = _socket

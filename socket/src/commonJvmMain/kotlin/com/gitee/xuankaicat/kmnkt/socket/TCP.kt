@@ -2,7 +2,6 @@
 
 package com.gitee.xuankaicat.kmnkt.socket
 
-import com.gitee.xuankaicat.kmnkt.socket.utils.Log
 import com.gitee.xuankaicat.kmnkt.socket.utils.mainThread
 import java.io.InputStream
 import java.io.OutputStream
@@ -12,6 +11,8 @@ import java.nio.charset.Charset
 import kotlin.concurrent.thread
 
 actual open class TCP : ISocket {
+    override var enableDefaultLog = true
+
     private var _socket: Socket? = null
     override val socket: Any?
         get() = _socket

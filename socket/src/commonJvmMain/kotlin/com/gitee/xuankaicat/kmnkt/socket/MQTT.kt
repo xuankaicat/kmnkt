@@ -2,7 +2,6 @@
 
 package com.gitee.xuankaicat.kmnkt.socket
 
-import com.gitee.xuankaicat.kmnkt.socket.utils.Log
 import com.gitee.xuankaicat.kmnkt.socket.utils.mainThread
 import org.eclipse.paho.client.mqttv3.*
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence
@@ -11,6 +10,8 @@ import kotlin.collections.HashMap
 import kotlin.concurrent.thread
 
 actual open class MQTT : IMqttSocket {
+    override var enableDefaultLog = true
+
     private var client: MqttClient? = null
     override val socket: Any?
         get() = client

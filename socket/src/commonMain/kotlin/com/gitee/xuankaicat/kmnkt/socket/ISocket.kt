@@ -3,6 +3,7 @@
 package com.gitee.xuankaicat.kmnkt.socket
 
 import com.gitee.xuankaicat.kmnkt.socket.utils.Charset
+import com.gitee.xuankaicat.kmnkt.socket.utils.ILoggable
 import com.gitee.xuankaicat.kmnkt.socket.utils.Thread
 import kotlin.js.JsName
 import kotlin.jvm.JvmName
@@ -11,7 +12,7 @@ import kotlin.jvm.JvmStatic
 typealias OnReceiveFunc = (String, Any) -> Boolean
 typealias OnReceiveSimpleFunc = (String) -> Boolean
 
-interface ISocket {
+interface ISocket : ILoggable {
     companion object {
         @JvmStatic
         val TCPClient: ISocket

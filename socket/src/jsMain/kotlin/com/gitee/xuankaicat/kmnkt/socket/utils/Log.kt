@@ -1,6 +1,6 @@
 package com.gitee.xuankaicat.kmnkt.socket.utils
 
-actual object Log : ILog {
+actual object LogImpl : ILog {
     override fun v(tag: String, msg: String): Int {
         println("V/${tag}: $msg")
         return -1

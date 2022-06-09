@@ -5,6 +5,7 @@ import com.gitee.xuankaicat.kmnkt.socket.utils.MqttConnectOptions
 import com.gitee.xuankaicat.kmnkt.socket.utils.Thread
 
 actual open class MQTT : IMqttSocket {
+    override var enableDefaultLog = true
     override var qos: MqttQuality
         get() = TODO("Not yet implemented")
         set(value) {}

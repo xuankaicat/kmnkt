@@ -4,6 +4,7 @@ import com.gitee.xuankaicat.kmnkt.socket.utils.Charset
 import com.gitee.xuankaicat.kmnkt.socket.utils.Thread
 
 actual open class UDP : ISocket {
+    override var enableDefaultLog = true
     override val socket: Any?
         get() = TODO("Not yet implemented")
     override var port: Int
