@@ -11,7 +11,7 @@ import java.net.Socket
 import java.nio.charset.Charset
 import kotlin.concurrent.thread
 
-open class TCP : ISocket {
+actual open class TCP : ISocket {
     private var _socket: Socket? = null
     override val socket: Any?
         get() = _socket

@@ -2,7 +2,11 @@
 
 package com.gitee.xuankaicat.kmnkt.socket
 
-import java.nio.charset.Charset
+import com.gitee.xuankaicat.kmnkt.socket.utils.Charset
+import com.gitee.xuankaicat.kmnkt.socket.utils.Thread
+import kotlin.js.JsName
+import kotlin.jvm.JvmName
+import kotlin.jvm.JvmStatic
 
 typealias OnReceiveFunc = (String, Any) -> Boolean
 typealias OnReceiveSimpleFunc = (String) -> Boolean
@@ -108,6 +112,7 @@ interface ISocket {
      * 开启通信，用于TCP与MQTT建立连接
      * @param onOpenCallback 开启成功或失败的回调，默认失败会等待5秒重新尝试连接。
      */
+    @JsName("openWith")
     fun open(onOpenCallback: IOnOpenCallback)
 
     /**

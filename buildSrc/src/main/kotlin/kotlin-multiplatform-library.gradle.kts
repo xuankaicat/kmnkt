@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_VARIABLE")
+
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
@@ -12,6 +14,10 @@ kotlin {
         compilations.all {
             kotlinOptions.jvmTarget = "1.8"
         }
+    }
+    js(IR) {
+        browser()
+        binaries.executable()
     }
     sourceSets {
         val commonMain by getting {
@@ -58,6 +64,11 @@ kotlin {
             }
         }
         val commonJvmTest by sourceSets.creating
+        val jsMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
+            }
+        }
     }
 }
 
