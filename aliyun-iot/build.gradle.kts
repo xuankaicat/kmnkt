@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_VARIABLE")
+
 plugins {
     `kotlin-multiplatform-library`
     `maven-publish`
@@ -8,7 +10,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":socket"))
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
             }
         }
     }
