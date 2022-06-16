@@ -43,7 +43,7 @@ actual open class MQTT : AbstractMQTT(), IMqttSocket {
         var nowTimes = times
         Log.v("MQTT", "开始循环发送信息,剩余次数: $nowTimes, 间隔: $delay {uri: '${address}', port: ${port}}")
         while (nowTimes != 0) {
-            send(message)
+            send(topic, message)
             Thread.sleep(delay)
             if(nowTimes > 0) nowTimes--
         }
