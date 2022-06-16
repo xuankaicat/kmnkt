@@ -1,7 +1,6 @@
 package pers.xuankai.udptest.activity
 
 import android.os.Bundle
-import android.util.Log
 import com.dylanc.longan.immerseStatusBar
 import com.dylanc.longan.startActivity
 import com.gitee.xuankaicat.kmnkt.socket.dsl.mqtt

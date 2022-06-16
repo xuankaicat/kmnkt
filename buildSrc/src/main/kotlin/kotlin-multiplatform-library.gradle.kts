@@ -22,6 +22,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
                 implementation(kotlin("stdlib-common"))
             }
         }
@@ -46,7 +47,7 @@ kotlin {
         }
         val desktopMain by getting {
             dependencies {
-                api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
+
             }
         }
         val desktopTest by getting {
@@ -66,7 +67,6 @@ kotlin {
         val commonJvmTest by sourceSets.creating
         val jsMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
             }
         }
     }
