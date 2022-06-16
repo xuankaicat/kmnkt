@@ -41,7 +41,7 @@ actual open class MQTT : AbstractMQTT(), IMqttSocket {
 
     override fun send(topic: String, message: String, times: Int, delay: Long): Thread = thread {
         var nowTimes = times
-        Log.v("MQTT", "开始循环发送信息,剩余次数: $nowTimes, 间隔: $delay {uri: '${address}', port: ${port}}")
+        Log.v("MQTT", "开始循环发送信息,次数: $nowTimes, 间隔: $delay {uri: '${address}', port: ${port}}")
         while (nowTimes != 0) {
             send(topic, message)
             Thread.sleep(delay)
@@ -51,7 +51,7 @@ actual open class MQTT : AbstractMQTT(), IMqttSocket {
 
     override fun send(message: String, times: Int, delay: Long): Thread = thread {
         var nowTimes = times
-        Log.v("MQTT", "开始循环发送信息,剩余次数: $nowTimes, 间隔: $delay {uri: '${address}', port: ${port}}")
+        Log.v("MQTT", "开始循环发送信息,次数: $nowTimes, 间隔: $delay {uri: '${address}', port: ${port}}")
         while (nowTimes != 0) {
             send(message)
             Thread.sleep(delay)
