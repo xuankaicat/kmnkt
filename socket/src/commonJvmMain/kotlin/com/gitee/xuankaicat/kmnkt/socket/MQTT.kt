@@ -5,57 +5,18 @@ package com.gitee.xuankaicat.kmnkt.socket
 import com.gitee.xuankaicat.kmnkt.socket.utils.mainThread
 import org.eclipse.paho.client.mqttv3.*
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence
-import java.nio.charset.Charset
-import kotlin.collections.HashMap
 import kotlin.concurrent.thread
 
-actual open class MQTT : IMqttSocket {
-    override var enableDefaultLog = true
-
+actual open class MQTT : AbstractMQTT(), IMqttSocket {
     private var client: MqttClient? = null
     override val socket: Any?
         get() = client
 
-    private var _qos = 2
-    override var qos: MqttQuality
-        get() = MqttQuality.values()[_qos]
-        set(value) {
-            _qos = value.ordinal
-        }
-
-    override var timeOut: Int = 10
-    override var cleanSession: Boolean = true
-    override var keepAliveInterval: Int = 20
-
-    private val retained = false
     override var options: MqttConnectOptions? = null
 
-    override var username: String = ""
-    override var password: String = ""
-    override var clientId: String = ""
-
-    override var inMessageTopic: String = ""
-    override var outMessageTopic: String = ""
-
-    override var uriType: String = "tcp"
-    override var port: Int = 9000
-    override var address: String = "10.0.2.2"
-    override var path: String = ""
-
-    private val serverURI
-        get() = "${uriType}://${address}:${port}${path}"
-
-    override var callbackOnMain: Boolean = true
-
-    override var inCharset: Charset = Charsets.UTF_8
-    override var outCharset: Charset = Charsets.UTF_8
-
     private var receiving = -1
-
     private val onReceives = HashMap<String, MutableList<OnReceiveFunc?>?>(3)
     private var onOpenCallback: IOnOpenCallback = OnOpenCallback()
-
-    override var threadLock: Boolean = false
 
     override fun send(message: String) = send(outMessageTopic, message)
 
