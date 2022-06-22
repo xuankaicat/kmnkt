@@ -15,10 +15,10 @@ kotlin {
             kotlinOptions.jvmTarget = "1.8"
         }
     }
-    js(IR) {
-        browser()
-        binaries.executable()
-    }
+//    js(IR) {
+//        browser()
+//        binaries.executable()
+//    }
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -64,7 +64,7 @@ kotlin {
                 implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
             }
         }
-//        val commonJvmTest by sourceSets.creating
+        val commonJvmTest by sourceSets.creating
 //        val jsMain by getting {
 //            dependencies {
 //            }
