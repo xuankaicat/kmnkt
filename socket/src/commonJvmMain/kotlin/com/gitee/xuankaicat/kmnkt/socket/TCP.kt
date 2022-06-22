@@ -37,7 +37,7 @@ actual open class TCP : ISocket {
 
     private var isReceiving = false
     private var receiveThread: Thread? = null
-    private var onOpenCallback: IOnOpenCallback = OnOpenCallback()
+    private var onOpenCallback: IOnOpenCallback = OnOpenCallback(this)
 
     override fun send(message: String) {
         thread {

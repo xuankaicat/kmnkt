@@ -1,24 +1,29 @@
 package com.gitee.xuankaicat.kmnkt.socket
 
-import com.gitee.xuankaicat.kmnkt.socket.utils.Log
+import com.gitee.xuankaicat.kmnkt.socket.utils.ILoggable
 
 /**
  * OnOpenCallback的默认实现
  */
-actual open class OnOpenCallback : IOnOpenCallback {
+actual open class OnOpenCallback actual constructor(
+    loggable: ILoggable
+) : IOnOpenCallback {
+
+    private val log = loggable.Log
+
     private var success: ((ISocket) -> Unit) = { communicate ->
-        Log.v("openCallback", "${communicate.address}:建立连接成功")
+        log.v("openCallback", "${communicate.address}:建立连接成功")
     }
 
     private var failure: ((ISocket) -> Boolean) = { communicate ->
-        Log.v("openCallback", "${communicate.address}:建立连接失败，等待5秒后尝试重新连接")
+        log.v("openCallback", "${communicate.address}:建立连接失败，等待5秒后尝试重新连接")
         Thread.sleep(5000)
-        Log.v("openCallback", "${communicate.address}:尝试重新连接...")
+        log.v("openCallback", "${communicate.address}:尝试重新连接...")
         true
     }
 
     private var loss: ((ISocket) -> Boolean) = { communicate ->
-        Log.v("openCallback", "${communicate.address}:失去连接，尝试重新连接...")
+        log.v("openCallback", "${communicate.address}:失去连接，尝试重新连接...")
         true
     }
 

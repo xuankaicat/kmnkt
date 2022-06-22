@@ -16,7 +16,7 @@ actual open class MQTT : AbstractMQTT(), IMqttSocket {
 
     private var receiving = -1
     private val onReceives = HashMap<String, MutableList<OnReceiveFunc?>?>(3)
-    private var onOpenCallback: IOnOpenCallback = OnOpenCallback()
+    private var onOpenCallback: IOnOpenCallback = OnOpenCallback(this)
 
     override fun send(message: String) = send(outMessageTopic, message)
 
@@ -49,15 +49,7 @@ actual open class MQTT : AbstractMQTT(), IMqttSocket {
         }
     }
 
-    override fun send(message: String, times: Int, delay: Long): Thread = thread {
-        var nowTimes = times
-        Log.v("MQTT", "开始循环发送信息,次数: $nowTimes, 间隔: $delay {uri: '${address}', port: ${port}}")
-        while (nowTimes != 0) {
-            send(message)
-            Thread.sleep(delay)
-            if(nowTimes > 0) nowTimes--
-        }
-    }
+    override fun send(message: String, times: Int, delay: Long): Thread = send(outMessageTopic, message, times, delay)
 
     override fun sendAndReceive(outTopic: String, inTopic: String, message: String, onReceive: OnReceiveFunc) {
         addInMessageTopic(inTopic, onReceive)

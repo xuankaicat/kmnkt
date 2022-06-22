@@ -107,7 +107,7 @@ interface ISocket : ILoggable {
     /**
      * 开启通信，用于TCP与MQTT建立连接
      */
-    fun open() = open(OnOpenCallback())
+    fun open() = open(OnOpenCallback(this))
 
     /**
      * 开启通信，用于TCP与MQTT建立连接
@@ -138,4 +138,4 @@ inline fun ISocket.startReceive(crossinline onReceive: OnReceiveSimpleFunc): Boo
  * @param callback 开启成功或失败的回调，默认失败会等待5秒重新尝试连接。
  */
 inline fun ISocket.open(callback: OnOpenCallback.() -> Unit)
-    = open(OnOpenCallback().also(callback))
+    = open(OnOpenCallback(this).also(callback))
