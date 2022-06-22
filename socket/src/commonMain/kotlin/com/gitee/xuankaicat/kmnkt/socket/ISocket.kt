@@ -15,7 +15,7 @@ typealias OnReceiveSimpleFunc = (String) -> Boolean
 interface ISocket : ILoggable {
     companion object {
         @JvmStatic
-        val TCPClient: ISocket
+        val TCPClient: TCP
             @JvmName("TCPClient")
             get() = TCP()
 
@@ -28,7 +28,7 @@ interface ISocket : ILoggable {
         fun getTCPClient(build: (ISocket) -> Unit): ISocket = TCPClient.apply(build)
 
         @JvmStatic
-        val UDP: ISocket
+        val UDP: UDP
             @JvmName("UDP")
             get() = UDP()
 
@@ -51,12 +51,12 @@ interface ISocket : ILoggable {
     val socket: Any?
 
     /**
-     * 通信端口
+     * 自身通信端口
      */
     var port: Int
 
     /**
-     * 通信地址
+     * 目标通信地址
      */
     var address: String
 

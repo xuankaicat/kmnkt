@@ -2,6 +2,7 @@
 
 package com.gitee.xuankaicat.kmnkt.socket
 
+import com.gitee.xuankaicat.kmnkt.socket.utils.Thread
 import com.gitee.xuankaicat.kmnkt.socket.utils.mainThread
 import java.net.DatagramPacket
 import java.net.DatagramSocket
@@ -9,7 +10,7 @@ import java.net.InetAddress
 import java.nio.charset.Charset
 import kotlin.concurrent.thread
 
-actual open class UDP : ISocket {
+actual open class UDP : ISocket, ISendWithPort {
     override var enableDefaultLog = true
 
     private var _socket: DatagramSocket? = null
@@ -32,17 +33,31 @@ actual open class UDP : ISocket {
     private var isReceiving = false
     private var receiveThread: Thread? = null
 
-    override fun send(message: String) {
+    @Deprecated(
+        message = "udp中port由原先的发送端口改为了接收端口，请使用支持带端口发送的send方法替代该方法",
+        replaceWith = ReplaceWith("send(orderPort, message)"),
+        level = DeprecationLevel.WARNING
+    )
+    override fun send(message: String) = send(port, message)
+
+    @Deprecated(
+        message = "udp中port由原先的发送端口改为了接收端口，请使用支持带端口发送的send方法替代该方法",
+        replaceWith = ReplaceWith("send(orderPort, message, times, delay)"),
+        level = DeprecationLevel.WARNING
+    )
+    override fun send(message: String, times: Int, delay: Long): Thread = send(port, message, times, delay)
+
+    override fun send(port: Int, message: String) {
         if(_socket == null) return
         val bytes = message.toByteArray(outCharset)
         val len = bytes.size
         val sendPacket = DatagramPacket(bytes, len, _address, port)
         thread {
-            doSend(sendPacket)
+            doSend(port, sendPacket)
         }
     }
 
-    override fun send(message: String, times: Int, delay: Long): Thread = thread {
+    override fun send(port: Int, message: String, times: Int, delay: Long) = thread {
         if(_socket == null) return@thread
         val bytes = message.toByteArray(outCharset)
         val len = bytes.size
@@ -51,14 +66,14 @@ actual open class UDP : ISocket {
         Log.v("UDP", "开始循环发送信息,剩余次数: $nowTimes, 间隔: $delay {uri: '${address}', port: ${port}}")
         while (nowTimes != 0) {
             thread {
-                doSend(sendPacket)
+                doSend(port, sendPacket)
             }
             Thread.sleep(delay)
             if(nowTimes > 0) nowTimes--
         }
     }
 
-    private fun doSend(sendPacket: DatagramPacket) {
+    private fun doSend(port: Int, sendPacket: DatagramPacket) {
         try {
             _socket?.send(sendPacket)
         } catch (e: Exception) {
@@ -108,7 +123,7 @@ actual open class UDP : ISocket {
     }
 
     override fun open(onOpenCallback: IOnOpenCallback) {
-        _socket = DatagramSocket()
+        _socket = DatagramSocket(port)
         onOpenCallback.success(this)
     }
 

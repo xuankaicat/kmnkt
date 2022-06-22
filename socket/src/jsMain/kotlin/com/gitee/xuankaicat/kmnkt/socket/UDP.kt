@@ -3,7 +3,7 @@ package com.gitee.xuankaicat.kmnkt.socket
 import com.gitee.xuankaicat.kmnkt.socket.utils.Charset
 import com.gitee.xuankaicat.kmnkt.socket.utils.Thread
 
-actual open class UDP : ISocket {
+actual open class UDP : ISocket, ISendWithPort {
     override var enableDefaultLog = true
     override val socket: Any?
         get() = TODO("Not yet implemented")
@@ -44,6 +44,14 @@ actual open class UDP : ISocket {
     }
 
     override fun close() {
+        TODO("Not yet implemented")
+    }
+
+    override fun send(port: Int, message: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun send(port: Int, message: String, times: Int, delay: Long): Thread {
         TODO("Not yet implemented")
     }
 }

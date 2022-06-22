@@ -11,7 +11,7 @@ import java.nio.charset.Charset
 class UDPActivity : BaseActivity<ActivityMainBinding>() {
     private val socket = udp {
         address = "10.0.2.2"
-        port = 1883
+        port = 9000
         inCharset = Charset.forName("gb2312")
         outCharset = Charset.forName("gb2312")
         open()
@@ -26,7 +26,7 @@ class UDPActivity : BaseActivity<ActivityMainBinding>() {
             val sendText = binding.editText.text.toString()
             if(sendText.isEmpty()) return@setOnClickListener
 
-            socket.send(sendText)
+            socket.send(1883, sendText)
             binding.textView.text = "等待数据..."
             socket.startReceive { str, _ ->
                 binding.textView.text = str
