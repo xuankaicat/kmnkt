@@ -42,7 +42,7 @@ interface IMqttSocket : ISocket {
          * @return MQTT
          */
         @JvmStatic
-        fun getMQTT(build: (IMqttSocket) -> Unit): MQTT = MQTT.apply(build)
+        fun getMQTT(build: (IMqttSocket) -> Unit): IMqttSocket = MQTT.apply(build)
     }
 
     /**

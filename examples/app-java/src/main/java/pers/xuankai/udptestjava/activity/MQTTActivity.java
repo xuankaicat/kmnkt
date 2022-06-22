@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.dylanc.longan.SystemBarsKt;
 import com.gitee.xuankaicat.kmnkt.socket.ISocket;
+import com.gitee.xuankaicat.kmnkt.socket.MQTT;
 import com.gitee.xuankaicat.kmnkt.socket.OnOpenCallback;
 import com.gitee.xuankaicat.kmnkt.socket.IMqttSocket;
 
@@ -26,7 +27,7 @@ public class MQTTActivity extends BaseActivity<ActivityMqttactivityBinding> {
         c.setPassword("siot");
         c.setInMessageTopic("DeviceTest/000000");
         c.setOutMessageTopic("DeviceTest/123456");
-        c.open(new OnOpenCallback() {
+        c.open(new OnOpenCallback(c) {
             @Override
             public void success(@NonNull ISocket ISocket) {
                 super.success(ISocket);

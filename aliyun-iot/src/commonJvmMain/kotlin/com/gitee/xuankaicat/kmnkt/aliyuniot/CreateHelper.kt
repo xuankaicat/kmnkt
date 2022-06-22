@@ -3,7 +3,6 @@
 package com.gitee.xuankaicat.kmnkt.aliyuniot
 
 import com.gitee.xuankaicat.kmnkt.socket.IMqttSocket
-import com.gitee.xuankaicat.kmnkt.socket.utils.Log
 import java.math.BigInteger
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec

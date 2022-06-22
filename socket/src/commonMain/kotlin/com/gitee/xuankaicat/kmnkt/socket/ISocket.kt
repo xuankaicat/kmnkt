@@ -2,9 +2,9 @@
 
 package com.gitee.xuankaicat.kmnkt.socket
 
-import com.gitee.xuankaicat.kmnkt.socket.utils.Charset
 import com.gitee.xuankaicat.kmnkt.socket.utils.ILoggable
 import com.gitee.xuankaicat.kmnkt.socket.utils.Thread
+import java.nio.charset.Charset
 import kotlin.js.JsName
 import kotlin.jvm.JvmName
 import kotlin.jvm.JvmStatic

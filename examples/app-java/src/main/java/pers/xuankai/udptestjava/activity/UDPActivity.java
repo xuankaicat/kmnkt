@@ -9,7 +9,9 @@ import com.dylanc.longan.SystemBarsKt;
 
 import java.nio.charset.Charset;
 
+import com.gitee.xuankaicat.kmnkt.socket.ISendWithPort;
 import com.gitee.xuankaicat.kmnkt.socket.ISocket;
+import com.gitee.xuankaicat.kmnkt.socket.UDP;
 import pers.xuankai.udptestjava.BaseActivity;
 import pers.xuankai.udptestjava.databinding.ActivityMainBinding;
 
@@ -35,7 +37,7 @@ public class UDPActivity extends BaseActivity<ActivityMainBinding> {
             String sendText = binding.editText.getText().toString();
             if(sendText.equals("")) return;
 
-            socket.send(sendText);
+            ((ISendWithPort)socket).send(1883, sendText);
             binding.textView.setText("等待数据...");
             socket.startReceive((result, ignore) -> {
                 binding.textView.setText(result);
