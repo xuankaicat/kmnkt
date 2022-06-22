@@ -64,11 +64,11 @@ kotlin {
                 implementation("org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5")
             }
         }
-        val commonJvmTest by sourceSets.creating
-        val jsMain by getting {
-            dependencies {
-            }
-        }
+//        val commonJvmTest by sourceSets.creating
+//        val jsMain by getting {
+//            dependencies {
+//            }
+//        }
     }
 }
 
