@@ -10,6 +10,7 @@ import com.dylanc.longan.SystemBarsKt;
 import java.nio.charset.Charset;
 
 import com.gitee.xuankaicat.kmnkt.socket.ISocket;
+import com.gitee.xuankaicat.kmnkt.socket.utils.CharsetUtils;
 import pers.xuankai.udptestjava.BaseActivity;
 import pers.xuankai.udptestjava.databinding.ActivityTcpBinding;
 
@@ -17,8 +18,8 @@ public class TCPActivity extends BaseActivity<ActivityTcpBinding> {
     private final ISocket socket = ISocket.getTCPClient(c -> {
         c.setAddress("10.0.2.2");
         c.setPort(9000);
-        c.setInCharset(Charset.forName("gb2312"));
-        c.setOutCharset(Charset.forName("gb2312"));
+        CharsetUtils.setInCharset(c, Charset.forName("gb2312"));
+        CharsetUtils.setOutCharset(c, Charset.forName("gb2312"));
         c.open();
         return null;
     });

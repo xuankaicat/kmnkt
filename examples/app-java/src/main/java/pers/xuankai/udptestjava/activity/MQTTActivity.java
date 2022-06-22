@@ -14,6 +14,7 @@ import com.gitee.xuankaicat.kmnkt.socket.IMqttSocket;
 
 import java.nio.charset.Charset;
 
+import com.gitee.xuankaicat.kmnkt.socket.utils.CharsetUtils;
 import pers.xuankai.udptestjava.BaseActivity;
 import pers.xuankai.udptestjava.databinding.ActivityMqttactivityBinding;
 
@@ -21,8 +22,8 @@ public class MQTTActivity extends BaseActivity<ActivityMqttactivityBinding> {
     private final IMqttSocket mqtt = IMqttSocket.getMQTT(c -> {
         c.setAddress("10.0.2.2");
         c.setPort(1883);
-        c.setInCharset(Charset.forName("gb2312"));
-        c.setOutCharset(Charset.forName("gb2312"));
+        CharsetUtils.setInCharset(c, Charset.forName("gb2312"));
+        CharsetUtils.setOutCharset(c, Charset.forName("gb2312"));
         c.setUsername("siot");
         c.setPassword("siot");
         c.setInMessageTopic("DeviceTest/000000");
