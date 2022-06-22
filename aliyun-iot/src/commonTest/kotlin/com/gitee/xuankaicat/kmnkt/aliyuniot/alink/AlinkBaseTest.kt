@@ -28,6 +28,16 @@ class AlinkBaseTest {
                     params = jsonObject(mapOf("1" to "a", "2" to mapOf("2.1" to "b"))),
                     method = "test"))
         )
+
+        assertEquals("""
+            {"id":"0","sys":{"ack":"1"},"version":"1.0","params":{"1":"a","2":{"2.1":"b"}},"method":"test"}
+        """.trimIndent(),
+            Json.encodeToString(
+                AlinkBase("0",
+                    sys = AlinkBase.Sys(ack = "1"),
+                    params = jsonObject(mapOf("1" to "a", "2" to mapOf("2.1" to "b"))),
+                    method = "test"))
+        )
     }
 
     fun jsonObject(content: Map<String, Any>): JsonElement =

@@ -15,6 +15,7 @@ import kotlinx.serialization.json.JsonObject
 @Serializable
 data class AlinkBase(
     val id: String,
+    @Required
     val sys: Sys = Sys(),
     @Required
     val version: String = "1.0",
