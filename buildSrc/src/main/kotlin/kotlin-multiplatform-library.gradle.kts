@@ -34,8 +34,9 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("androidx.appcompat:appcompat:1.4.2")
-                implementation("androidx.core:core-ktx:1.8.0")
+                implementation(kotlin("stdlib"))
+                implementation("androidx.appcompat:appcompat:1.5.1")
+                implementation("androidx.core:core-ktx:1.9.0")
                 implementation("org.eclipse.paho:org.eclipse.paho.android.service:1.1.1")
             }
         }
@@ -82,5 +83,10 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
     }
 }
