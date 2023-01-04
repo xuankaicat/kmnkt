@@ -35,8 +35,8 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(kotlin("stdlib"))
-                implementation("androidx.appcompat:appcompat:1.5.1")
-                implementation("androidx.core:core-ktx:1.9.0")
+                implementation("androidx.appcompat:appcompat:1.4.1")
+                implementation("androidx.core:core-ktx:1.8.0")
                 implementation("org.eclipse.paho:org.eclipse.paho.android.service:1.1.1")
             }
         }
@@ -74,11 +74,11 @@ kotlin {
 }
 
 android {
-    compileSdk = 31
+    compileSdk = 33
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
-        targetSdk = 31
+        targetSdk = 33
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

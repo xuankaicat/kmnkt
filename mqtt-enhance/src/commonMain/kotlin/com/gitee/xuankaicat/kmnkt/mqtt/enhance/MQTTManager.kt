@@ -173,7 +173,7 @@ class MQTTManager(
                 if (topicIndex == 0) topicIndex = -1
             }
 
-            val subscribeTopic = subscribe.value
+            val subscribeTopic = subscribe!!.value
 
             val replacedTopic = replaceTopic(subscribeTopic, paramIndexs, anyParam) {
                 paramList.add(it)
