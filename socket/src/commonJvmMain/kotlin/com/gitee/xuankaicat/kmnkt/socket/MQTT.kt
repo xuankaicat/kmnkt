@@ -93,14 +93,20 @@ actual open class MQTT : AbstractMQTT(), IMqttSocket {
         return result
     }
 
+    private val paramPattern = "/[+#]".toRegex()
+    private val expectPattern = "/([^/]+)"
+
+    private fun String.processWildcard() = paramPattern.replace(this, expectPattern)
+
     override fun addInMessageTopic(topic: String, onReceive: OnReceiveFunc) {
         if(client == null) return
         lock(topic) {
             Log.v("MQTT", "开始订阅$topic")
-            onReceives[topic]?.let {
+            val fakeTopic = topic.processWildcard()
+            onReceives[fakeTopic]?.let {
                 it += onReceive
             } ?: run {
-                onReceives[topic] = mutableListOf(onReceive)
+                onReceives[fakeTopic] = mutableListOf(onReceive)
                 client?.subscribe(topic, _qos)
             }
         }
@@ -109,13 +115,14 @@ actual open class MQTT : AbstractMQTT(), IMqttSocket {
     override fun removeInMessageTopic(topic: String) {
         if(client == null) return
         lock(topic) {
-            onReceives[topic]?.let {
+            val fakeTopic = topic.processWildcard()
+            onReceives[fakeTopic]?.let {
 
                 val mainTopic = if(topic == inMessageTopic) it[receiving] else null
 
                 it.removeIf { callback -> callback == null }
                 if(it.size == 0) {
-                    onReceives.remove(topic)
+                    onReceives.remove(fakeTopic)
                     client?.unsubscribe(topic)
                     Log.v("MQTT", "结束订阅$topic")
                 } else if(mainTopic != null) {
@@ -129,7 +136,8 @@ actual open class MQTT : AbstractMQTT(), IMqttSocket {
         if(client == null) return false
         if(receiving != -1) return false
         addInMessageTopic(inMessageTopic, onReceive)
-        onReceives[inMessageTopic]?.let {
+        val fakeTopic = inMessageTopic.processWildcard()
+        onReceives[fakeTopic]?.let {
             receiving = it.size - 1
         }
         return true
@@ -137,7 +145,8 @@ actual open class MQTT : AbstractMQTT(), IMqttSocket {
 
     override fun stopReceive() {
         if(receiving == -1) return
-        onReceives[inMessageTopic]?.let {
+        val fakeTopic = inMessageTopic.processWildcard()
+        onReceives[fakeTopic]?.let {
             it[receiving] = null
         }
         removeInMessageTopic(inMessageTopic)
@@ -221,27 +230,31 @@ actual open class MQTT : AbstractMQTT(), IMqttSocket {
         override fun messageArrived(topic: String, message: MqttMessage) {
             var doClean = false
             lock(topic) {
-                this@MQTT.onReceives[topic]?.let { callbacks ->
-                    //收到消息 String(message.payload)
-                    val msg = String(message.payload, inCharset)
-                    Log.v("MQTT", "收到来自[${topic}]的消息\"${msg}\"")
+                onReceives.keys
+                    .find { it.toRegex().containsMatchIn(topic) }
+                    ?.let {
+                        this@MQTT.onReceives[it]?.let { callbacks ->
+                            //收到消息 String(message.payload)
+                            val msg = String(message.payload, inCharset)
+                            Log.v("MQTT", "收到来自[${topic}]的消息\"${msg}\"")
 
-                    val callbackBlock = {
-                        for (i in 0 until callbacks.size) {
-                            val stillRun = callbacks[i]?.let { it(msg, topic) } ?: false
-                            if(!stillRun) {
-                                callbacks[i] = null
-                                doClean = true
+                            val callbackBlock = {
+                                for (i in 0 until callbacks.size) {
+                                    val stillRun = callbacks[i]?.let { it(msg, topic) } ?: false
+                                    if(!stillRun) {
+                                        callbacks[i] = null
+                                        doClean = true
+                                    }
+                                }
+                            }
+
+                            if (callbackOnMain) {
+                                mainThread { callbackBlock() }
+                            } else {
+                                callbackBlock()
                             }
                         }
                     }
-
-                    if (callbackOnMain) {
-                        mainThread { callbackBlock() }
-                    } else {
-                        callbackBlock()
-                    }
-                }
             }
             if(doClean) {
                 removeInMessageTopic(topic)

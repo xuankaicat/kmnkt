@@ -6,12 +6,11 @@ import org.springframework.scheduling.annotation.Async
 import org.springframework.scheduling.annotation.AsyncResult
 import org.springframework.stereotype.Service
 import java.util.concurrent.Future
-import javax.annotation.Resource
 
 @Service
-class MqttServiceImpl : IMqttService {
-    @Resource
-    private lateinit var mqtt: MQTTComponent
+class MqttServiceImpl(
+    val mqtt: MQTTComponent
+) : IMqttService {
 
     @Async
     override fun getInfo(outTopic: String, inTopic: String, data: String): Future<String> = AsyncResult(
@@ -22,5 +21,9 @@ class MqttServiceImpl : IMqttService {
             10000L
         ) ?: "操作超时"
     )
+
+    override fun sendData(outTopic: String, data: String) {
+        mqtt.instance.send(outTopic, data)
+    }
 
 }

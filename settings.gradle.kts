@@ -1,3 +1,4 @@
+@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -14,3 +15,4 @@ include(":examples:AliyunIotDemo")
 include(":examples:springbootDemo")
 include(":socket")
 include(":aliyun-iot")
+include(":mqtt-enhance")

@@ -2,12 +2,9 @@
 
 package com.gitee.xuankaicat.kmnkt.socket
 
+import com.gitee.xuankaicat.kmnkt.socket.utils.Charset
 import com.gitee.xuankaicat.kmnkt.socket.utils.ILoggable
 import com.gitee.xuankaicat.kmnkt.socket.utils.Thread
-import com.gitee.xuankaicat.kmnkt.socket.utils.Charset
-import kotlin.js.JsName
-import kotlin.jvm.JvmName
-import kotlin.jvm.JvmStatic
 
 typealias OnReceiveFunc = (String, Any) -> Boolean
 typealias OnReceiveSimpleFunc = (String) -> Boolean
@@ -113,7 +110,7 @@ interface ISocket : ILoggable {
      * 开启通信，用于TCP与MQTT建立连接
      * @param onOpenCallback 开启成功或失败的回调，默认失败会等待5秒重新尝试连接。
      */
-    @JsName("openWith")
+    //@JsName("openWith") 升级至1.7.20后报错，目前也用不到js，先注释掉
     fun open(onOpenCallback: IOnOpenCallback)
 
     /**
