@@ -1,11 +1,11 @@
 # kmnkt:socket
-实现了统一接口[`ISocket`](src/commonJvmMain/kotlin/com/gitee/xuankaicat/kmnkt/socket/ISocket.kt)的基础模块。
+实现了统一接口[`ISocket`](src/commonMain/kotlin/com/gitee/xuankaicat/kmnkt/socket/ISocket.kt)的基础模块。
 
 ## 示例项目
 
 * [app](../examples/app) - 安卓中的udp/tcp/mqtt示例
 * [app-java](../examples/app-java) - 在安卓中使用java语言进行开发的udp/tcp/mqtt示例
-* [springbootDemo](../examples/springbootDemo) - 在springboot中的mqtt示例
+* [springbootDemo](../examples/springbootDemo) - 在springboot中的mqtt示例，包含socket模块与mqtt-enhance模块示例
 
 ## 基本用法
 
@@ -77,7 +77,7 @@ private val socket = mqtt {
 }
 ```
 
-> MQTT的其他参数配置可以参考[`IMqttSocket`](src/commonJvmMain/kotlin/com/gitee/xuankaicat/kmnkt/socket/IMqttSocket.kt)接口
+> MQTT的其他参数配置可以参考[`IMqttSocket`](src/commonMain/kotlin/com/gitee/xuankaicat/kmnkt/socket/IMqttSocket.kt)接口
 
 ### 开启连接
 
