@@ -83,6 +83,7 @@ private val socket = mqtt {
 
 ```kotlin
 socket.open()
+socket.openSync() //同步式开启连接，在连接成功前将阻塞
 ```
 
 **回调默认设置**
