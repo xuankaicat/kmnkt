@@ -31,7 +31,7 @@ actual open class OnOpenCallback actual constructor(
      * 打开成功回调
      * @param method 连接成功回调
      */
-    fun success(method: (ISocket: ISocket) -> Unit) {
+    actual fun success(method: (socket: ISocket) -> Unit) {
         success = method
     }
 
@@ -40,7 +40,7 @@ actual open class OnOpenCallback actual constructor(
      * @param method 连接失败回调
      * @return 重新尝试连接
      */
-    fun failure(method: (ISocket: ISocket) -> Boolean) {
+    actual fun failure(method: (socket: ISocket) -> Boolean) {
         failure = method
     }
 
@@ -50,19 +50,19 @@ actual open class OnOpenCallback actual constructor(
      * @return 重新尝试连接
      * > 尝试重新连接后的连接成功与失败将会触发success与failure回调
      */
-    fun loss(method: (ISocket: ISocket) -> Boolean) {
+    actual fun loss(method: (socket: ISocket) -> Boolean) {
         loss = method
     }
 
-    override fun success(ISocket: ISocket) {
-        success.invoke(ISocket)
+    override fun success(socket: ISocket) {
+        success.invoke(socket)
     }
 
-    override fun failure(ISocket: ISocket): Boolean {
-        return failure.invoke(ISocket)
+    override fun failure(socket: ISocket): Boolean {
+        return failure.invoke(socket)
     }
 
-    override fun loss(ISocket: ISocket): Boolean {
-        return loss.invoke(ISocket)
+    override fun loss(socket: ISocket): Boolean {
+        return loss.invoke(socket)
     }
 }

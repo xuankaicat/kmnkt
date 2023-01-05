@@ -2,21 +2,17 @@ package pers.xuankai.udptestjava.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import com.dylanc.longan.SystemBarsKt;
-import com.gitee.xuankaicat.kmnkt.socket.ISocket;
-import com.gitee.xuankaicat.kmnkt.socket.MQTT;
-import com.gitee.xuankaicat.kmnkt.socket.OnOpenCallback;
 import com.gitee.xuankaicat.kmnkt.socket.IMqttSocket;
-
-import java.nio.charset.Charset;
-
+import com.gitee.xuankaicat.kmnkt.socket.ISocket;
+import com.gitee.xuankaicat.kmnkt.socket.OnOpenCallback;
 import com.gitee.xuankaicat.kmnkt.socket.utils.CharsetUtils;
 import pers.xuankai.udptestjava.BaseActivity;
 import pers.xuankai.udptestjava.databinding.ActivityMqttactivityBinding;
+
+import java.nio.charset.Charset;
 
 public class MQTTActivity extends BaseActivity<ActivityMqttactivityBinding> {
     private final IMqttSocket mqtt = IMqttSocket.getMQTT(c -> {
@@ -30,9 +26,9 @@ public class MQTTActivity extends BaseActivity<ActivityMqttactivityBinding> {
         c.setOutMessageTopic("DeviceTest/123456");
         c.open(new OnOpenCallback(c) {
             @Override
-            public void success(@NonNull ISocket ISocket) {
-                super.success(ISocket);
-                ISocket.startReceive((result, ignore) -> {
+            public void success(@NonNull ISocket socket) {
+                super.success(socket);
+                socket.startReceive((result, ignore) -> {
                     getBinding().textView.setText(result);
                     return true;
                 });

@@ -5,6 +5,8 @@ package com.gitee.xuankaicat.kmnkt.socket
 import com.gitee.xuankaicat.kmnkt.socket.utils.Charset
 import com.gitee.xuankaicat.kmnkt.socket.utils.ILoggable
 import com.gitee.xuankaicat.kmnkt.socket.utils.Thread
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 typealias OnReceiveFunc = (String, Any) -> Boolean
 typealias OnReceiveSimpleFunc = (String) -> Boolean
@@ -136,3 +138,41 @@ inline fun ISocket.startReceive(crossinline onReceive: OnReceiveSimpleFunc): Boo
  */
 inline fun ISocket.open(callback: OnOpenCallback.() -> Unit)
     = open(OnOpenCallback(this).also(callback))
+
+/**
+ * 等待开启完成的开启通信，用于TCP与MQTT建立连接
+ */
+fun ISocket.openSync() = openSync(OnOpenCallback(this))
+
+/**
+ * 等待开启完成的开启通信，用于TCP与MQTT建立连接
+ * @param onOpenCallback 开启成功或失败的回调，默认失败会等待5秒重新尝试连接。
+ */
+fun ISocket.openSync(onOpenCallback: IOnOpenCallback) {
+    runBlocking {
+        var finish = false
+        open(object : OnOpenCallback(this@openSync) {
+            override fun success(socket: ISocket) {
+                onOpenCallback.success(socket)
+                finish = true
+            }
+
+            override fun failure(socket: ISocket): Boolean {
+                return onOpenCallback.failure(socket)
+            }
+
+            override fun loss(socket: ISocket): Boolean {
+                return onOpenCallback.loss(socket)
+            }
+        })
+        while (!finish) delay(50L)
+    }
+}
+
+/**
+ * 使用DSL构建等待开启完成的开始通信
+ * @receiver ISocket 连接对象
+ * @param callback 开启成功或失败的回调，默认失败会等待5秒重新尝试连接。
+ */
+inline fun ISocket.openSync(callback: OnOpenCallback.() -> Unit)
+    = openSync(OnOpenCallback(this).also(callback))

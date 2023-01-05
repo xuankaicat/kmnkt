@@ -4,7 +4,7 @@ import com.gitee.xuankaicat.kmnkt.mqtt.enhance.MQTTManager
 import com.gitee.xuankaicat.kmnkt.mqtt.enhance.convert.moshi.MoshiConvertFactory
 import com.gitee.xuankaicat.kmnkt.socket.MqttQuality
 import com.gitee.xuankaicat.kmnkt.socket.dsl.mqtt
-import com.gitee.xuankaicat.kmnkt.socket.open
+import com.gitee.xuankaicat.kmnkt.socket.openSync
 import org.springframework.stereotype.Component
 import java.nio.charset.Charset
 
@@ -25,14 +25,6 @@ class MQTTComponent {
     final val mqttManager = MQTTManager(instance, MoshiConvertFactory.create())
 
     init {
-        var success = false
-        instance.open {
-            success {
-                success = true
-            }
-        }
-        while (!success) {
-            Thread.sleep(50L)
-        }
+        instance.openSync()
     }
 }
