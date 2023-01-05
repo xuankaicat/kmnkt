@@ -195,7 +195,7 @@ class MQTTManager(
                     }}
                 }
             } else {
-                {true}
+                {false}
             }
 
             mqtt.addInMessageTopic(replacedTopic) callback@{ message, data ->
