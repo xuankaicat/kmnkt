@@ -3,10 +3,7 @@ package com.example.springbootdemo.controller
 import com.example.springbootdemo.component.MQTTComponent
 import com.example.springbootdemo.model.MyUser
 import com.example.springbootdemo.service.IMqttService
-import com.gitee.xuankaicat.kmnkt.mqtt.enhance.annotation.AnyParam
-import com.gitee.xuankaicat.kmnkt.mqtt.enhance.annotation.Param
-import com.gitee.xuankaicat.kmnkt.mqtt.enhance.annotation.Payload
-import com.gitee.xuankaicat.kmnkt.mqtt.enhance.annotation.Subscribe
+import com.gitee.xuankaicat.kmnkt.mqtt.enhance.annotation.*
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -55,8 +52,8 @@ class MQTTController(
     }
 
     @Subscribe("service/extra/{extra}")
+    @TopicIgnore("reply")
     fun mqttPhaseExtraPath(topic: String, @Payload myUser: MyUser, @AnyParam extra: List<String>) {
-        if(topic.endsWith("reply")) return
         mqttService.sendData("${topic}/reply", """{
             "id": ${myUser.id},
             "name": "${myUser.name}",

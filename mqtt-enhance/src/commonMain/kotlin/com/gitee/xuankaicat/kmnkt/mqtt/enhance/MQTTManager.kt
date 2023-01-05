@@ -2,10 +2,7 @@
 
 package com.gitee.xuankaicat.kmnkt.mqtt.enhance
 
-import com.gitee.xuankaicat.kmnkt.mqtt.enhance.annotation.AnyParam
-import com.gitee.xuankaicat.kmnkt.mqtt.enhance.annotation.Param
-import com.gitee.xuankaicat.kmnkt.mqtt.enhance.annotation.Payload
-import com.gitee.xuankaicat.kmnkt.mqtt.enhance.annotation.Subscribe
+import com.gitee.xuankaicat.kmnkt.mqtt.enhance.annotation.*
 import com.gitee.xuankaicat.kmnkt.mqtt.enhance.convert.PayloadConvertFactory
 import com.gitee.xuankaicat.kmnkt.socket.IMqttSocket
 import java.lang.reflect.InvocationTargetException
@@ -102,6 +99,8 @@ class MQTTManager(
 
         val topicPhasePattern: Regex
 
+        val topicIgnoreFunc: (String) -> Boolean
+
         init {
             val subscribe = method.getAnnotation(Subscribe::class.java)
 
@@ -181,8 +180,32 @@ class MQTTManager(
 
             topicPhasePattern = generateTopicPhasePattern(subscribeTopic, anyParam)
 
-            mqtt.addInMessageTopic(replacedTopic) { message, data ->
+            topicIgnoreFunc = if(method.isAnnotationPresent(TopicIgnore::class.java)) {
+                val topicIgnore = method.getAnnotation(TopicIgnore::class.java)
+                val value = topicIgnore.value
+                when(topicIgnore.type) {
+                    TopicIgnoreType.DEFAULT -> {{ topic: String ->
+                        topic.endsWith(value)
+                    }}
+                    TopicIgnoreType.FULL -> {{ topic: String ->
+                        topic == value
+                    }}
+                    TopicIgnoreType.REGEX -> {{ topic: String ->
+                        value.toRegex().containsMatchIn(topic)
+                    }}
+                }
+            } else {
+                {true}
+            }
+
+            mqtt.addInMessageTopic(replacedTopic) callback@{ message, data ->
+                // 判断是否需要处理
                 val topic = data as String
+                if(topicIgnoreFunc(data)) {
+                    mqtt.Log.v("MQTT", "由TopicIgnore规则无视来自[$data]的消息")
+                    return@callback true
+                }
+
                 val params = Array<Any?>(maxIndex + 1) { null }
                 try {
                     params[payloadIndex] = if (needConverter) {
