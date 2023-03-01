@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.gitee.xuankaicat.kmnkt.socket
 
 import com.gitee.xuankaicat.kmnkt.socket.utils.ILoggable
@@ -11,20 +13,25 @@ actual open class OnOpenCallback actual constructor(
 
     private val log = loggable.Log
 
-    private var success: ((ISocket) -> Unit) = { communicate ->
-        log.v("openCallback", "${communicate.address}:建立连接成功")
+    private var success: ((ISocket) -> Unit) = { socket ->
+        log.v("openCallback", "${socket.address}:建立连接成功")
     }
 
-    private var failure: ((ISocket) -> Boolean) = { communicate ->
-        log.v("openCallback", "${communicate.address}:建立连接失败，等待5秒后尝试重新连接")
+    private var failure: ((ISocket) -> Boolean) = { socket ->
+        log.v("openCallback", "${socket.address}:建立连接失败，等待5秒后尝试重新连接")
         Thread.sleep(5000)
-        log.v("openCallback", "${communicate.address}:尝试重新连接...")
+        log.v("openCallback", "${socket.address}:尝试重新连接...")
         true
     }
 
-    private var loss: ((ISocket) -> Boolean) = { communicate ->
-        log.v("openCallback", "${communicate.address}:失去连接，尝试重新连接...")
+    private var loss: ((ISocket) -> Boolean) = { socket ->
+        log.v("openCallback", "${socket.address}:失去连接，尝试重新连接...")
         true
+    }
+
+    private var error: ((ISocket, Throwable) -> Unit) = { socket, throwable ->
+        throwable.printStackTrace()
+        throw throwable
     }
 
     /**
@@ -54,6 +61,10 @@ actual open class OnOpenCallback actual constructor(
         loss = method
     }
 
+    actual fun error(method: (socket: ISocket, throwable: Throwable) -> Unit) {
+        error = method
+    }
+
     override fun success(socket: ISocket) {
         success.invoke(socket)
     }
@@ -64,5 +75,9 @@ actual open class OnOpenCallback actual constructor(
 
     override fun loss(socket: ISocket): Boolean {
         return loss.invoke(socket)
+    }
+
+    override fun error(socket: ISocket, throwable: Throwable) {
+        return error.invoke(socket, throwable)
     }
 }

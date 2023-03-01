@@ -3,6 +3,7 @@
 package com.gitee.xuankaicat.kmnkt.socket
 
 import com.gitee.xuankaicat.kmnkt.socket.utils.mainThread
+import kotlinx.coroutines.*
 import org.eclipse.paho.client.mqttv3.*
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence
 import kotlin.concurrent.thread
@@ -17,6 +18,12 @@ actual open class MQTT : AbstractMQTT(), IMqttSocket {
     private var receiving = -1
     private val onReceives = HashMap<String, MutableList<OnReceiveFunc?>?>(3)
     private var onOpenCallback: IOnOpenCallback = OnOpenCallback(this)
+
+    private val callbackScope = CoroutineScope(SupervisorJob() +
+            CoroutineExceptionHandler { _, throwable ->
+                onOpenCallback.error(this, throwable)
+            }
+    )
 
     override fun send(message: String) = send(outMessageTopic, message)
 
@@ -238,7 +245,7 @@ actual open class MQTT : AbstractMQTT(), IMqttSocket {
                             val msg = String(message.payload, inCharset)
                             Log.v("MQTT", "收到来自[${topic}]的消息\"${msg}\"")
 
-                            val callbackBlock = {
+                            val callbackBlock = suspend {
                                 for (i in 0 until callbacks.size) {
                                     val stillRun = callbacks[i]?.let { it(msg, topic) } ?: false
                                     if(!stillRun) {
@@ -248,10 +255,9 @@ actual open class MQTT : AbstractMQTT(), IMqttSocket {
                                 }
                             }
 
-                            if (callbackOnMain) {
-                                mainThread { callbackBlock() }
-                            } else {
-                                callbackBlock()
+                            callbackScope.launch {
+                                if (callbackOnMain) mainThread { callbackBlock() }
+                                else callbackBlock()
                             }
                         }
                     }

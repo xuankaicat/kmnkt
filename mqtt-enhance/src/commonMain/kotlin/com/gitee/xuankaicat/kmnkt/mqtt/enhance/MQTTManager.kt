@@ -247,14 +247,13 @@ class MQTTManager(
                             }
                         }
                     }
-
-
-                    method.invoke(instance, *params)
                 } catch (e: InvocationTargetException) {
                     e.targetException.printStackTrace()
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
+
+                method.invoke(instance, *params)
 
                 // 继续接收消息
                 true

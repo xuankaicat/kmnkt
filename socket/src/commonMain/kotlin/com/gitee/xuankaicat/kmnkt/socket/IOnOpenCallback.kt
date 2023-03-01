@@ -23,4 +23,11 @@ interface IOnOpenCallback {
      * > 尝试重新连接后的连接成功与失败将会触发success与failure回调
      */
     fun loss(socket: ISocket): Boolean
+
+    /**
+     * 引发异常回调
+     * @param socket 连接对象
+     * @param throwable 异常对象
+     */
+    fun error(socket: ISocket, throwable: Throwable)
 }

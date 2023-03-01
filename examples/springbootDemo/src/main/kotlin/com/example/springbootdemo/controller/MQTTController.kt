@@ -62,4 +62,9 @@ class MQTTController(
             "time": "${LocalTime.now()}"
         }""".trimIndent())
     }
+
+    @Subscribe("service/exception")
+    fun mqttTouchException(topic: String, @Payload payload: String) {
+        throw Exception()
+    }
 }

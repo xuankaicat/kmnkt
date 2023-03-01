@@ -3,6 +3,10 @@
 package com.gitee.xuankaicat.kmnkt.socket
 
 import com.gitee.xuankaicat.kmnkt.socket.utils.mainThread
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import java.io.InputStream
 import java.io.OutputStream
 import java.net.InetAddress
@@ -39,6 +43,13 @@ actual open class TCP : ISocket {
     private var receiveThread: Thread? = null
     private var onOpenCallback: IOnOpenCallback = OnOpenCallback(this)
 
+    private val callbackScope = CoroutineScope(
+        SupervisorJob() +
+            CoroutineExceptionHandler { _, throwable ->
+                onOpenCallback.error(this, throwable)
+            }
+    )
+
     override fun send(message: String) {
         thread {
             try {
@@ -70,12 +81,10 @@ actual open class TCP : ISocket {
                     Log.v("TCP", "开始接收消息 {uri: '${address}', port: ${port}}")
                     val len = input?.read(receive) ?: 0
                     if(len != 0) {
-                        if (callbackOnMain) {
-                            mainThread {
-                                onReceive(String(receive, 0, len, inCharset), receive)
-                            }
-                        } else {
-                            onReceive(String(receive, 0, len, inCharset), receive)
+                        callbackScope.launch {
+                            if (callbackOnMain)
+                                mainThread { onReceive(String(receive, 0, len, inCharset), receive) }
+                            else onReceive(String(receive, 0, len, inCharset), receive)
                         }
                     }
                 } catch (ignore: Exception) {
