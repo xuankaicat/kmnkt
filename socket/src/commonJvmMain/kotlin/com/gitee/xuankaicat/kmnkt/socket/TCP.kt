@@ -111,7 +111,7 @@ actual open class TCP : ISocket {
         receiveThread?.interrupt()
     }
 
-    override fun open(onOpenCallback: IOnOpenCallback) {
+    override fun open(onOpenCallback: IOnOpenCallback): TCP {
         //存储回调对象
         this.onOpenCallback = onOpenCallback
         //初始化连接对象
@@ -120,10 +120,11 @@ actual open class TCP : ISocket {
         } catch (e: Exception) {
             Log.e("TCP", "创建Socket失败 {uri: '${address}', port: ${port}}")
             e.printStackTrace()
-            return
+            return this
         }
         //执行连接
         doConnection()
+        return this
     }
 
     private fun doConnection() {

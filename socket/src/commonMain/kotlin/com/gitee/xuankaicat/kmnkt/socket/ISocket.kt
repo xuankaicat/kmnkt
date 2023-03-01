@@ -20,11 +20,14 @@ interface ISocket : ILoggable {
 
         /**
          * 构造TCPClient
+         * - 在创建时返回该对象会尝试开启连接
          * @param build 构造lambda
          * @return TCPClient
          */
         @JvmStatic
-        fun getTCPClient(build: (ISocket) -> Unit): ISocket = TCPClient.apply(build)
+        fun getTCPClient(build: ISocket.() -> ISocket?): ISocket = TCPClient.apply {
+            build(this)?.open()
+        }
 
         @JvmStatic
         val UDP: UDP
@@ -33,11 +36,14 @@ interface ISocket : ILoggable {
 
         /**
          * 构造UDP
+         * - 在创建时返回该对象会尝试开启连接
          * @param build 构造lambda
          * @return UDP
          */
         @JvmStatic
-        fun getUDP(build: (ISocket) -> Unit): ISocket = UDP.apply(build)
+        fun getUDP(build: ISocket.() -> ISocket?): ISocket = UDP.apply {
+            build(this)?.open()
+        }
     }
 
     /**
@@ -113,7 +119,7 @@ interface ISocket : ILoggable {
      * @param onOpenCallback 开启成功或失败的回调，默认失败会等待5秒重新尝试连接。
      */
     //@JsName("openWith") 升级至1.7.20后报错，目前也用不到js，先注释掉
-    fun open(onOpenCallback: IOnOpenCallback)
+    fun open(onOpenCallback: IOnOpenCallback): ISocket
 
     /**
      * 关闭通信

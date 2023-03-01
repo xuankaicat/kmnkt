@@ -122,9 +122,10 @@ actual open class UDP : ISocket, ISendWithPort {
         receiveThread?.interrupt()
     }
 
-    override fun open(onOpenCallback: IOnOpenCallback) {
+    override fun open(onOpenCallback: IOnOpenCallback): UDP {
         _socket = DatagramSocket(port)
         onOpenCallback.success(this)
+        return this
     }
 
     override fun close() {

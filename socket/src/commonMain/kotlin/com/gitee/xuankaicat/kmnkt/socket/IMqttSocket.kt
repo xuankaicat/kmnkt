@@ -38,11 +38,14 @@ interface IMqttSocket : ISocket {
 
         /**
          * 构造MQTT
+         * - 在创建时返回该对象会尝试开启连接
          * @param build 构造lambda
          * @return MQTT
          */
         @JvmStatic
-        fun getMQTT(build: (IMqttSocket) -> Unit): IMqttSocket = MQTT.apply(build)
+        fun getMQTT(build: IMqttSocket.() -> IMqttSocket?): IMqttSocket = MQTT.apply {
+            build(this)?.open()
+        }
     }
 
     /**

@@ -15,16 +15,16 @@ import pers.xuankai.udptestjava.databinding.ActivityMqttactivityBinding;
 import java.nio.charset.Charset;
 
 public class MQTTActivity extends BaseActivity<ActivityMqttactivityBinding> {
-    private final IMqttSocket mqtt = IMqttSocket.getMQTT(c -> {
-        c.setAddress("10.0.2.2");
-        c.setPort(1883);
-        CharsetUtils.setInCharset(c, Charset.forName("gb2312"));
-        CharsetUtils.setOutCharset(c, Charset.forName("gb2312"));
-        c.setUsername("siot");
-        c.setPassword("siot");
-        c.setInMessageTopic("DeviceTest/000000");
-        c.setOutMessageTopic("DeviceTest/123456");
-        c.open(new OnOpenCallback(c) {
+    private final IMqttSocket mqtt = IMqttSocket.getMQTT(s -> {
+        s.setAddress("10.0.2.2");
+        s.setPort(1883);
+        CharsetUtils.setInCharset(s, Charset.forName("gb2312"));
+        CharsetUtils.setOutCharset(s, Charset.forName("gb2312"));
+        s.setUsername("siot");
+        s.setPassword("siot");
+        s.setInMessageTopic("DeviceTest/000000");
+        s.setOutMessageTopic("DeviceTest/123456");
+        s.open(new OnOpenCallback(s) {
             @Override
             public void success(@NonNull ISocket socket) {
                 super.success(socket);

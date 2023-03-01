@@ -160,7 +160,7 @@ actual open class MQTT : AbstractMQTT(), IMqttSocket {
         receiving = -1
     }
 
-    override fun open(onOpenCallback: IOnOpenCallback) {
+    override fun open(onOpenCallback: IOnOpenCallback): MQTT {
         onReceives.clear()
         //存储回调对象
         this.onOpenCallback = onOpenCallback
@@ -203,6 +203,7 @@ actual open class MQTT : AbstractMQTT(), IMqttSocket {
             //执行连接
             if(doConnect) doClientConnection()
         }
+        return this
     }
 
     override fun close() {

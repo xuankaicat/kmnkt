@@ -15,13 +15,12 @@ import pers.xuankai.udptestjava.BaseActivity;
 import pers.xuankai.udptestjava.databinding.ActivityTcpBinding;
 
 public class TCPActivity extends BaseActivity<ActivityTcpBinding> {
-    private final ISocket socket = ISocket.getTCPClient(c -> {
-        c.setAddress("10.0.2.2");
-        c.setPort(9000);
-        CharsetUtils.setInCharset(c, Charset.forName("gb2312"));
-        CharsetUtils.setOutCharset(c, Charset.forName("gb2312"));
-        c.open();
-        return null;
+    private final ISocket socket = ISocket.getTCPClient(s -> {
+        s.setAddress("10.0.2.2");
+        s.setPort(9000);
+        CharsetUtils.setInCharset(s, Charset.forName("gb2312"));
+        CharsetUtils.setOutCharset(s, Charset.forName("gb2312"));
+        return s;
     });
 
     @Override

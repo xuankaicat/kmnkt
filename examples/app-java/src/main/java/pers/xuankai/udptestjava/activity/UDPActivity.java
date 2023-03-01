@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import com.dylanc.longan.SystemBarsKt;
-import com.gitee.xuankaicat.kmnkt.socket.ISendWithPort;
 import com.gitee.xuankaicat.kmnkt.socket.ISocket;
+import com.gitee.xuankaicat.kmnkt.socket.UDP;
 import com.gitee.xuankaicat.kmnkt.socket.utils.CharsetUtils;
 import pers.xuankai.udptestjava.BaseActivity;
 import pers.xuankai.udptestjava.databinding.ActivityMainBinding;
@@ -13,13 +13,12 @@ import pers.xuankai.udptestjava.databinding.ActivityMainBinding;
 import java.nio.charset.Charset;
 
 public class UDPActivity extends BaseActivity<ActivityMainBinding> {
-    private final ISocket socket = ISocket.getUDP(c -> {
-        c.setAddress("10.0.2.2");
-        c.setPort(9000);
-        CharsetUtils.setInCharset(c, Charset.forName("gb2312"));
-        CharsetUtils.setOutCharset(c, Charset.forName("gb2312"));
-        c.open();
-        return null;
+    private final UDP socket = (UDP) ISocket.getUDP(s -> {
+        s.setAddress("10.0.2.2");
+        s.setPort(9000);
+        CharsetUtils.setInCharset(s, Charset.forName("gb2312"));
+        CharsetUtils.setOutCharset(s, Charset.forName("gb2312"));
+        return s;
     });
 
     @Override
@@ -34,7 +33,7 @@ public class UDPActivity extends BaseActivity<ActivityMainBinding> {
             String sendText = binding.editText.getText().toString();
             if(sendText.equals("")) return;
 
-            ((ISendWithPort)socket).send(1883, sendText);
+            socket.send(1883, sendText);
             binding.textView.setText("等待数据...");
             socket.startReceive((result, ignore) -> {
                 binding.textView.setText(result);
