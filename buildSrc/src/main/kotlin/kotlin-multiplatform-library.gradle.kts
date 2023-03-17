@@ -4,6 +4,7 @@ plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
     id("com.android.library")
+    id("convention.publication")
 }
 
 kotlin {
@@ -77,6 +78,7 @@ kotlin {
 }
 
 android {
+    namespace = "com.gitee.xuankaicat.kmnkt"
     compileSdk = 33
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
@@ -89,6 +91,7 @@ android {
     publishing {
         singleVariant("release") {
             withSourcesJar()
+            withJavadocJar()
         }
     }
 }

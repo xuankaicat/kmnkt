@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="mqtt-enhance-desktop-2.0.0-alpha06">
+    <output-path>$PROJECT_DIR$/mqtt-enhance/build/libs</output-path>
+    <root id="archive" name="mqtt-enhance-desktop-2.0.0-alpha06.jar">
+      <element id="module-output" name="kmnkt.mqtt-enhance.desktopMain" />
+    </root>
+  </artifact>
+</component>

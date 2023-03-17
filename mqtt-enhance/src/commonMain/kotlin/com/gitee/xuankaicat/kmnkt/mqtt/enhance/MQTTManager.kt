@@ -181,7 +181,7 @@ class MQTTManager(
             topicPhasePattern = generateTopicPhasePattern(subscribeTopic, anyParam)
 
             topicIgnoreFunc = if(method.isAnnotationPresent(TopicIgnore::class.java)) {
-                val topicIgnore = method.getAnnotation(TopicIgnore::class.java)
+                val topicIgnore = method.getAnnotation(TopicIgnore::class.java)!!
                 val value = topicIgnore.value
                 when(topicIgnore.type) {
                     TopicIgnoreType.DEFAULT -> {{ topic: String ->

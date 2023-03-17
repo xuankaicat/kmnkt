@@ -1,6 +1,6 @@
 @Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
         maven("https://www.jitpack.io")

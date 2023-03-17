@@ -29,7 +29,7 @@ actual open class OnOpenCallback actual constructor(
         true
     }
 
-    private var error: ((ISocket, Throwable) -> Unit) = { socket, throwable ->
+    private var error: ((ISocket, Throwable) -> Unit) = { _, throwable ->
         throwable.printStackTrace()
         throw throwable
     }
