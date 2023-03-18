@@ -63,7 +63,7 @@ fun mqttPhaseExtraPath(topic: String, @Payload myUser: MyUser, @AnyParam extra: 
 allprojects {
     repositories {
         // ...
-        maven { url 'https://www.jitpack.io' }
+        mavenCentral()
     }
 }
 ```
@@ -73,14 +73,14 @@ allprojects {
 ```groovy
 dependencies {
     // udp/tcp/mqtt支持
-    implementation 'com.gitee.xuankaicat.kmnkt:socket-android:2.0.0-alpha05'// 适用于Android
-    implementation 'com.gitee.xuankaicat.kmnkt:socket-desktop:2.0.0-alpha05'// 适用于Desktop
+    implementation 'com.gitee.xuankaicat.kmnkt:socket-android:2.0.0-alpha06'// 适用于Android
+    implementation 'com.gitee.xuankaicat.kmnkt:socket-desktop:2.0.0-alpha06'// 适用于Desktop
     // mqtt控制器式订阅支持
-    implementation 'com.gitee.xuankaicat.kmnkt:mqtt-enhance-android:2.0.0-alpha05'// 适用于Android
-    implementation 'com.gitee.xuankaicat.kmnkt:mqtt-enhance-desktop:2.0.0-alpha05'// 适用于Desktop
+    implementation 'com.gitee.xuankaicat.kmnkt:mqtt-enhance-android:2.0.0-alpha06'// 适用于Android
+    implementation 'com.gitee.xuankaicat.kmnkt:mqtt-enhance-desktop:2.0.0-alpha06'// 适用于Desktop
     // 阿里云alink支持
-    implementation 'com.gitee.xuankaicat.kmnkt:aliyun-iot-android:2.0.0-alpha05'// 适用于Android
-    implementation 'com.gitee.xuankaicat.kmnkt:aliyun-iot-desktop:2.0.0-alpha05'// 适用于Desktop
+    implementation 'com.gitee.xuankaicat.kmnkt:aliyun-iot-android:2.0.0-alpha06'// 适用于Android
+    implementation 'com.gitee.xuankaicat.kmnkt:aliyun-iot-desktop:2.0.0-alpha06'// 适用于Desktop
 }
 ```
 
@@ -92,7 +92,7 @@ dependencies {
 allprojects {
     repositories {
         // ...
-        maven("https://www.jitpack.io")
+        mavenCentral()
     }
 }
 ```
@@ -102,14 +102,14 @@ allprojects {
 ```kotlin
 dependencies {
     // udp/tcp/mqtt支持
-    implementation("com.gitee.xuankaicat.kmnkt:socket-android:2.0.0-alpha05")// 适用于Android
-    implementation("com.gitee.xuankaicat.kmnkt:socket-desktop:2.0.0-alpha05")// 适用于Desktop
+    implementation("com.gitee.xuankaicat.kmnkt:socket-android:2.0.0-alpha06")// 适用于Android
+    implementation("com.gitee.xuankaicat.kmnkt:socket-desktop:2.0.0-alpha06")// 适用于Desktop
     // mqtt控制器式订阅支持
-    implementation("com.gitee.xuankaicat.kmnkt:mqtt-enhance-android:2.0.0-alpha05")// 适用于Android
-    implementation("com.gitee.xuankaicat.kmnkt:mqtt-enhance-desktop:2.0.0-alpha05")// 适用于Desktop
+    implementation("com.gitee.xuankaicat.kmnkt:mqtt-enhance-android:2.0.0-alpha06")// 适用于Android
+    implementation("com.gitee.xuankaicat.kmnkt:mqtt-enhance-desktop:2.0.0-alpha06")// 适用于Desktop
     // 阿里云alink支持
-    implementation("com.gitee.xuankaicat.kmnkt:aliyun-iot-android:2.0.0-alpha05")// 适用于Android
-    implementation("com.gitee.xuankaicat.kmnkt:aliyun-iot-desktop:2.0.0-alpha05")// 适用于Desktop
+    implementation("com.gitee.xuankaicat.kmnkt:aliyun-iot-android:2.0.0-alpha06")// 适用于Android
+    implementation("com.gitee.xuankaicat.kmnkt:aliyun-iot-desktop:2.0.0-alpha06")// 适用于Desktop
 }
 ```
 
