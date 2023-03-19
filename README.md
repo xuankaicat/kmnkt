@@ -1,6 +1,6 @@
 # kmnkt
 
-[![](https://jitpack.io/v/com.gitee.xuankaicat/kmnkt.svg)](https://jitpack.io/#com.gitee.xuankaicat/kmnkt)
+[![Maven Central](https://img.shields.io/maven-central/v/com.gitee.xuankaicat.kmnkt/socket.svg)](https://central.sonatype.com/search?smo=true&q=kmnkt&namespace=com.gitee.xuankaicat.kmnkt)
 
 kmnkt（原communicate）是基于Kotlin Multiplatform的跨平台socket通信统一接口的实现。
 可以使用同一套接口快速实现UDP/TCPClient/MQTT连接。
@@ -57,17 +57,6 @@ fun mqttPhaseExtraPath(topic: String, @Payload myUser: MyUser, @AnyParam extra: 
 
 ### Groovy DSL
 
-在根目录的 build.gradle 添加：
-
-```groovy
-allprojects {
-    repositories {
-        // ...
-        mavenCentral()
-    }
-}
-```
-
 添加依赖：
 
 ```groovy
@@ -85,17 +74,6 @@ dependencies {
 ```
 
 ### Kotlin DSL
-
-在根目录的 build.gradle.kts 添加：
-
-```kotlin
-allprojects {
-    repositories {
-        // ...
-        mavenCentral()
-    }
-}
-```
 
 添加依赖：
 
