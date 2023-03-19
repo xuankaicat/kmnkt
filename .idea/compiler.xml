@@ -5,6 +5,9 @@
       <module name="convention-plugins" target="17" />
       <module name="convention-plugins.main" target="17" />
       <module name="convention-plugins.test" target="17" />
+      <module name="kmnkt.kmnkt-aliyun-iot" target="17" />
+      <module name="kmnkt.kmnkt-mqtt-enhance" target="17" />
+      <module name="kmnkt.kmnkt-socket" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>
