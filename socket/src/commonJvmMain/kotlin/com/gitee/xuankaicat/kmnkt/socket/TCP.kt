@@ -45,9 +45,9 @@ actual open class TCP : ISocket {
 
     private val callbackScope = CoroutineScope(
         SupervisorJob() +
-            CoroutineExceptionHandler { _, throwable ->
-                onOpenCallback.error(this, throwable)
-            }
+                CoroutineExceptionHandler { _, throwable ->
+                    onOpenCallback.error(this, throwable)
+                }
     )
 
     override fun send(message: String) {
@@ -67,12 +67,12 @@ actual open class TCP : ISocket {
         while (nowTimes != 0) {
             send(message)
             Thread.sleep(delay)
-            if(nowTimes > 0) nowTimes--
+            if (nowTimes > 0) nowTimes--
         }
     }
 
     override fun startReceive(onReceive: OnReceiveFunc): Boolean {
-        if(receiveThread != null) return false
+        if (receiveThread != null) return false
         isReceiving = true
         val receive = ByteArray(100)
         receiveThread = thread {
@@ -80,7 +80,7 @@ actual open class TCP : ISocket {
                 try {
                     Log.v("TCP", "开始接收消息 {uri: '${address}', port: ${port}}")
                     val len = input?.read(receive) ?: 0
-                    if(len != 0) {
+                    if (len != 0) {
                         callbackScope.launch {
                             if (callbackOnMain)
                                 mainThread { onReceive(String(receive, 0, len, inCharset), receive) }
@@ -88,13 +88,13 @@ actual open class TCP : ISocket {
                         }
                     }
                 } catch (ignore: Exception) {
-                    if(_socket?.isConnected == true) {
+                    if (_socket?.isConnected == true) {
                         //stopReceive
                         Log.v("TCP", "停止接收消息 {uri: '${address}', port: ${port}}")
                         break
                     } else {
                         //连接异常中断
-                        if(onOpenCallback.loss(this)) {
+                        if (onOpenCallback.loss(this)) {
                             //重新连接
                             doConnection()
                         }
@@ -117,6 +117,7 @@ actual open class TCP : ISocket {
         //初始化连接对象
         try {
             _socket = Socket(address, port)
+            _socket?.keepAlive = true
         } catch (e: Exception) {
             Log.e("TCP", "创建Socket失败 {uri: '${address}', port: ${port}}")
             e.printStackTrace()
@@ -133,7 +134,7 @@ actual open class TCP : ISocket {
             do {
                 try {
                     Log.v("TCP", "开始尝试建立连接 {uri: '${address}', port: ${port}}")
-                    if(_socket?.keepAlive == true) {
+                    if (_socket?.keepAlive == true) {
                         onOpenCallback.success(this)
                         success = true
                         Log.v("TCP", "建立连接成功 {uri: '${address}', port: ${port}}")
@@ -142,7 +143,7 @@ actual open class TCP : ISocket {
                     Log.e("TCP", "建立连接失败 {uri: '${address}', port: ${port}}")
                     e.printStackTrace()
                 } finally {
-                    if(!success) success = !onOpenCallback.failure(this)
+                    if (!success) success = !onOpenCallback.failure(this)
                 }
             } while (!success)
         }
